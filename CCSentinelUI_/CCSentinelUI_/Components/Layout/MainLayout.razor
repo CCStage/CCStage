@@ -17,9 +17,17 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-        </div>
-
+        <MudAppBar Style="background-color: #f58f25" Fixed="false">
+            <MudBadge Icon="@Icons.Material.Filled.LockOpen" Color="Color.Success" Overlap="true" Bordered="true" Class="mx-6 my-4">
+                <MudButton Color="Color.Success" Variant="Variant.Filled" DropShadow="false">Security Clearance</MudButton>
+            </MudBadge>
+            <MudSpacer />
+            <MudButtonGroup Style="background-color: #f58f25">
+                <MudIconButton href="https://visualstudio.microsoft.com/" target="_blank" Icon="@Icons.Custom.Brands.MicrosoftVisualStudio" Color="Color.Inherit" />
+                <MudIconButton href="https://learn.microsoft.com/aspnet/core/" target="_blank" Icon="@Icons.Custom.Brands.Microsoft" Color="Color.Inherit" />
+                <MudIconButton href="https://mudblazor.com/" target="_blank" Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" />
+            </MudButtonGroup>
+        </MudAppBar>
         <article class="content px-4">
             @Body
         </article>
@@ -31,6 +39,14 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+<footer>
+
+    <MudAppBar Style="background-color: #5097a4" Fixed="false">
+        <MudSpacer />
+
+    </MudAppBar>
+
+</footer>
 
 @code{
 

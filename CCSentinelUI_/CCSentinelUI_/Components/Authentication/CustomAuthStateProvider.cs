@@ -1,39 +1,44 @@
-﻿using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components.Authorization;
+﻿using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 
 namespace CCSentinelUI_.Components.Authentication
 {
-    public class CustomAuthStateProvider(ILocalStorageService storage) : AuthenticationStateProvider
+    public class CustomAuthStateProvider(IHttpContextAccessor httpContextAccessor) : AuthenticationStateProvider
     {
         private readonly ClaimsPrincipal _anonymous = new(new ClaimsIdentity());
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 
-        public override async Task<AuthenticationState> GetAuthenticationStateAsync()
+        public override Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var isAdmin = await storage.GetItemAsync<bool>("IsAdmin");
-            if (isAdmin)
+            var context = _httpContextAccessor.HttpContext;
+            if (context == null)
+                return Task.FromResult(new AuthenticationState(_anonymous));
+
+            var isAdminCookie = context.Request.Cookies["IsAdmin"];
+            if (isAdminCookie == "true")
             {
                 var identity = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Name, "Admin")
                 }, "CustomAuth");
 
-                return new AuthenticationState(new ClaimsPrincipal(identity));
+                var user = new ClaimsPrincipal(identity);
+                return Task.FromResult(new AuthenticationState(user));
             }
 
-            return new AuthenticationState(_anonymous);
+            return Task.FromResult(new AuthenticationState(_anonymous));
         }
 
-        public async Task MarkUserAsAuthenticated()
+        public Task MarkUserAsAuthenticated()
         {
-            await storage.SetItemAsync("IsAdmin", true);
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            return Task.CompletedTask;
         }
 
-        public async Task MarkUserAsLoggedOut()
+        public Task MarkUserAsLoggedOut()
         {
-            await storage.RemoveItemAsync("IsAdmin");
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            return Task.CompletedTask;
         }
     }
 }

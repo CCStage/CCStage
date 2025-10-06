@@ -1,18 +1,22 @@
-﻿@inject NavigationManager Nav
+﻿@using CCSentinelUI_.Components.Authentication
+@inject NavigationManager Nav
+@inject IJSRuntime JS
+@inject CustomAuthStateProvider AuthStateProvider
 @rendermode InteractiveServer
 
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">CCSentinelUI</a>
+<div class="top-row ps-3 navbar navbar-dark" style="background-color:#fff; height:65px;">
+    <div class="container-fluid d-flex align-items-center" style="height:100%;">
+        <MudImage Src="images/cclaw_logo2.jpg" Alt="Logo" Style="height:100%; width:auto; object-fit:contain;" />
     </div>
 </div>
 
+
 <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+<div class="nav-scrollable" color="White" style="background-color:#f58f25" onclick="document.querySelector('.navbar-toggler').click()">
     <nav class="nav flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="/">
                 <span class="bi bi-house-door-fill-nav-menu"></span> Home
             </NavLink>
         </div>
@@ -28,14 +32,12 @@
                 <span class="bi bi-list-nested-nav-menu"></span> Weather
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="login">
-                <span class="bi bi-list-nested-nav-menu"></span> Login
-            </NavLink>
-        </div>
 
         <div class="nav-item px-3">
-            <MudButton OnClick="@Logout" Color="Color.Error" Variant="Variant.Outlined">Logout</MudButton>
+            <MudButton OnClick="@Logout" Color="Color.Error" Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Logout">
+
+                Logout
+            </MudButton>
         </div>
     </nav>
 </div>
@@ -43,8 +45,14 @@
 @code {
     private async Task Logout()
     {
-        using var client = new HttpClient { BaseAddress = new Uri(Nav.BaseUri) };
-        await client.PostAsync("account/logout", null);
+        await JS.InvokeVoidAsync("fetch", "/api/logout", new
+        {
+            method = "POST",
+            credentials = "include"
+        });
+
+        await AuthStateProvider.MarkUserAsLoggedOut();
         Nav.NavigateTo("/login", forceLoad: true);
+
     }
 }
