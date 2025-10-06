@@ -1,0 +1,51 @@
+﻿@page "/login"
+@using CCSentinelUI_.Components.Models
+@using CCSentinelUI_.Components.Authentication
+@inject NavigationManager nav
+@inject AdminCredentials adminCredentials
+@inject CustomAuthStateProvider authProvider
+
+
+<MudPaper Class="pa-4 mx-auto mt-12" MaxWidth="400px">
+    <MudText Typo="Typo.h5">Login</MudText>
+
+    <EditForm Model="@loginModel" OnValidSubmit="@LoginFunction">
+        <MudTextField @bind-Value="loginModel.Username" Label="Username" Variant="Variant.Outlined" FullWidth="true" />
+        <MudTextField @bind-Value="loginModel.Password" Label="Password" Variant="Variant.Outlined" InputType="InputType.Password" FullWidth="true" />
+        <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" FullWidth="true" Class="mt-4">
+            Login
+        </MudButton>
+    </EditForm>
+
+    @if (!string.IsNullOrEmpty(_message))
+    {
+        <MudText Color="@(_isError ? Color.Error : Color.Success)">@_message</MudText>
+    }
+</MudPaper>
+
+@code {
+    private LoginModel loginModel = new();
+    private string _message = "";
+    private bool _isError = false;
+
+    private async Task LoginFunction()
+    {
+        if (adminCredentials.Username.Equals(loginModel.Username) &&
+            adminCredentials.Password.Equals(loginModel.Password, StringComparison.Ordinal))
+        {
+            await authProvider.MarkUserAsAuthenticated();
+            nav.NavigateTo("/", true);
+        }
+        else
+        {
+            _isError = true;
+            _message = "Invalid credentials";
+        }
+    }
+
+    private class LoginModel
+    {
+        public string Username { get; set; } = "";
+        public string Password { get; set; } = "";
+    }
+}

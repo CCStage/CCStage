@@ -1,0 +1,50 @@
+﻿@inject NavigationManager Nav
+@rendermode InteractiveServer
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">CCSentinelUI</a>
+    </div>
+</div>
+
+<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+
+<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
+    <nav class="nav flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="bi bi-house-door-fill-nav-menu"></span> Home
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="counter">
+                <span class="bi bi-plus-square-fill-nav-menu"></span> Counter
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="weather">
+                <span class="bi bi-list-nested-nav-menu"></span> Weather
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="login">
+                <span class="bi bi-list-nested-nav-menu"></span> Login
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3">
+            <MudButton OnClick="@Logout" Color="Color.Error" Variant="Variant.Outlined">Logout</MudButton>
+        </div>
+    </nav>
+</div>
+
+@code {
+    private async Task Logout()
+    {
+        using var client = new HttpClient { BaseAddress = new Uri(Nav.BaseUri) };
+        await client.PostAsync("account/logout", null);
+        Nav.NavigateTo("/login", forceLoad: true);
+    }
+}

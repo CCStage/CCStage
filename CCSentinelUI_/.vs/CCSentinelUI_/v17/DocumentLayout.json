@@ -1,0 +1,239 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccsentinelui_\\ccsentinelui_\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|solutionrelative:ccsentinelui_\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccsentinelui_\\ccsentinelui_\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|solutionrelative:ccsentinelui_\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccsentinelui_\\ccsentinelui_\\components\\authentication\\customauthstateprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|solutionrelative:ccsentinelui_\\components\\authentication\\customauthstateprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccsentinelui_\\ccsentinelui_\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|solutionrelative:ccsentinelui_\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccsentinelui_\\ccsentinelui_\\components\\layout\\notauthlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|solutionrelative:ccsentinelui_\\components\\layout\\notauthlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccsentinelui_\\ccsentinelui_\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|solutionrelative:ccsentinelui_\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccsentinelui_\\ccsentinelui_\\components\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|solutionrelative:ccsentinelui_\\components\\_imports.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccsentinelui_\\ccsentinelui_\\components\\pages\\error.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|solutionrelative:ccsentinelui_\\components\\pages\\error.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccsentinelui_\\ccsentinelui_\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|solutionrelative:ccsentinelui_\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccsentinelui_\\ccsentinelui_\\components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|solutionrelative:ccsentinelui_\\components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccsentinelui_\\ccsentinelui_\\components\\pages\\weather.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|solutionrelative:ccsentinelui_\\components\\pages\\weather.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccsentinelui_\\ccsentinelui_\\components\\models\\admincredentials.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|solutionrelative:ccsentinelui_\\components\\models\\admincredentials.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccsentinelui_\\ccsentinelui_\\components\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI_\\CCSentinelUI_.csproj|solutionrelative:ccsentinelui_\\components\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CustomAuthStateProvider.cs",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Authentication\\CustomAuthStateProvider.cs",
+              "RelativeDocumentMoniker": "CCSentinelUI_\\Components\\Authentication\\CustomAuthStateProvider.cs",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Authentication\\CustomAuthStateProvider.cs",
+              "RelativeToolTip": "CCSentinelUI_\\Components\\Authentication\\CustomAuthStateProvider.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAkwBoAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-03T11:27:30.871Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Login.razor",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Pages\\Login.razor",
+              "RelativeDocumentMoniker": "CCSentinelUI_\\Components\\Pages\\Login.razor",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Pages\\Login.razor",
+              "RelativeToolTip": "CCSentinelUI_\\Components\\Pages\\Login.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-03T11:56:08.973Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Error.razor",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Pages\\Error.razor",
+              "RelativeDocumentMoniker": "CCSentinelUI_\\Components\\Pages\\Error.razor",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Pages\\Error.razor",
+              "RelativeToolTip": "CCSentinelUI_\\Components\\Pages\\Error.razor",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-03T14:17:34.108Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "App.razor",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\App.razor",
+              "RelativeDocumentMoniker": "CCSentinelUI_\\Components\\App.razor",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\App.razor",
+              "RelativeToolTip": "CCSentinelUI_\\Components\\App.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-03T11:47:46.117Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "CCSentinelUI_\\Components\\Controllers\\AccountController.cs",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "CCSentinelUI_\\Components\\Controllers\\AccountController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-03T11:39:08.564Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "_Imports.razor",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\_Imports.razor",
+              "RelativeDocumentMoniker": "CCSentinelUI_\\Components\\_Imports.razor",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\_Imports.razor",
+              "RelativeToolTip": "CCSentinelUI_\\Components\\_Imports.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-03T11:27:51.286Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Program.cs",
+              "RelativeDocumentMoniker": "CCSentinelUI_\\Program.cs",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Program.cs",
+              "RelativeToolTip": "CCSentinelUI_\\Program.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAgwCIAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-03T11:26:49.332Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MainLayout.razor",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Layout\\MainLayout.razor",
+              "RelativeDocumentMoniker": "CCSentinelUI_\\Components\\Layout\\MainLayout.razor",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Layout\\MainLayout.razor",
+              "RelativeToolTip": "CCSentinelUI_\\Components\\Layout\\MainLayout.razor",
+              "ViewState": "AgIAABYAAAAAAAAAAAAIwCMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-03T11:26:35.367Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "NotAuthLayout.razor",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Layout\\NotAuthLayout.razor",
+              "RelativeDocumentMoniker": "CCSentinelUI_\\Components\\Layout\\NotAuthLayout.razor",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Layout\\NotAuthLayout.razor",
+              "RelativeToolTip": "CCSentinelUI_\\Components\\Layout\\NotAuthLayout.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-03T11:55:22.823Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "AdminCredentials.cs",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Models\\AdminCredentials.cs",
+              "RelativeDocumentMoniker": "CCSentinelUI_\\Components\\Models\\AdminCredentials.cs",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Models\\AdminCredentials.cs",
+              "RelativeToolTip": "CCSentinelUI_\\Components\\Models\\AdminCredentials.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-03T11:40:00.813Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Routes.razor",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Routes.razor",
+              "RelativeDocumentMoniker": "CCSentinelUI_\\Components\\Routes.razor",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Routes.razor",
+              "RelativeToolTip": "CCSentinelUI_\\Components\\Routes.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-03T11:47:45.023Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Weather.razor",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Pages\\Weather.razor",
+              "RelativeDocumentMoniker": "CCSentinelUI_\\Components\\Pages\\Weather.razor",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\Components\\Pages\\Weather.razor",
+              "RelativeToolTip": "CCSentinelUI_\\Components\\Pages\\Weather.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-03T12:49:49.792Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\appsettings.json",
+              "RelativeDocumentMoniker": "CCSentinelUI_\\appsettings.json",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCSentinelUI_\\CCSentinelUI_\\appsettings.json",
+              "RelativeToolTip": "CCSentinelUI_\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-10-03T13:15:45.189Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
