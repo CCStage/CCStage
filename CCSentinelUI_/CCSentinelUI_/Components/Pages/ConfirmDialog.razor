@@ -1,0 +1,13 @@
+﻿@using MudBlazor
+
+
+    <MudText Typo="Typo.body1">@ContentText</MudText>
+
+
+<MudButton Color="Color.Primary" OnClick="() => MudDialog.Close(DialogResult.Ok(true))">Ja</MudButton>
+<MudButton Color="Color.Default" OnClick="() => MudDialog.Cancel()">Nee</MudButton>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = default!;
+    [Parameter] public string ContentText { get; set; } = string.Empty;
+}

@@ -2,6 +2,8 @@
 @using CCSentinelUI_.Data
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext Db
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
 
 <PageTitle>OpenId Applications</PageTitle>
 
@@ -17,7 +19,7 @@
             <MudText Typo="Typo.h6">OpenId Applications</MudText>
             <MudSpacer />
             <MudTextField @bind-Value="_search"
-                          Placeholder="Zoek op Id of DisplayName"
+                          Placeholder="Zoek op ClientId of DisplayName"
                           Adornment="Adornment.Start"
                           AdornmentIcon="@Icons.Material.Filled.Search"
                           IconSize="Size.Medium"
@@ -25,6 +27,7 @@
         </ToolBarContent>
 
         <HeaderContent>
+            <MudTh></MudTh>
             <MudTh>Id</MudTh>
             <MudTh>Type</MudTh>
             <MudTh>Display Name</MudTh>
@@ -33,6 +36,15 @@
         </HeaderContent>
 
         <RowTemplate>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                           Color="Color.Info"
+                           Size="Size.Small"
+                           Variant="Variant.Outlined" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                           Color="Color.Error"
+                           Size="Size.Small"
+                           Variant="Variant.Outlined"
+                           OnClick="@(() => ConfirmDelete(context))" />
             <MudTd DataLabel="Id">@context.ClientId</MudTd>
             <MudTd DataLabel="Type">@context.ClientType</MudTd>
             <MudTd DataLabel="Display Name">@context.DisplayName</MudTd>
@@ -56,27 +68,41 @@
 
 @code {
     private bool _hover = true;
-
     private string _search = string.Empty;
     private OpenIdApplication? _selectedApp;
-    private IEnumerable<OpenIdApplication> _apps = new List<OpenIdApplication>();
+    private List<OpenIdApplication> _apps = new();
 
     protected override async Task OnInitializedAsync()
     {
-        _apps = await Db.OpenIddictApplications
-            .OrderBy(x => x.DisplayName)
-            .ToListAsync();
+        _apps = await Db.OpenIddictApplications.OrderBy(x => x.DisplayName).ToListAsync();
     }
 
     private bool FilterFunc(OpenIdApplication app)
     {
         if (string.IsNullOrWhiteSpace(_search))
             return true;
+        return (app.DisplayName ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
+            || (app.ClientId ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
+            || (app.ClientType ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
+            || (app.Permissions ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase);
+    }
 
-        return
-            (app.DisplayName ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase) ||
-            (app.ClientId ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase) ||
-            (app.ClientType ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase) ||
-            (app.Permissions ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase);
+    private async Task ConfirmDelete(OpenIdApplication app)
+    {
+        var parameters = new DialogParameters { ["ContentText"] = $"Weet je zeker dat je '{app.DisplayName}' wilt verwijderen?" };
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        var dialog = DialogService.Show<ConfirmDialog>("Bevestigen", parameters, options);
+        var result = await dialog.Result;
+        if (!result.Canceled)
+            await DeleteApp(app);
+    }
+
+    private async Task DeleteApp(OpenIdApplication app)
+    {
+        Db.OpenIddictApplications.Remove(app);
+        await Db.SaveChangesAsync();
+        _apps.Remove(app);
+        Snackbar.Add("Application deleted", Severity.Success);
+        StateHasChanged();
     }
 }

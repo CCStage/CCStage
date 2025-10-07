@@ -19,7 +19,7 @@
     <main>
         <MudAppBar Style="background-color: #f58f25" Fixed="false">
             <MudBadge Icon="@Icons.Material.Filled.LockOpen" Color="Color.Success" Overlap="true" Bordered="true" Class="mx-6 my-4">
-                <MudButton Color="Color.Success" Variant="Variant.Filled" DropShadow="false">Security Clearance</MudButton>
+                <MudButton OnClick="SecurityCheck" Color="Color.Success" Variant="Variant.Filled" DropShadow="false">Security Clearance</MudButton>
             </MudBadge>
             <MudSpacer />
             <MudButtonGroup Style="background-color: #f58f25">
@@ -49,5 +49,8 @@
 </footer>
 
 @code{
-
+    public void SecurityCheck()
+    {
+        Snackbar.Add("You have Clearance", Severity.Success);
+    }
 }

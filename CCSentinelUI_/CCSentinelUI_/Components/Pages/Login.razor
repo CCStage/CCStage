@@ -37,14 +37,16 @@
 
     private async Task LoginFunction()
     {
-        Snackbar.Add("Loging in completed", Severity.Success);
-        _processing = true;
-        await Task.Delay(2000);
-        _processing = false;
+
+
 
         if (adminCredentials.Username.Equals(loginModel.Username) &&
             adminCredentials.Password.Equals(loginModel.Password, StringComparison.Ordinal))
         {
+            Snackbar.Add("Login completed", Severity.Success);
+            _processing = true;
+            await Task.Delay(2000);
+            _processing = false;
             await JS.InvokeVoidAsync("loginUser");
             await authProvider.MarkUserAsAuthenticated();
 
@@ -52,6 +54,10 @@
         }
         else
         {
+            Snackbar.Add("Login Failed", Severity.Error);
+            _processing = true;
+            await Task.Delay(2000);
+            _processing = false;
             _isError = true;
             _message = "Invalid credentials";
         }
