@@ -90,7 +90,7 @@
     private async Task ConfirmDelete(OpenIdApplication app)
     {
         var parameters = new DialogParameters { ["ContentText"] = $"Weet je zeker dat je '{app.DisplayName}' wilt verwijderen?" };
-        var options = new DialogOptions { CloseOnEscapeKey = true };
+        var options = new DialogOptions { CloseOnEscapeKey = true, Position = DialogPosition.TopCenter };
         var dialog = DialogService.Show<ConfirmDialog>("Bevestigen", parameters, options);
         var result = await dialog.Result;
         if (!result.Canceled)
