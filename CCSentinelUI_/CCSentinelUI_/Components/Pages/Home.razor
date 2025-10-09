@@ -2,8 +2,9 @@
 @using CCSentinelUI_.Data
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext Db
-@inject IDialogService DialogService
+@inject NavigationManager Navigation
 @inject ISnackbar Snackbar
+@using MudBlazor
 
 <PageTitle>OpenId Applications</PageTitle>
 
@@ -13,8 +14,9 @@
               Hover="@_hover"
               Bordered="true"
               Striped="true"
-              Filter="new Func<OpenIdApplication, bool>(FilterFunc)"
+              Filter="FilterFunc"
               @bind-SelectedItem="_selectedApp">
+
         <ToolBarContent>
             <MudText Typo="Typo.h6">OpenId Applications</MudText>
             <MudSpacer />
@@ -31,7 +33,6 @@
             <MudTh>Id</MudTh>
             <MudTh>Type</MudTh>
             <MudTh>Display Name</MudTh>
-            <MudTh>Permissions</MudTh>
             <MudTh>Properties</MudTh>
         </HeaderContent>
 
@@ -39,16 +40,16 @@
             <MudIconButton Icon="@Icons.Material.Filled.Edit"
                            Color="Color.Info"
                            Size="Size.Small"
-                           Variant="Variant.Outlined" />
+                           Variant="Variant.Outlined"
+                           OnClick="@(() => EditApp(context))" />
             <MudIconButton Icon="@Icons.Material.Filled.Delete"
                            Color="Color.Error"
                            Size="Size.Small"
                            Variant="Variant.Outlined"
-                           OnClick="@(() => ConfirmDelete(context))" />
+                           OnClick="@(() => DeleteApp(context))" />
             <MudTd DataLabel="Id">@context.ClientId</MudTd>
             <MudTd DataLabel="Type">@context.ClientType</MudTd>
             <MudTd DataLabel="Display Name">@context.DisplayName</MudTd>
-            <MudTd DataLabel="Permissions">@context.Permissions</MudTd>
             <MudTd DataLabel="Properties">@context.Properties</MudTd>
         </RowTemplate>
 
@@ -79,30 +80,28 @@
 
     private bool FilterFunc(OpenIdApplication app)
     {
-        if (string.IsNullOrWhiteSpace(_search))
-            return true;
+        if (string.IsNullOrWhiteSpace(_search)) return true;
+
         return (app.DisplayName ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
             || (app.ClientId ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
             || (app.ClientType ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
             || (app.Permissions ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase);
     }
 
-    private async Task ConfirmDelete(OpenIdApplication app)
-    {
-        var parameters = new DialogParameters { ["ContentText"] = $"Weet je zeker dat je '{app.DisplayName}' wilt verwijderen?" };
-        var options = new DialogOptions { CloseOnEscapeKey = true, Position = DialogPosition.TopCenter };
-        var dialog = DialogService.Show<ConfirmDialog>("Bevestigen", parameters, options);
-        var result = await dialog.Result;
-        if (!result.Canceled)
-            await DeleteApp(app);
-    }
-
     private async Task DeleteApp(OpenIdApplication app)
     {
+        bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Weet je zeker dat je '{app.DisplayName}' wilt verwijderen?");
+        if (!confirmed) return;
+
         Db.OpenIddictApplications.Remove(app);
         await Db.SaveChangesAsync();
         _apps.Remove(app);
-        Snackbar.Add("Application deleted", Severity.Success);
+        Snackbar.Add("Applicatie verwijderd", Severity.Error);
         StateHasChanged();
+    }
+
+    private void EditApp(OpenIdApplication app)
+    {
+        Navigation.NavigateTo($"/edit-application/{app.ClientId}");
     }
 }

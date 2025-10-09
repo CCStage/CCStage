@@ -1,0 +1,81 @@
+﻿@page "/edit-application/{ClientId}"
+@using CCSentinelUI_.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext Db
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+@using MudBlazor
+
+<MudPaper Class="p-4 mx-auto" MaxWidth="600px" Elevation="3">
+    <MudText Typo="Typo.h5">Bewerk applicatie</MudText>
+
+    <MudForm @ref="_form" Class="mt-4">
+        <MudTextField Label="ClientId" @bind-Value="_model.ClientId" Disabled="true" />
+        <MudTextField Label="Display Name" @bind-Value="_model.DisplayName" Required="true" />
+        <MudTextField Label="Permissions" @bind-Value="_model.Permissions" />
+        <MudTextField Label="Properties" @bind-Value="_model.Properties" />
+
+        <MudButton Color="Color.Primary" OnClick="Save" Class="mt-3">Opslaan</MudButton>
+        <MudButton Color="Color.Secondary" OnClick="Cancel" Class="mt-3 ml-2">Annuleren</MudButton>
+    </MudForm>
+</MudPaper>
+
+@code {
+    [Parameter] public string ClientId { get; set; } = string.Empty;
+
+    private MudForm? _form;
+    private OpenIdApplication _model = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var existing = await Db.OpenIddictApplications.FirstOrDefaultAsync(x => x.ClientId == ClientId);
+        if (existing == null)
+        {
+            Snackbar.Add("Applicatie niet gevonden", Severity.Error);
+            Navigation.NavigateTo("/applications");
+            return;
+        }
+
+        _model = new OpenIdApplication
+        {
+            ClientId = existing.ClientId,
+            DisplayName = existing.DisplayName,
+            Permissions = existing.Permissions,
+            Properties = existing.Properties
+        };
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/applications");
+    }
+
+    private async Task Save()
+    {
+        await _form!.Validate();
+        if (!_form.IsValid) return;
+
+        var existing = await Db.OpenIddictApplications.FirstOrDefaultAsync(x => x.ClientId == _model.ClientId);
+        if (existing == null)
+        {
+            Snackbar.Add("Applicatie niet gevonden", Severity.Error);
+            Navigation.NavigateTo("/applications");
+            return;
+        }
+
+        existing.DisplayName = _model.DisplayName;
+        existing.Permissions = _model.Permissions;
+        existing.Properties = _model.Properties;
+
+        try
+        {
+            await Db.SaveChangesAsync();
+            Snackbar.Add("Applicatie succesvol bijgewerkt", Severity.Success);
+            Navigation.NavigateTo("/");
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            Snackbar.Add("Fout bij opslaan. Probeer opnieuw.", Severity.Error);
+        }
+    }
+}

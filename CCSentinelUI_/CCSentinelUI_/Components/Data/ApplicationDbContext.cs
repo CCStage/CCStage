@@ -11,7 +11,6 @@ namespace CCSentinelUI_.Data
 
         public DbSet<OpenIdApplication> OpenIddictApplications { get; set; } = default!;
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<OpenIdApplication>()
@@ -27,5 +26,4 @@ namespace CCSentinelUI_.Data
         public string? Permissions { get; set; }
         public string? Properties { get; set; }
     }
-
 }
