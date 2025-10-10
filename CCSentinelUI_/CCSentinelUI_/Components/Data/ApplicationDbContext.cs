@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace CCSentinelUI_.Data
 {
@@ -25,6 +26,10 @@ namespace CCSentinelUI_.Data
         public string? DisplayName { get; set; }
         public string? Permissions { get; set; }
         public string? Properties { get; set; }
+        public string? RedirectUris { get; set; }
+
+        [Timestamp]
+        public byte[] Version { get; set; } = Array.Empty<byte>();
     }
 
 }

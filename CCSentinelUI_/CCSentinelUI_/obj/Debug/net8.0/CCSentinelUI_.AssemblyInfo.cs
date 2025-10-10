@@ -14,7 +14,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CCSentinelUI_")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< Updated upstream
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b2ab100e8c1b821251aa254a412b9a3d871bc9ec")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ddcca559bc7f110529a1e76b60608a8ae8244be")]
+>>>>>>> Stashed changes
 [assembly: System.Reflection.AssemblyProductAttribute("CCSentinelUI_")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CCSentinelUI_")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
