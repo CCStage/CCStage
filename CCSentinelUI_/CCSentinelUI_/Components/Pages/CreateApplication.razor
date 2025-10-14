@@ -1,0 +1,82 @@
+﻿@page "/create"
+@using CCSentinelUI_.Data
+@inject ApplicationDbContext Db
+@inject NavigationManager Navigation
+@using MudBlazor
+
+<MudPaper Class="pa-6 mx-auto mt-6" Style="max-width: 600px;">
+    <MudText Typo="Typo.h5" Class="mb-4">Nieuwe applicatie aanmaken</MudText>
+
+    <MudForm @ref="_form">
+        <MudGrid Spacing="3">
+            <MudItem xs="12">
+                <MudTextField @bind-Value="_app.ClientId" Label="ClientId" FullWidth="true" Required="true" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudTextField @bind-Value="_app.DisplayName" Label="DisplayName" FullWidth="true" Required="true" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudTextField @bind-Value="_redirectUris" Label="RedirectUris (komma-gescheiden)" FullWidth="true" Required="true" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudText Typo="Typo.subtitle2" Class="mb-2">Permissions</MudText>
+                <MudCheckBox T="bool" @bind-Checked="_permissions.AuthorizationCode" Label="authorization_code" />
+                <MudCheckBox T="bool" @bind-Checked="_permissions.RefreshToken" Label="refresh_token" />
+                <MudCheckBox T="bool" @bind-Checked="_permissions.ClientCredentials" Label="client_credentials" />
+
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudButton OnClick="HandleValidSubmit" Variant="Variant.Filled" Color="Color.Primary" Class="mt-3">Opslaan</MudButton>
+                <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="mt-3 ml-2" OnClick="@(() => Navigation.NavigateTo("/"))">Annuleren</MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudForm>
+
+    <MudText Color="Color.Error" Class="mt-2">@_errorMessage</MudText>
+</MudPaper>
+
+@code {
+    private MudForm _form;
+    private OpenIdApplication _app = new();
+    private string _redirectUris = "";
+    private PermissionsModel _permissions = new();
+    private string _errorMessage = "";
+
+    protected override void OnInitialized()
+    {
+        _app.Id = Guid.NewGuid().ToString();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        _errorMessage = "";
+        try
+        {
+            _app.RedirectUris = _redirectUris;
+            var selectedPermissions = new List<string>();
+            if (_permissions.AuthorizationCode) selectedPermissions.Add("authorization_code");
+            if (_permissions.RefreshToken) selectedPermissions.Add("refresh_token");
+            if (_permissions.ClientCredentials) selectedPermissions.Add("client_credentials");
+            _app.Permissions = string.Join(",", selectedPermissions);
+
+            Db.OpenIddictApplications.Add(_app);
+            await Db.SaveChangesAsync();
+            Navigation.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = ex.Message;
+        }
+    }
+
+    private class PermissionsModel
+    {
+        public bool AuthorizationCode { get; set; }
+        public bool RefreshToken { get; set; }
+        public bool ClientCredentials { get; set; }
+    }
+}

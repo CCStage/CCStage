@@ -6,21 +6,21 @@ namespace CCSentinelUI_.Data
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+            : base(options) { }
 
         public DbSet<OpenIdApplication> OpenIddictApplications { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<OpenIdApplication>()
-                .HasKey(x => x.ClientId);
+            modelBuilder.Entity<OpenIdApplication>().HasKey(x => x.ClientId);
         }
     }
 
     public class OpenIdApplication
     {
+        [Key]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+
         public string ClientId { get; set; } = string.Empty;
         public string? ClientType { get; set; }
         public string? DisplayName { get; set; }
@@ -31,5 +31,4 @@ namespace CCSentinelUI_.Data
         [Timestamp]
         public byte[] Version { get; set; } = Array.Empty<byte>();
     }
-
 }

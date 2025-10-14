@@ -2,63 +2,108 @@
 @using CCSentinelUI_.Data
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext Db
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+@using MudBlazor
+@inject IJSRuntime JS
+
 
 <PageTitle>OpenId Applications</PageTitle>
 
 <MudPaper Class="p-4 mx-auto" MaxWidth="1200px" Elevation="3">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>OpenId Applications</h3>
-        <MudTextField @bind-Value="_search"
-                      Placeholder="Zoek op Id of DisplayName"
-                      Adornment="Adornment.Start"
-                      AdornmentIcon="@Icons.Material.Filled.Search"
-                      Immediate="true"
-                      OnBlur="Reload" />
-
-    </div>
-
-    <MudTable T="OpenIdApplication"
-              Items="_apps"
-              Hover="true"
+    <MudTable Items="@_apps"
               Dense="true"
+              Hover="@_hover"
               Bordered="true"
-              Striped="true">
+              Striped="true"
+              Filter="FilterFunc"
+              @bind-SelectedItem="_selectedApp">
+
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">OpenId Applications</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="_search"
+                          Placeholder="Zoek op ClientId of DisplayName"
+                          Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search"
+                          IconSize="Size.Medium"
+                          Class="mt-0" />
+        </ToolBarContent>
 
         <HeaderContent>
+            <MudTh></MudTh>
             <MudTh>Id</MudTh>
             <MudTh>Type</MudTh>
             <MudTh>Display Name</MudTh>
-            <MudTh>Permissions</MudTh>
             <MudTh>Properties</MudTh>
         </HeaderContent>
 
         <RowTemplate>
-            <MudTd>@context.ClientId</MudTd>
-            <MudTd>@context.ClientType</MudTd>
-            <MudTd>@context.DisplayName</MudTd>
-            <MudTd>@context.Permissions</MudTd>
-            <MudTd>@context.Properties</MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                           Color="Color.Info"
+                           Size="Size.Small"
+                           Variant="Variant.Outlined"
+                           OnClick="@(() => EditApp(context))" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                           Color="Color.Error"
+                           Size="Size.Small"
+                           Variant="Variant.Outlined"
+                           OnClick="@(() => DeleteApp(context))" />
+            <MudTd DataLabel="Id">@context.ClientId</MudTd>
+            <MudTd DataLabel="Type">@context.ClientType</MudTd>
+            <MudTd DataLabel="Display Name">@context.DisplayName</MudTd>
+            <MudTd DataLabel="Properties">@context.Properties</MudTd>
         </RowTemplate>
+
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
     </MudTable>
+
+    <div class="d-flex flex-wrap mt-4">
+        <MudSwitch @bind-Value="_hover" Color="Color.Primary">Hover</MudSwitch>
+        <MudSpacer />
+        <div style="min-width:200px;">
+            <MudText Class="align-self-center d-inline">Geselecteerd: @_selectedApp?.DisplayName</MudText>
+        </div>
+    </div>
 </MudPaper>
 
 @code {
-    private string? _search;
+    private bool _hover = true;
+    private string _search = string.Empty;
+    private OpenIdApplication? _selectedApp;
     private List<OpenIdApplication> _apps = new();
 
-    protected override async Task OnInitializedAsync() => await Reload();
-
-    private async Task Reload()
+    protected override async Task OnInitializedAsync()
     {
-        var query = Db.OpenIddictApplications.AsQueryable();
+        _apps = await Db.OpenIddictApplications.OrderBy(x => x.DisplayName).ToListAsync();
+    }
 
-        if (!string.IsNullOrWhiteSpace(_search))
-        {
-            query = query.Where(x =>
-                x.DisplayName!.Contains(_search) ||
-                x.ClientId.ToString().Contains(_search));
-        }
+    private bool FilterFunc(OpenIdApplication app)
+    {
+        if (string.IsNullOrWhiteSpace(_search)) return true;
 
-        _apps = await query.Take(100).ToListAsync();
+        return (app.DisplayName ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
+            || (app.ClientId ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
+            || (app.ClientType ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
+            || (app.Permissions ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private async Task DeleteApp(OpenIdApplication app)
+    {
+        bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Weet je zeker dat je '{app.DisplayName}' wilt verwijderen?");
+        if (!confirmed) return;
+
+        Db.OpenIddictApplications.Remove(app);
+        await Db.SaveChangesAsync();
+        _apps.Remove(app);
+        Snackbar.Add("Applicatie verwijderd", Severity.Error);
+        StateHasChanged();
+    }
+
+    private void EditApp(OpenIdApplication app)
+    {
+        Navigation.NavigateTo($"/edit-application/{app.ClientId}");
     }
 }
