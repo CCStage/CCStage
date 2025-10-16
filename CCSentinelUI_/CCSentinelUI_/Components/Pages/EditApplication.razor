@@ -4,7 +4,9 @@
 @inject ApplicationDbContext Db
 @inject NavigationManager Navigation
 @inject ISnackbar Snackbar
+@inject ILogger<Login> Logger
 @using MudBlazor
+
 
 <MudPaper Class="p-4 mx-auto" MaxWidth="600px" Elevation="3">
     <MudText Typo="Typo.h5">Bewerk applicatie</MudText>
@@ -29,6 +31,7 @@
         var existing = await Db.OpenIddictApplications.FirstOrDefaultAsync(x => x.ClientId == ClientId);
         if (existing == null)
         {
+            Logger.LogCritical("Edit attempt for {ClientId} Failed", ClientId);
             Snackbar.Add("Applicatie niet gevonden", Severity.Error);
             Navigation.NavigateTo("/");
             return;
@@ -45,6 +48,7 @@
 
     private void Cancel()
     {
+        Logger.LogDebug("Edit attempt for {ClientId} Canceled", ClientId);
         Navigation.NavigateTo("/");
     }
 
@@ -56,6 +60,7 @@
         var existing = await Db.OpenIddictApplications.FirstOrDefaultAsync(x => x.ClientId == _model.ClientId);
         if (existing == null)
         {
+            Logger.LogCritical("Edit attempt for {ClientId} Failed", ClientId);
             Snackbar.Add("Applicatie niet gevonden", Severity.Error);
             Navigation.NavigateTo("/");
             return;
@@ -70,10 +75,12 @@
         {
             await Db.SaveChangesAsync();
             Snackbar.Add("Applicatie succesvol bijgewerkt", Severity.Success);
+            Logger.LogDebug("Edit attempt for {ClientId} Succeeded", ClientId);
             Navigation.NavigateTo("/");
         }
         catch (DbUpdateConcurrencyException)
         {
+            Logger.LogCritical("Edit attempt for {ClientId} Failed because someone else already edited {ClientId}", ClientId);
             Snackbar.Add("De applicatie is aangepast door iemand anders. Herlaad en probeer opnieuw.", Severity.Error);
         }
     }

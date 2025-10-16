@@ -2,6 +2,7 @@
 @using CCSentinelUI_.Data
 @inject ApplicationDbContext Db
 @inject NavigationManager Navigation
+@inject ILogger<Login> Logger
 @using MudBlazor
 
 <MudPaper Class="pa-6 mx-auto mt-6" Style="max-width: 600px;">
@@ -23,9 +24,9 @@
 
             <MudItem xs="12">
                 <MudText Typo="Typo.subtitle2" Class="mb-2">Permissions</MudText>
-                <MudCheckBox T="bool" @bind-Checked="_permissions.AuthorizationCode" Label="authorization_code" />
-                <MudCheckBox T="bool" @bind-Checked="_permissions.RefreshToken" Label="refresh_token" />
-                <MudCheckBox T="bool" @bind-Checked="_permissions.ClientCredentials" Label="client_credentials" />
+                <MudCheckBox T="bool" @bind-Value="_permissions.AuthorizationCode" Label="authorization_code" />
+                <MudCheckBox T="bool" @bind-Value="_permissions.RefreshToken" Label="refresh_token" />
+                <MudCheckBox T="bool" @bind-Value="_permissions.ClientCredentials" Label="client_credentials" />
 
             </MudItem>
 
@@ -63,12 +64,16 @@
             if (_permissions.ClientCredentials) selectedPermissions.Add("client_credentials");
             _app.Permissions = string.Join(",", selectedPermissions);
 
+            Snackbar.Add("Succesfully Created", Severity.Success);
+
             Db.OpenIddictApplications.Add(_app);
             await Db.SaveChangesAsync();
+            Logger.LogDebug("Create attempt Succeeded With {ClientId}", _app.ClientId);
             Navigation.NavigateTo("/");
         }
         catch (Exception ex)
         {
+            Logger.LogDebug("Create attempt Failed");
             _errorMessage = ex.Message;
         }
     }

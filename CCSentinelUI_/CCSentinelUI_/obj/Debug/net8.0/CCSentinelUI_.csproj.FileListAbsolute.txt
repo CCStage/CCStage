@@ -180,3 +180,17 @@ C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\o
 C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\obj\Debug\net8.0\CCSentinelUI_.pdb
 C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\obj\Debug\net8.0\CCSentinelUI_.genruntimeconfig.cache
 C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\obj\Debug\net8.0\ref\CCSentinelUI_.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\bin\Debug\net8.0\Clip.Logging.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\bin\Debug\net8.0\Microsoft.Extensions.Configuration.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\bin\Debug\net8.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Json.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Physical.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\bin\Debug\net8.0\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\bin\Debug\net8.0\Serilog.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\bin\Debug\net8.0\Serilog.Extensions.Logging.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\bin\Debug\net8.0\Serilog.Extensions.Logging.File.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\bin\Debug\net8.0\Serilog.Formatting.Compact.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\bin\Debug\net8.0\Serilog.Sinks.Async.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\bin\Debug\net8.0\Serilog.Sinks.File.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI_\CCSentinelUI_\bin\Debug\net8.0\Serilog.Sinks.RollingFile.dll

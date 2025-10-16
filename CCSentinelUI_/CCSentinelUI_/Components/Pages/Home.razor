@@ -3,6 +3,8 @@
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext Db
 @inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ILogger<Login> Logger
 @inject ISnackbar Snackbar
 @using MudBlazor
 @inject IJSRuntime JS
@@ -98,6 +100,7 @@
         Db.OpenIddictApplications.Remove(app);
         await Db.SaveChangesAsync();
         _apps.Remove(app);
+        Logger.LogDebug("{ClientId} was deleted", app.ClientId);
         Snackbar.Add("Applicatie verwijderd", Severity.Error);
         StateHasChanged();
     }

@@ -2,9 +2,12 @@ using CCSentinelUI_.Components;
 using CCSentinelUI_.Components.Authentication;
 using CCSentinelUI_.Components.Models;
 using CCSentinelUI_.Data;
+using Clip.Logging;
+using Clip.Logging.Models;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +31,15 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 builder.Services.AddScoped<CustomAuthStateProvider>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddClipLogging(new DefaultLogSettings()
+{
+    LogLevel = new Dictionary<string, LogEventLevel>()
+    {
+    { "Default", LogEventLevel.Warning },
+    { "CCSentinelUI_", LogEventLevel.Debug }
+    }
+});
+
 
 builder.Services.AddHttpClient("ServerAPI", client =>
 {

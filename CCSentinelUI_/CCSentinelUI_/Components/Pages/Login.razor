@@ -5,6 +5,7 @@
 @inject AdminCredentials adminCredentials
 @inject CustomAuthStateProvider authProvider
 @inject IJSRuntime JS
+@inject ILogger<Login> Logger
 
 
 <MudPaper Class="pa-4 mx-auto mt-12" MaxWidth="400px">
@@ -37,6 +38,8 @@
 
     private async Task LoginFunction()
     {
+        Logger.LogDebug("Login attempt for user {Username}", loginModel.Username);
+
         Snackbar.Add("Loging in completed", Severity.Success);
         _processing = true;
         await Task.Delay(2000);
@@ -47,11 +50,12 @@
         {
             await JS.InvokeVoidAsync("loginUser");
             await authProvider.MarkUserAsAuthenticated();
-
+            Logger.LogDebug("Login attempt for user {Username} Succeeded", loginModel.Username);
             nav.NavigateTo("/", true);
         }
         else
         {
+            Logger.LogWarning("Login attempt for user {Username} Failed", loginModel.Username);
             _isError = true;
             _message = "Invalid credentials";
         }
