@@ -1,0 +1,25 @@
+﻿<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly">
+        <Found Context="routeData">
+            <AuthorizeView>
+                <Authorized>
+                    <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
+                    <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+                </Authorized>
+                <NotAuthorized>
+                    <LayoutView Layout="@typeof(Layout.NotAuthLayout)">
+                    <CCSentinelUI.Components.Pages.Login></CCSentinelUI.Components.Pages.Login>
+                    </LayoutView>
+                </NotAuthorized>
+                <Authorizing>
+                    <p>Authorising...</p>
+                </Authorizing>
+            </AuthorizeView>
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(Layout.NotAuthLayout)">
+                <p>Page not found.</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>

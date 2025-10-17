@@ -1,0 +1,71 @@
+﻿@page "/login"
+@using CCSentinelUI.Components.Models
+@using CCSentinelUI.Components.Authentication
+@inject NavigationManager nav
+@inject AdminCredentials adminCredentials
+@inject CustomAuthStateProvider authProvider
+@inject IJSRuntime JS
+@inject ILogger<Login> Logger
+@inject IHttpContextAccessor HttpContextAccessor
+
+<MudPaper Class="pa-4 mx-auto mt-12" MaxWidth="400px">
+    <MudText Typo="Typo.h5" Color="Color.Primary">Login</MudText>
+
+    <EditForm Model="@loginModel" OnValidSubmit="@LoginFunction">
+
+        <MudTextField @bind-Value="loginModel.Username" Label="Username" Variant="Variant.Outlined" FullWidth="true" />
+        <MudTextField @bind-Value="loginModel.Password" Label="Password" Variant="Variant.Outlined" InputType="InputType.Password" FullWidth="true" />
+        <MudButton Disabled="@_processing" ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled" FullWidth="true" Class="mt-4" StartIcon="@Icons.Material.Filled.Login">
+            @if (_processing)
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2">Logging In</MudText>
+            }
+        </MudButton>
+    </EditForm>
+
+    @if (!string.IsNullOrEmpty(_message))
+    {
+        <MudAlert Severity="Severity.Error">@_message</MudAlert>
+    }
+</MudPaper>
+
+@code {
+    private LoginModel loginModel = new();
+    private string _message = "";
+    private bool _isError = false;
+    private bool _processing = false;
+
+    private async Task LoginFunction()
+    {
+        var ip = HttpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "Unknown";
+
+        Logger.LogDebug("Login attempt from IP {Ip} for user {Username}", ip, loginModel.Username);
+
+        Snackbar.Add("Loging in completed", Severity.Success);
+        _processing = true;
+        await Task.Delay(2000);
+        _processing = false;
+
+        if (adminCredentials.Username.Equals(loginModel.Username) &&
+            adminCredentials.Password.Equals(loginModel.Password, StringComparison.Ordinal))
+        {
+            await JS.InvokeVoidAsync("loginUser");
+            await authProvider.MarkUserAsAuthenticated();
+            Logger.LogDebug("Login attempt for user {Username} from IP {Ip} Succeeded", loginModel.Username, ip);
+            nav.NavigateTo("/", true);
+        }
+        else
+        {
+            Logger.LogWarning("Login attempt for user {Username} from IP {Ip} Failed", loginModel.Username, ip);
+            _isError = true;
+            _message = "Invalid credentials";
+        }
+    }
+
+    private class LoginModel
+    {
+        public string Username { get; set; } = "";
+        public string Password { get; set; } = "";
+    }
+}

@@ -1,0 +1,35 @@
+2025-10-17T09:09:49.690+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Login attempt for user "Admin"
+2025-10-17T09:09:51.751+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Login attempt for user "Admin" Succeeded
+2025-10-17T09:10:22.991+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Create attempt Succeeded With "test"
+2025-10-17T09:10:36.399+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Edit attempt for "test" Succeeded
+2025-10-17T09:10:42.845+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - "test" was deleted
+2025-10-17T09:21:23.229+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Login attempt for user "Admin"
+2025-10-17T09:21:25.344+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Login attempt for user "Admin" Succeeded
+2025-10-17T09:22:14.052+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Login attempt for user "Admin"
+2025-10-17T09:22:16.084+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Login attempt for user "Admin" Succeeded
+2025-10-17T09:22:40.173+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Create attempt Succeeded With "test"
+2025-10-17T09:24:56.026+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Edit attempt for "test" Succeeded
+2025-10-17T09:25:22.316+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - "test" was deleted
+2025-10-17T09:38:50.919+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Login attempt for user "Admin"
+2025-10-17T09:38:52.938+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Login attempt for user "Admin" Succeeded
+2025-10-17T09:39:12.158+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Create attempt Succeeded With "test"
+2025-10-17T09:53:51.066+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Login attempt from IP "127.0.0.1" for user "Admin"
+2025-10-17T09:53:53.157+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Login attempt for user "Admin" from IP "127.0.0.1" Succeeded
+2025-10-17T12:35:37.492+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - "testt" was deleted
+2025-10-17T12:35:39.426+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - "test" was deleted
+2025-10-17T12:35:54.232+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Create attempt Succeeded With "test"
+2025-10-17T12:36:08.998+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Create attempt Succeeded With "testt"
+2025-10-17T12:40:13.835+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Edit attempt for "test" Succeeded
+2025-10-17T12:41:31.801+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Edit attempt for "test" Succeeded
+2025-10-17T12:43:10.709+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Edit attempt for "test" Succeeded
+2025-10-17T12:43:16.084+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Edit attempt for "testt" Succeeded
+2025-10-17T12:44:16.821+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Edit attempt for "test" Succeeded
+2025-10-17T12:44:20.296+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Edit attempt for "testt" Succeeded
+2025-10-17T12:44:23.492+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Edit attempt for "test" Succeeded
+2025-10-17T12:44:27.061+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Edit attempt for "testt" Succeeded
+2025-10-17T12:44:29.203+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Edit attempt for "test" Succeeded
+2025-10-17T12:44:55.354+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Edit attempt for "test" Succeeded
+2025-10-17T12:44:57.780+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Edit attempt for "testt" Succeeded
+2025-10-17T13:47:07.083+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - "testt" was deleted
+2025-10-17T13:47:08.820+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - "test" was deleted
+2025-10-17T13:47:19.393+02:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Create attempt Succeeded With "test"
