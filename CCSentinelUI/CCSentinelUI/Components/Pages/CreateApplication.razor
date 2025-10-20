@@ -22,6 +22,7 @@
                 <MudTextField @bind-Value="_redirectUris" Label="RedirectUris (komma-gescheiden)" FullWidth="true" Required="true" />
             </MudItem>
 
+            <MudItem xs="12">
             <MudSelect T="string" @bind-Value="_app.ClientType">
 
                 @foreach (var type in _types)
@@ -30,6 +31,7 @@
                 }
 
             </MudSelect>
+            </MudItem>
 
             <MudItem xs="12">
                 <MudText Typo="Typo.subtitle2" Class="mb-2">Permissions</MudText>
@@ -39,7 +41,7 @@
 
             </MudItem>
 
-            <MudItem xs="12">
+            <MudItem >
                 <MudButton OnClick="HandleValidSubmit" Variant="Variant.Filled" Color="Color.Primary" Class="mt-3">Opslaan</MudButton>
                 <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="mt-3 ml-2" OnClick="@(() => Navigation.NavigateTo("/"))">Annuleren</MudButton>
             </MudItem>
