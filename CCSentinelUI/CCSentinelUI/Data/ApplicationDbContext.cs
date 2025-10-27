@@ -8,11 +8,14 @@ namespace CCSentinelUI.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
+
         public DbSet<OpenIdApplication> OpenIddictApplications { get; set; } = default!;
+        public DbSet<OpenIdScope> OpenIddictScopes { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<OpenIdApplication>().HasKey(x => x.ClientId);
+            modelBuilder.Entity<OpenIdScope>().HasKey(x => x.Name);
         }
     }
 
@@ -30,5 +33,16 @@ namespace CCSentinelUI.Data
 
         [Timestamp]
         public byte[] Version { get; set; } = Array.Empty<byte>();
+    }
+    public class OpenIdScope
+    {
+        [Key]
+        public string Id { get; set; } = Guid.NewGuid().ToString();
+        public string Name { get; set; } = string.Empty;
+        public string? DisplayName { get; set; }
+        public string? Resources { get; set; }
+
+        //   [Timestamp]
+        //  public byte[] Version { get; set; } = Array.Empty<byte>();
     }
 }

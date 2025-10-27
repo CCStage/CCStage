@@ -1,0 +1,101 @@
+﻿@page "/scopes"
+@using CCSentinelUI.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext Db
+@inject NavigationManager Navigation
+@inject ILogger<OpenIdScopes> Logger
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+@using MudBlazor
+
+<PageTitle>OpenId Scopes</PageTitle>
+
+<MudPaper Class="p-4 mx-auto" MaxWidth="1000px" Elevation="3">
+    <MudTable Items="@_scopes"
+              Dense="true"
+              Hover="true"
+              Bordered="true"
+              Striped="true"
+              Filter="FilterFunc"
+              @bind-SelectedItem="_selectedScope">
+
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">OpenId Scopes</MudText>
+            <MudSpacer />
+            <MudTextField @bind-Value="_search"
+                          Placeholder="Zoek op Name of DisplayName"
+                          Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search"
+                          Class="mt-0" />
+        </ToolBarContent>
+
+        <HeaderContent>
+            <MudTh></MudTh>
+            <MudTh>Name</MudTh>
+            <MudTh>Display Name</MudTh>
+            <MudTh>Resources</MudTh>
+        </HeaderContent>
+
+        <RowTemplate>
+            <MudTd DataLabel="Acties">
+                <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                               Color="Color.Info"
+                               Size="Size.Small"
+                               Variant="Variant.Outlined"
+                               OnClick="@(() => EditScope(context))" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                               Color="Color.Error"
+                               Size="Size.Small"
+                               Variant="Variant.Outlined"
+                               OnClick="@(() => DeleteScope(context))" />
+            </MudTd>
+
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="Display Name">@context.DisplayName</MudTd>
+            <MudTd DataLabel="Resources">@context.Resources</MudTd>
+        </RowTemplate>
+
+
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+
+    <MudText Class="mt-2">Geselecteerd: @_selectedScope?.Name</MudText>
+</MudPaper>
+
+@code {
+    private string _search = string.Empty;
+    private OpenIdScope? _selectedScope;
+    private List<OpenIdScope> _scopes = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _scopes = await Db.OpenIddictScopes.OrderBy(x => x.Name).ToListAsync();
+    }
+
+    private bool FilterFunc(OpenIdScope scope)
+    {
+        if (string.IsNullOrWhiteSpace(_search)) return true;
+        return (scope.Name ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
+            || (scope.DisplayName ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
+            || (scope.Resources ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private async Task DeleteScope(OpenIdScope scope)
+    {
+        bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Verwijder scope '{scope.Name}'?");
+        if (!confirmed) return;
+
+        Db.OpenIddictScopes.Remove(scope);
+        await Db.SaveChangesAsync();
+        _scopes.Remove(scope);
+        Logger.LogDebug("{Name} scope deleted", scope.Name);
+        Snackbar.Add("Scope verwijderd", Severity.Error);
+        StateHasChanged();
+    }
+    private void EditScope(Data.OpenIdScope scope)
+    {
+        Navigation.NavigateTo($"/edit-scope/{scope.Id}");
+    }
+}

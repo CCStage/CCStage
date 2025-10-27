@@ -41,16 +41,19 @@
         </HeaderContent>
 
         <RowTemplate>
-            <MudIconButton Icon="@Icons.Material.Filled.Edit"
-                           Color="Color.Info"
-                           Size="Size.Small"
-                           Variant="Variant.Outlined"
-                           OnClick="@(() => EditApp(context))" />
-            <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                           Color="Color.Error"
-                           Size="Size.Small"
-                           Variant="Variant.Outlined"
-                           OnClick="@(() => DeleteApp(context))" />
+            <MudTd DataLabel="Acties">
+                <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                               Color="Color.Info"
+                               Size="Size.Small"
+                               Variant="Variant.Outlined"
+                               OnClick="@(() => EditApp(context))" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                               Color="Color.Error"
+                               Size="Size.Small"
+                               Variant="Variant.Outlined"
+                               OnClick="@(() => DeleteApp(context))" />
+            </MudTd>
+
             <MudTd DataLabel="Id">@context.ClientId</MudTd>
             <MudTd DataLabel="Type">@context.ClientType</MudTd>
             <MudTd DataLabel="Display Name">@context.DisplayName</MudTd>

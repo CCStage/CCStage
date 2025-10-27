@@ -3,6 +3,22 @@
   "WorkspaceRootPath": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\components\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\components\\pages\\openidscopes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\pages\\openidscopes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,40 +27,32 @@
       "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\layout\\notauthlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\components\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\migrations\\20251027103156_addopenidscopeswithversion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\migrations\\20251027103156_addopenidscopeswithversion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\components\\pages\\createapplication.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\pages\\createapplication.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\components\\pages\\editapplication.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\pages\\editapplication.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\app.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|c:\\users\\stage\\source\\repos\\blazorfrontend\\ccstage\\ccsentinelui\\ccsentinelui\\components\\pages\\editapplication.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F81C0336-F2AB-4BBD-A235-8D04B2F7C3A6}|CCSentinelUI\\CCSentinelUI.csproj|solutionrelative:ccsentinelui\\components\\pages\\editapplication.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -54,17 +62,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Program.cs",
               "RelativeDocumentMoniker": "CCSentinelUI\\Program.cs",
               "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Program.cs",
               "RelativeToolTip": "CCSentinelUI\\Program.cs",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAuwBIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAQwBIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-17T08:19:22.746Z",
               "IsPinned": true,
@@ -80,7 +88,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "NotAuthLayout.razor",
               "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Layout\\NotAuthLayout.razor",
               "RelativeDocumentMoniker": "CCSentinelUI\\Components\\Layout\\NotAuthLayout.razor",
@@ -88,35 +96,38 @@
               "RelativeToolTip": "CCSentinelUI\\Components\\Layout\\NotAuthLayout.razor",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-20T07:53:34.319Z"
+              "WhenOpened": "2025-10-20T07:53:34.319Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "ApplicationDbContext.cs",
               "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Data\\ApplicationDbContext.cs",
               "RelativeDocumentMoniker": "CCSentinelUI\\Data\\ApplicationDbContext.cs",
               "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Data\\ApplicationDbContext.cs",
               "RelativeToolTip": "CCSentinelUI\\Data\\ApplicationDbContext.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAkwBkAAAAwAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAA2wCYAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-17T10:32:35.722Z"
+              "WhenOpened": "2025-10-17T10:32:35.722Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "CreateApplication.razor",
               "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Pages\\CreateApplication.razor",
               "RelativeDocumentMoniker": "CCSentinelUI\\Components\\Pages\\CreateApplication.razor",
               "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Pages\\CreateApplication.razor",
               "RelativeToolTip": "CCSentinelUI\\Components\\Pages\\CreateApplication.razor",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAQwCEAAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-17T10:07:08.259Z"
+              "WhenOpened": "2025-10-17T10:07:08.259Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 12,
               "Title": "EditApplication.razor",
               "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Pages\\EditApplication.razor",
               "RelativeDocumentMoniker": "CCSentinelUI\\Components\\Pages\\EditApplication.razor",
@@ -128,7 +139,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Login.razor",
               "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Pages\\Login.razor",
               "RelativeDocumentMoniker": "CCSentinelUI\\Components\\Pages\\Login.razor",
@@ -136,11 +147,12 @@
               "RelativeToolTip": "CCSentinelUI\\Components\\Pages\\Login.razor",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-17T08:23:08.462Z"
+              "WhenOpened": "2025-10-17T08:23:08.462Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Routes.razor",
               "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Routes.razor",
               "RelativeDocumentMoniker": "CCSentinelUI\\Components\\Routes.razor",
@@ -148,11 +160,12 @@
               "RelativeToolTip": "CCSentinelUI\\Components\\Routes.razor",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-17T08:22:03.867Z"
+              "WhenOpened": "2025-10-17T08:22:03.867Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "App.razor",
               "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\App.razor",
               "RelativeDocumentMoniker": "CCSentinelUI\\Components\\App.razor",
@@ -160,23 +173,64 @@
               "RelativeToolTip": "CCSentinelUI\\Components\\App.razor",
               "ViewState": "AgIAAAYAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-17T08:22:02.521Z"
+              "WhenOpened": "2025-10-17T08:22:02.521Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
+              "Title": "20251027103156_AddOpenIdScopesWithVersion.cs",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Migrations\\20251027103156_AddOpenIdScopesWithVersion.cs",
+              "RelativeDocumentMoniker": "CCSentinelUI\\Migrations\\20251027103156_AddOpenIdScopesWithVersion.cs",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Migrations\\20251027103156_AddOpenIdScopesWithVersion.cs",
+              "RelativeToolTip": "CCSentinelUI\\Migrations\\20251027103156_AddOpenIdScopesWithVersion.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAswCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T13:24:39.179Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "NavMenu.razor",
               "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Layout\\NavMenu.razor",
               "RelativeDocumentMoniker": "CCSentinelUI\\Components\\Layout\\NavMenu.razor",
               "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Layout\\NavMenu.razor",
               "RelativeToolTip": "CCSentinelUI\\Components\\Layout\\NavMenu.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-17T08:20:58.433Z"
+              "WhenOpened": "2025-10-17T08:20:58.433Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Home.razor",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Pages\\Home.razor",
+              "RelativeDocumentMoniker": "CCSentinelUI\\Components\\Pages\\Home.razor",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Pages\\Home.razor",
+              "RelativeToolTip": "CCSentinelUI\\Components\\Pages\\Home.razor",
+              "ViewState": "AgIAACYAAAAAAAAAAAAqwC4AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-17T08:20:41.353Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "OpenIdScopes.razor",
+              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Pages\\OpenIdScopes.razor",
+              "RelativeDocumentMoniker": "CCSentinelUI\\Components\\Pages\\OpenIdScopes.razor",
+              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Pages\\OpenIdScopes.razor",
+              "RelativeToolTip": "CCSentinelUI\\Components\\Pages\\OpenIdScopes.razor",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAowDIAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-27T08:57:32.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "MainLayout.razor",
               "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Layout\\MainLayout.razor",
               "RelativeDocumentMoniker": "CCSentinelUI\\Components\\Layout\\MainLayout.razor",
@@ -185,18 +239,6 @@
               "ViewState": "AgIAABIAAAAAAAAAAAAwwAsAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-10-17T08:20:51.023Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Home.razor",
-              "DocumentMoniker": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Pages\\Home.razor",
-              "RelativeDocumentMoniker": "CCSentinelUI\\Components\\Pages\\Home.razor",
-              "ToolTip": "C:\\Users\\stage\\source\\repos\\BlazorFrontend\\CCStage\\CCSentinelUI\\CCSentinelUI\\Components\\Pages\\Home.razor",
-              "RelativeToolTip": "CCSentinelUI\\Components\\Pages\\Home.razor",
-              "ViewState": "AgIAACgAAAAAAAAAAAAIwDYAAAA3AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-17T08:20:41.353Z"
             }
           ]
         }
