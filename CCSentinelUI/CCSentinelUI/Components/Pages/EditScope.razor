@@ -1,4 +1,4 @@
-﻿@page "/edit-application/{ClientId}"
+﻿@page "/edit-scope/{Id}"
 @using CCSentinelUI.Data
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext Db
@@ -11,11 +11,12 @@
 <MudPaper Class="p-4 mx-auto" MaxWidth="600px" Elevation="3">
     <MudText Typo="Typo.h5">Bewerk applicatie</MudText>
     <MudForm @ref="_form" Class="mt-4">
-        <MudTextField Label="ClientId" @bind-Value="_model.ClientId" Disabled="true" />
+        <MudTextField Label="Id" @bind-Value="_model.Id" Disabled="true" />
         <MudTextField Label="Display Name" @bind-Value="_model.DisplayName" Required="true" />
-        <MudTextField Label="Permissions" @bind-Value="_model.Permissions" />
-        <MudTextField Label="RedirectUris" @bind-Value="_model.RedirectUris" />
-        <MudSelect Label="ClientType" @bind-Value="_model.ClientType">
+        <MudTextField Label="Name" @bind-Value="_model.Name" />
+        <MudTextField Label="Resources" @bind-Value="_model.Resources" />
+        @* <MudTextField Label="RedirectUris" @bind-Value="_model.RedirectUris" />
+         <MudSelect Label="ClientType" @bind-Value="_model.ClientType">
 
             @foreach (var type in _types)
             {
@@ -23,7 +24,7 @@
             }
 
         </MudSelect>
-        <input type="hidden" @bind="_model.Version" />
+        <input type="hidden" @bind="_model.Version" /> *@
         <MudButton Color="Color.Primary" OnClick="Save" Class="mt-3">Opslaan</MudButton>
         <MudButton Color="Color.Secondary" OnClick="Cancel" Class="mt-3 ml-2">Annuleren</MudButton>
     </MudForm>
@@ -31,40 +32,39 @@
 
 @code {
 
-    private readonly string[] _types =
-   {
-        "confidental", "public"
-    };
+   //  private readonly string[] _types =
+   // {
+   //      "confidental", "public"
+   //  };
 
-    [Parameter] public string ClientId { get; set; } = string.Empty;
+    [Parameter] public string Id { get; set; } = string.Empty;
     private MudForm? _form;
-    private OpenIdApplication _model = new();
+    private OpenIdScope _model = new();
 
     protected override async Task OnInitializedAsync()
     {
-        var existing = await Db.OpenIddictApplications.FirstOrDefaultAsync(x => x.ClientId == ClientId);
+        var existing = await Db.OpenIddictScopes.FirstOrDefaultAsync(x => x.Id == Id);
         if (existing == null)
         {
-            Logger.LogCritical("Edit attempt for {ClientId} Failed", ClientId);
+            Logger.LogCritical("Edit attempt for {Id} Failed", Id);
             Snackbar.Add("Applicatie niet gevonden", Severity.Error);
             Navigation.NavigateTo("/");
             return;
         }
-        _model = new OpenIdApplication
+        _model = new OpenIdScope
         {
-            ClientId = existing.ClientId,
-            ClientType = existing.ClientType,
+            Id = existing.Id,
             DisplayName = existing.DisplayName,
-            Permissions = existing.Permissions,
-            RedirectUris = existing.RedirectUris,
-            Version = existing.Version
+            Name = existing.Name,
+            Resources = existing.Resources,
+           // Version = existing.Version
         };
     }
 
     private void Cancel()
     {
-        Logger.LogDebug("Edit attempt for {ClientId} Canceled", ClientId);
-        Navigation.NavigateTo("/");
+        Logger.LogDebug("Edit attempt for {Id} Canceled", Id);
+        Navigation.NavigateTo("/scopes");
     }
 
     private async Task Save()
@@ -72,31 +72,32 @@
         await _form!.Validate();
         if (!_form.IsValid) return;
 
-        var existing = await Db.OpenIddictApplications.FirstOrDefaultAsync(x => x.ClientId == _model.ClientId);
+        var existing = await Db.OpenIddictScopes.FirstOrDefaultAsync(x => x.Id == _model.Id);
         if (existing == null)
         {
-            Logger.LogCritical("Edit attempt for {ClientId} Failed", ClientId);
+            Logger.LogCritical("Edit attempt for {Id} Failed", Id);
             Snackbar.Add("Applicatie niet gevonden", Severity.Error);
-            Navigation.NavigateTo("/");
+            Navigation.NavigateTo("/scopes");
             return;
         }
 
         existing.DisplayName = _model.DisplayName;
-        existing.ClientType = _model.ClientType;
-        existing.Permissions = _model.Permissions;
-        existing.RedirectUris = _model.RedirectUris;
-        existing.Version = _model.Version;
+        existing.Name = _model.Name;
+        existing.Resources = _model.Resources;
+
+
+       // existing.Version = _model.Version;
 
         try
         {
             await Db.SaveChangesAsync();
             Snackbar.Add("Applicatie succesvol bijgewerkt", Severity.Success);
-            Logger.LogDebug("Edit attempt for {ClientId} Succeeded", ClientId);
-            Navigation.NavigateTo("/");
+            Logger.LogDebug("Edit attempt for {Id} Succeeded", Id);
+            Navigation.NavigateTo("/scopes");
         }
         catch (DbUpdateConcurrencyException)
         {
-            Logger.LogCritical("Edit attempt for {ClientId} Failed because someone else already edited {ClientId}", ClientId);
+            Logger.LogCritical("Edit attempt for {Id} Failed because someone else already edited {Id}", Id);
             Snackbar.Add("De applicatie is aangepast door iemand anders. Herlaad en probeer opnieuw.", Severity.Error);
         }
     }

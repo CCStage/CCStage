@@ -31,6 +31,7 @@
 
         <HeaderContent>
             <MudTh></MudTh>
+            <MudTh>Id</MudTh>
             <MudTh>Name</MudTh>
             <MudTh>Display Name</MudTh>
             <MudTh>Resources</MudTh>
@@ -50,6 +51,7 @@
                                OnClick="@(() => DeleteScope(context))" />
             </MudTd>
 
+            <MudTd DataLabel="Id">@context.Id</MudTd>
             <MudTd DataLabel="Name">@context.Name</MudTd>
             <MudTd DataLabel="Display Name">@context.DisplayName</MudTd>
             <MudTd DataLabel="Resources">@context.Resources</MudTd>
@@ -94,7 +96,7 @@
         Snackbar.Add("Scope verwijderd", Severity.Error);
         StateHasChanged();
     }
-    private void EditScope(Data.OpenIdScope scope)
+    private void EditScope(OpenIdScope scope)
     {
         Navigation.NavigateTo($"/edit-scope/{scope.Id}");
     }
