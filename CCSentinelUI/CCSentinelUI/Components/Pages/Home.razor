@@ -22,7 +22,14 @@
               @bind-SelectedItem="_selectedApp">
 
         <ToolBarContent>
-            <MudText Typo="Typo.h6">OpenId Applications</MudText>
+            <MudText Typo="Typo.h5">OpenId Applications</MudText>
+            <MudSpacer />
+            @* <MudText Typo="Typo.h6">Add Application</MudText> *@
+            <MudIconButton Icon="@Icons.Material.Filled.Add"
+                           Color="Color.Error"
+                           Size="Size.Small"
+                           Variant="Variant.Outlined"
+                           OnClick="@(() => CreateApp())" />
             <MudSpacer />
             <MudTextField @bind-Value="_search"
                           Placeholder="Zoek op ClientId of DisplayName"
@@ -111,5 +118,9 @@
     private void EditApp(OpenIdApplication app)
     {
         Navigation.NavigateTo($"/edit-application/{app.ClientId}");
+    }
+    private void CreateApp()
+    {
+        Navigation.NavigateTo($"/create");
     }
 }

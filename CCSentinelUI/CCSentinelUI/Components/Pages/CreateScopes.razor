@@ -1,4 +1,4 @@
-﻿@page "/create"
+﻿@page "/createscopes"
 @using CCSentinelUI.Data
 @inject ApplicationDbContext Db
 @inject NavigationManager Navigation
@@ -11,18 +11,22 @@
     <MudForm @ref="_form">
         <MudGrid Spacing="3">
             <MudItem xs="12">
-                <MudTextField @bind-Value="_app.ClientId" Label="ClientId" FullWidth="true" Required="true" />
+                <MudTextField @bind-Value="_scope.Name" Label="Name" FullWidth="true" Required="true" />
             </MudItem>
 
             <MudItem xs="12">
-                <MudTextField @bind-Value="_app.DisplayName" Label="DisplayName" FullWidth="true" Required="true" />
+                <MudTextField @bind-Value="_scope.DisplayName" Label="DisplayName" FullWidth="true" Required="true" />
             </MudItem>
 
             <MudItem xs="12">
+                <MudTextField @bind-Value="_scope.Resources" Label="Resources" FullWidth="true" Required="true" />
+            </MudItem>
+
+           @*  <MudItem xs="12">
                 <MudTextField @bind-Value="_redirectUris" Label="RedirectUris (komma-gescheiden)" FullWidth="true" Required="true" />
-            </MudItem>
+            </MudItem> *@
 
-            <MudItem xs="12">
+            @*  <MudItem xs="12">
             <MudSelect T="string" Label="Type's" @bind-Value="_app.ClientType">
 
                 @foreach (var type in _types)
@@ -31,15 +35,15 @@
                 }
 
             </MudSelect>
-            </MudItem>
+            </MudItem> *@
 
-            <MudItem xs="12">
+            @* <MudItem xs="12">
                 <MudText Typo="Typo.subtitle2" Class="mb-2">Permissions</MudText>
                 <MudCheckBox T="bool" @bind-Value="_permissions.AuthorizationCode" Label="authorization_code" />
                 <MudCheckBox T="bool" @bind-Value="_permissions.RefreshToken" Label="refresh_token" />
                 <MudCheckBox T="bool" @bind-Value="_permissions.ClientCredentials" Label="client_credentials" />
 
-            </MudItem>
+            </MudItem> *@
 
             <MudItem >
                 <MudButton OnClick="HandleValidSubmit" Variant="Variant.Filled" Color="Color.Primary" Class="mt-3">Opslaan</MudButton>
@@ -59,14 +63,14 @@
     };
 
     private MudForm _form;
-    private OpenIdApplication _app = new();
-    private string _redirectUris = "";
-    private PermissionsModel _permissions = new();
+    private OpenIdScope _scope = new();
+    // private string _redirectUris = "";
+    // private PermissionsModel _permissions = new();
     private string _errorMessage = "";
 
     protected override void OnInitialized()
     {
-        _app.Id = Guid.NewGuid().ToString();
+        _scope.Id = Guid.NewGuid().ToString();
     }
 
     private async Task HandleValidSubmit()
@@ -74,19 +78,19 @@
         _errorMessage = "";
         try
         {
-            _app.RedirectUris = _redirectUris;
-            var selectedPermissions = new List<string>();
-            if (_permissions.AuthorizationCode) selectedPermissions.Add("authorization_code");
-            if (_permissions.RefreshToken) selectedPermissions.Add("ept:token");
-            if (_permissions.ClientCredentials) selectedPermissions.Add("gt:client_credentials");
-            _app.Permissions = string.Join(",", selectedPermissions);
+            // _app.RedirectUris = _redirectUris;
+            // var selectedPermissions = new List<string>();
+            // if (_permissions.AuthorizationCode) selectedPermissions.Add("authorization_code");
+            // if (_permissions.RefreshToken) selectedPermissions.Add("ept:token");
+            // if (_permissions.ClientCredentials) selectedPermissions.Add("gt:client_credentials");
+            // _app.Permissions = string.Join(",", selectedPermissions);
 
             Snackbar.Add("Succesfully Created", Severity.Success);
 
-            Db.OpenIddictApplications.Add(_app);
+            Db.OpenIddictScopes.Add(_scope);
             await Db.SaveChangesAsync();
-            Logger.LogDebug("Create attempt Succeeded With {ClientId}", _app.ClientId);
-            Navigation.NavigateTo("/");
+            Logger.LogDebug("Create attempt Succeeded With {Id}", _scope.Id);
+            Navigation.NavigateTo("/scopes");
         }
         catch (Exception ex)
         {
@@ -95,10 +99,10 @@
         }
     }
 
-    private class PermissionsModel
-    {
-        public bool AuthorizationCode { get; set; }
-        public bool RefreshToken { get; set; }
-        public bool ClientCredentials { get; set; }
-    }
+    // private class PermissionsModel
+    // {
+    //     public bool AuthorizationCode { get; set; }
+    //     public bool RefreshToken { get; set; }
+    //     public bool ClientCredentials { get; set; }
+    // }
 }
