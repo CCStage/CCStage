@@ -23,25 +23,42 @@
             </MudItem>
 
             <MudItem xs="12">
-            <MudSelect T="string" Label="Type's" @bind-Value="_app.ClientType">
-
-                @foreach (var type in _types)
-                {
-                    <MudSelectItem Value="type">@type</MudSelectItem>
-                }
-
-            </MudSelect>
+                <MudSelect T="string" Label="Type's" @bind-Value="_app.ClientType">
+                    @foreach (var type in _types)
+                    {
+                        <MudSelectItem Value="type">@type</MudSelectItem>
+                    }
+                </MudSelect>
             </MudItem>
 
             <MudItem xs="12">
-                <MudText Typo="Typo.subtitle2" Class="mb-2">Permissions</MudText>
+                <MudText Typo="Typo.subtitle2" Class="mb-2">Grant Types</MudText>
                 <MudCheckBox T="bool" @bind-Value="_permissions.AuthorizationCode" Label="authorization_code" />
                 <MudCheckBox T="bool" @bind-Value="_permissions.RefreshToken" Label="refresh_token" />
                 <MudCheckBox T="bool" @bind-Value="_permissions.ClientCredentials" Label="client_credentials" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudText Typo="Typo.subtitle2" Class="mb-2">Scopes</MudText>
+                <MudSelect T="string"
+                           Label="Selecteer scopes"
+                           SelectedValues="_selectedScopeNames"
+                           SelectedValuesChanged="values => _selectedScopeNames = values.ToList()"
+                           MultiSelection="true"
+                           Dense="true"
+                           Chip="true">
+                    @foreach (var scope in _availableScopes)
+                    {
+                        <MudSelectItem Value="@scope.Name"> @((scope.DisplayName != null) ? scope.DisplayName : scope.Name)
+                        </MudSelectItem>
+
+                    }
+                </MudSelect>
+
 
             </MudItem>
 
-            <MudItem >
+            <MudItem>
                 <MudButton OnClick="HandleValidSubmit" Variant="Variant.Filled" Color="Color.Primary" Class="mt-3">Opslaan</MudButton>
                 <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="mt-3 ml-2" OnClick="@(() => Navigation.NavigateTo("/"))">Annuleren</MudButton>
             </MudItem>
@@ -52,21 +69,19 @@
 </MudPaper>
 
 @code {
-
-     private readonly string[] _types =
-    {
-        "confidental", "public"
-    };
-
+    private readonly string[] _types = { "confidental", "public" };
     private MudForm _form;
     private OpenIdApplication _app = new();
     private string _redirectUris = "";
     private PermissionsModel _permissions = new();
     private string _errorMessage = "";
+    private List<OpenIdScope> _availableScopes = new();
+    private List<string> _selectedScopeNames = new();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         _app.Id = Guid.NewGuid().ToString();
+        _availableScopes = await Db.OpenIddictScopes.OrderBy(s => s.Name).ToListAsync();
     }
 
     private async Task HandleValidSubmit()
@@ -76,12 +91,14 @@
         {
             _app.RedirectUris = _redirectUris;
             var selectedPermissions = new List<string>();
-            if (_permissions.AuthorizationCode) selectedPermissions.Add("authorization_code");
-            if (_permissions.RefreshToken) selectedPermissions.Add("ept:token");
+            if (_permissions.AuthorizationCode) selectedPermissions.Add("gt:authorization_code");
+            if (_permissions.RefreshToken) selectedPermissions.Add("gt:refresh_token");
             if (_permissions.ClientCredentials) selectedPermissions.Add("gt:client_credentials");
-            _app.Permissions = string.Join(",", selectedPermissions);
 
-            Snackbar.Add("Succesfully Created", Severity.Success);
+            // Add selected scopes correctly
+            selectedPermissions.AddRange(_selectedScopeNames.Select(name => $"scp:{name}"));
+
+            _app.Permissions = string.Join(",", selectedPermissions);
 
             Db.OpenIddictApplications.Add(_app);
             await Db.SaveChangesAsync();
