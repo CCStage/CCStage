@@ -95,7 +95,6 @@
             if (_permissions.RefreshToken) selectedPermissions.Add("gt:refresh_token");
             if (_permissions.ClientCredentials) selectedPermissions.Add("gt:client_credentials");
 
-            // Add selected scopes correctly
             selectedPermissions.AddRange(_selectedScopeNames.Select(name => $"scp:{name}"));
 
             _app.Permissions = string.Join(",", selectedPermissions);

@@ -1,0 +1,3 @@
+2025-10-31T09:19:35.640+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Login attempt from IP "127.0.0.1" for user "Admin"
+2025-10-31T09:19:37.712+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Login attempt for user "Admin" from IP "127.0.0.1" Succeeded
+2025-10-31T11:43:15.232+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Edit attempt for "test" Succeeded
