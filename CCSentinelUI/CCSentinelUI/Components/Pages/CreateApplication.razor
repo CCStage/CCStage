@@ -26,9 +26,19 @@
                 <MudSelect T="string" Label="Type's" @bind-Value="_app.ClientType">
                     @foreach (var type in _types)
                     {
-                        <MudSelectItem Value="type">@type</MudSelectItem>
+                        <MudSelectItem Value="@type">@type</MudSelectItem>
                     }
                 </MudSelect>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudText Typo="Typo.subtitle2" Class="mb-2">Endpoints</MudText>
+                <MudCheckBox T="bool" @bind-Value="_endpoints.Token" Label="token" />
+                <MudCheckBox T="bool" @bind-Value="_endpoints.Authorize" Label="authorize" />
+                <MudCheckBox T="bool" @bind-Value="_endpoints.Introspect" Label="introspect" />
+                <MudCheckBox T="bool" @bind-Value="_endpoints.Revocation" Label="revocation" />
+                <MudCheckBox T="bool" @bind-Value="_endpoints.Logout" Label="logout" />
+                <MudCheckBox T="bool" @bind-Value="_endpoints.UserInfo" Label="userinfo" />
             </MudItem>
 
             <MudItem xs="12">
@@ -49,13 +59,11 @@
                            Chip="true">
                     @foreach (var scope in _availableScopes)
                     {
-                        <MudSelectItem Value="@scope.Name"> @((scope.DisplayName != null) ? scope.DisplayName : scope.Name)
+                        <MudSelectItem Value="@scope.Name">
+                            @((scope.DisplayName != null) ? scope.DisplayName : scope.Name)
                         </MudSelectItem>
-
                     }
                 </MudSelect>
-
-
             </MudItem>
 
             <MudItem>
@@ -74,6 +82,7 @@
     private OpenIdApplication _app = new();
     private string _redirectUris = "";
     private PermissionsModel _permissions = new();
+    private EndpointsModel _endpoints = new();
     private string _errorMessage = "";
     private List<OpenIdScope> _availableScopes = new();
     private List<string> _selectedScopeNames = new();
@@ -90,7 +99,16 @@
         try
         {
             _app.RedirectUris = _redirectUris;
+
             var selectedPermissions = new List<string>();
+
+            if (_endpoints.Token) selectedPermissions.Add("ept:token");
+            if (_endpoints.Authorize) selectedPermissions.Add("ept:authorize");
+            if (_endpoints.Introspect) selectedPermissions.Add("ept:introspect");
+            if (_endpoints.Revocation) selectedPermissions.Add("ept:revocation");
+            if (_endpoints.Logout) selectedPermissions.Add("ept:logout");
+            if (_endpoints.UserInfo) selectedPermissions.Add("ept:userinfo");
+
             if (_permissions.AuthorizationCode) selectedPermissions.Add("gt:authorization_code");
             if (_permissions.RefreshToken) selectedPermissions.Add("gt:refresh_token");
             if (_permissions.ClientCredentials) selectedPermissions.Add("gt:client_credentials");
@@ -101,6 +119,7 @@
 
             Db.OpenIddictApplications.Add(_app);
             await Db.SaveChangesAsync();
+
             Logger.LogDebug("Create attempt Succeeded With {ClientId}", _app.ClientId);
             Navigation.NavigateTo("/");
         }
@@ -116,5 +135,15 @@
         public bool AuthorizationCode { get; set; }
         public bool RefreshToken { get; set; }
         public bool ClientCredentials { get; set; }
+    }
+
+    private class EndpointsModel
+    {
+        public bool Token { get; set; }
+        public bool Authorize { get; set; }
+        public bool Introspect { get; set; }
+        public bool Revocation { get; set; }
+        public bool Logout { get; set; }
+        public bool UserInfo { get; set; }
     }
 }

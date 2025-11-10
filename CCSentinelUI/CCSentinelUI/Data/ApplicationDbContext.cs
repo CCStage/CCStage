@@ -8,14 +8,40 @@ namespace CCSentinelUI.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
-
         public DbSet<OpenIdApplication> OpenIddictApplications { get; set; } = default!;
         public DbSet<OpenIdScope> OpenIddictScopes { get; set; } = default!;
+        public DbSet<User> Users { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<OpenIdApplication>().HasKey(x => x.ClientId);
-            modelBuilder.Entity<OpenIdScope>().HasKey(x => x.Name);
+
+            modelBuilder.Entity<OpenIdApplication>(builder =>
+            {
+                builder.HasKey(x => x.ClientId);
+                builder.ToTable("OpenIddictApplications");
+
+
+                builder.HasDiscriminator<string>("Discriminator")
+                       .HasValue<OpenIdApplication>("OpenIddictEntityFrameworkCoreApplication");
+            });
+
+
+            modelBuilder.Entity<OpenIdScope>(builder =>
+            {
+                builder.HasKey(x => x.Name);
+                builder.ToTable("OpenIddictScopes");
+
+
+                builder.HasDiscriminator<string>("Discriminator")
+                       .HasValue<OpenIdScope>("OpenIddictEntityFrameworkCoreScope");
+            });
+
+
+            modelBuilder.Entity<User>(builder =>
+            {
+                builder.HasKey(u => u.Id);
+                builder.ToTable("Users");
+            });
         }
     }
 
@@ -34,6 +60,7 @@ namespace CCSentinelUI.Data
         [Timestamp]
         public byte[] Version { get; set; } = Array.Empty<byte>();
     }
+
     public class OpenIdScope
     {
         [Key]
@@ -41,8 +68,20 @@ namespace CCSentinelUI.Data
         public string Name { get; set; } = string.Empty;
         public string? DisplayName { get; set; }
         public string? Resources { get; set; }
-
-        //   [Timestamp]
-        //  public byte[] Version { get; set; } = Array.Empty<byte>();
     }
+
+    // Nieuwe User entity voor overzichtspagina
+    public class User
+    {
+        [Key]
+        public Guid Id { get; set; }
+
+        public string UserName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string? FirstName { get; set; }
+
+        public bool LockoutEnabled { get; set; }
+        public bool EmailConfirmed { get; set; }
+    }
+
 }

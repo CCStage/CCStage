@@ -51,6 +51,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDcmVhdGVTY29wZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/stage/source/repos/BlazorFrontend/CCStage/CCSentinelUI/CCSentinelUI/Components/Pages/CreateUser.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDcmVhdGVVc2VyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/stage/source/repos/BlazorFrontend/CCStage/CCSentinelUI/CCSentinelUI/Components/Pages/EditApplication.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFZGl0QXBwbGljYXRpb24ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -73,6 +77,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/stage/source/repos/BlazorFrontend/CCStage/CCSentinelUI/CCSentinelUI/Components/Pages/OpenIdScopes.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xPcGVuSWRTY29wZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/stage/source/repos/BlazorFrontend/CCStage/CCSentinelUI/CCSentinelUI/Components/Pages/Users.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVc2Vycy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/stage/source/repos/BlazorFrontend/CCStage/CCSentinelUI/CCSentinelUI/Components/Pages/Weather.razor]

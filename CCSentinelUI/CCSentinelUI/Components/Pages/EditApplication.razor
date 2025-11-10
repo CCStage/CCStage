@@ -13,6 +13,19 @@
         <MudTextField Label="ClientId" @bind-Value="_model.ClientId" Disabled="true" />
         <MudTextField Label="Display Name" @bind-Value="_model.DisplayName" Required="true" />
 
+        <MudText Typo="Typo.subtitle2" Class="mb-2">Endpoints</MudText>
+        <MudCheckBox T="bool" @bind-Value="_endpoints.Token" Label="token" />
+        <MudCheckBox T="bool" @bind-Value="_endpoints.Authorize" Label="authorize" />
+        <MudCheckBox T="bool" @bind-Value="_endpoints.Introspect" Label="introspect" />
+        <MudCheckBox T="bool" @bind-Value="_endpoints.Revocation" Label="revocation" />
+        <MudCheckBox T="bool" @bind-Value="_endpoints.Logout" Label="logout" />
+        <MudCheckBox T="bool" @bind-Value="_endpoints.UserInfo" Label="userinfo" />
+
+        <MudText Typo="Typo.subtitle2" Class="mb-2">Grant Types</MudText>
+        <MudCheckBox T="bool" @bind-Value="_permissions.AuthorizationCode" Label="authorization_code" />
+        <MudCheckBox T="bool" @bind-Value="_permissions.RefreshToken" Label="refresh_token" />
+        <MudCheckBox T="bool" @bind-Value="_permissions.ClientCredentials" Label="client_credentials" />
+
         <MudText Typo="Typo.subtitle2" Class="mb-2">Scopes</MudText>
         <MudSelect T="string"
                    Label="Selecteer scopes"
@@ -43,12 +56,13 @@
 
 @code {
     private readonly string[] _types = { "confidental", "public" };
-
     [Parameter] public string ClientId { get; set; } = string.Empty;
     private MudForm? _form;
     private OpenIdApplication _model = new();
     private List<OpenIdScope> _availableScopes = new();
     private List<string> _selectedScopeNames = new();
+    private PermissionsModel _permissions = new();
+    private EndpointsModel _endpoints = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -63,15 +77,7 @@
             return;
         }
 
-        _model = new OpenIdApplication
-        {
-            ClientId = existing.ClientId,
-            ClientType = existing.ClientType,
-            DisplayName = existing.DisplayName,
-            Permissions = existing.Permissions,
-            RedirectUris = existing.RedirectUris,
-            Version = existing.Version
-        };
+        _model = existing;
 
         if (!string.IsNullOrEmpty(existing.Permissions))
         {
@@ -80,6 +86,21 @@
             {
                 if (p.StartsWith("scp:"))
                     _selectedScopeNames.Add(p.Substring(4));
+                else if (p.StartsWith("gt:"))
+                {
+                    if (p == "gt:authorization_code") _permissions.AuthorizationCode = true;
+                    if (p == "gt:refresh_token") _permissions.RefreshToken = true;
+                    if (p == "gt:client_credentials") _permissions.ClientCredentials = true;
+                }
+                else if (p.StartsWith("ept:"))
+                {
+                    if (p == "ept:token") _endpoints.Token = true;
+                    if (p == "ept:authorize") _endpoints.Authorize = true;
+                    if (p == "ept:introspect") _endpoints.Introspect = true;
+                    if (p == "ept:revocation") _endpoints.Revocation = true;
+                    if (p == "ept:logout") _endpoints.Logout = true;
+                    if (p == "ept:userinfo") _endpoints.UserInfo = true;
+                }
             }
         }
     }
@@ -94,20 +115,44 @@
         await _form!.Validate();
         if (!_form.IsValid) return;
 
-        var scopes = _selectedScopeNames.Select(s => $"scp:{s}").ToList();
+        var selectedPermissions = new List<string>();
 
-        var existing = await Db.OpenIddictApplications.FirstOrDefaultAsync(x => x.ClientId == _model.ClientId);
-        if (existing == null) return;
+        if (_endpoints.Token) selectedPermissions.Add("ept:token");
+        if (_endpoints.Authorize) selectedPermissions.Add("ept:authorize");
+        if (_endpoints.Introspect) selectedPermissions.Add("ept:introspect");
+        if (_endpoints.Revocation) selectedPermissions.Add("ept:revocation");
+        if (_endpoints.Logout) selectedPermissions.Add("ept:logout");
+        if (_endpoints.UserInfo) selectedPermissions.Add("ept:userinfo");
 
-        existing.DisplayName = _model.DisplayName;
-        existing.ClientType = _model.ClientType;
-        existing.Permissions = scopes.Count > 0 ? string.Join(",", scopes) : null;
-        existing.RedirectUris = _model.RedirectUris;
-        existing.Version = _model.Version;
+        if (_permissions.AuthorizationCode) selectedPermissions.Add("gt:authorization_code");
+        if (_permissions.RefreshToken) selectedPermissions.Add("gt:refresh_token");
+        if (_permissions.ClientCredentials) selectedPermissions.Add("gt:client_credentials");
+
+        selectedPermissions.AddRange(_selectedScopeNames.Select(s => $"scp:{s}"));
+
+        _model.Permissions = string.Join(",", selectedPermissions);
 
         await Db.SaveChangesAsync();
+
         Logger.LogDebug("Edit attempt for {ClientId} Completed", ClientId);
         Snackbar.Add("Applicatie succesvol bijgewerkt", Severity.Success);
         Navigation.NavigateTo("/");
+    }
+
+    private class PermissionsModel
+    {
+        public bool AuthorizationCode { get; set; }
+        public bool RefreshToken { get; set; }
+        public bool ClientCredentials { get; set; }
+    }
+
+    private class EndpointsModel
+    {
+        public bool Token { get; set; }
+        public bool Authorize { get; set; }
+        public bool Introspect { get; set; }
+        public bool Revocation { get; set; }
+        public bool Logout { get; set; }
+        public bool UserInfo { get; set; }
     }
 }
