@@ -22,6 +22,12 @@
         <ToolBarContent>
             <MudText Typo="Typo.h6">Users Overview</MudText>
             <MudSpacer />
+            <MudIconButton Icon="@Icons.Material.Filled.Add"
+                           Color="Color.Primary"
+                           Size="Size.Small"
+                           Variant="Variant.Outlined"
+                           OnClick="@CreateUser" />
+            <MudSpacer />
             <MudTextField @bind-Value="_search"
                           Placeholder="Zoek op UserName, Email of Name"
                           Adornment="Adornment.Start"
@@ -74,15 +80,15 @@
 
 @code {
     private string _search = string.Empty;
-    private User? _selectedUser;
-    private List<User> _users = new();
+    private SentinelUser? _selectedUser;
+    private List<SentinelUser> _users = new();
 
     protected override async Task OnInitializedAsync()
     {
         _users = await Db.Users.OrderBy(u => u.UserName).ToListAsync();
     }
 
-    private bool FilterFunc(User user)
+    private bool FilterFunc(SentinelUser user)
     {
         if (string.IsNullOrWhiteSpace(_search)) return true;
         return (user.UserName ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
@@ -90,7 +96,7 @@
             || (user.FirstName ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase);
     }
 
-    private async Task DeleteUser(User user)
+    private async Task DeleteUser(SentinelUser user)
     {
         bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Verwijder user '{user.UserName}'?");
         if (!confirmed) return;
@@ -103,8 +109,13 @@
         StateHasChanged();
     }
 
-    private void EditUser(User user)
+    private void EditUser(SentinelUser user)
     {
         Navigation.NavigateTo($"/edit-user/{user.Id}");
+    }
+
+    private void CreateUser()
+    {
+        Navigation.NavigateTo("/create_users");
     }
 }

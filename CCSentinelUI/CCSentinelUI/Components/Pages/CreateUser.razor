@@ -9,7 +9,7 @@
 <MudPaper Class="pa-6 mx-auto mt-6" Style="max-width: 600px;">
     <MudText Typo="Typo.h5" Class="mb-4">Nieuwe gebruiker aanmaken</MudText>
 
-    <MudForm @ref="_form" OnValidSubmit="HandleValidSubmit">
+    <MudForm @ref="_form">
         <MudGrid Spacing="3">
 
             <MudItem xs="12">
@@ -33,7 +33,7 @@
             </MudItem>
 
             <MudItem xs="12">
-                <MudButton Type="Submit" Variant="Variant.Filled" Color="Color.Primary" Class="mt-3">Opslaan</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-3" OnClick="Save">Opslaan</MudButton>
                 <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="mt-3 ml-2" OnClick="@(() => Navigation.NavigateTo("/users"))">Annuleren</MudButton>
             </MudItem>
         </MudGrid>
@@ -44,7 +44,7 @@
 
 @code {
     private MudForm _form;
-    private User _user = new();
+    private SentinelUser _user = new();
     private string _errorMessage = "";
 
     protected override void OnInitialized()
@@ -52,8 +52,15 @@
         _user.Id = Guid.NewGuid();
     }
 
-    private async Task HandleValidSubmit()
+    private async Task Save()
     {
+        await _form.Validate();
+        if (!_form.IsValid)
+        {
+            _errorMessage = "Vul verplichte velden in.";
+            return;
+        }
+
         _errorMessage = "";
         try
         {

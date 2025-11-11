@@ -36,7 +36,7 @@
                    Chip="true">
             @foreach (var scope in _availableScopes)
             {
-                <MudSelectItem Value="@scope.Name">@((scope.DisplayName != null) ? scope.DisplayName : scope.Name)</MudSelectItem>
+                <MudSelectItem Value="@scope.Name">@((scope.DisplayName ?? scope.Name))</MudSelectItem>
             }
         </MudSelect>
 
@@ -57,19 +57,28 @@
 @code {
     private readonly string[] _types = { "confidental", "public" };
     [Parameter] public string ClientId { get; set; } = string.Empty;
+
     private MudForm? _form;
-    private OpenIdApplication _model = new();
-    private List<OpenIdScope> _availableScopes = new();
+    private SentinelApplication _model = new();
+    private List<OpenIddictEntityFrameworkCoreScope> _availableScopesBase = new();
+    private List<SentinelScope> _availableScopes => _availableScopesBase.Select(s => new SentinelScope
+    {
+        Id = s.Id,
+        Name = s.Name,
+        DisplayName = s.DisplayName,
+        Resources = s.Resources
+    }).ToList();
     private List<string> _selectedScopeNames = new();
     private PermissionsModel _permissions = new();
     private EndpointsModel _endpoints = new();
 
     protected override async Task OnInitializedAsync()
     {
-        var existing = await Db.OpenIddictApplications.FirstOrDefaultAsync(x => x.ClientId == ClientId);
-        _availableScopes = await Db.OpenIddictScopes.OrderBy(s => s.Name).ToListAsync();
+        // Haal het base type op om discriminator-conflict te voorkomen
+        var appBase = await Db.Set<OpenIddictEntityFrameworkCoreApplication>()
+                              .FirstOrDefaultAsync(x => x.ClientId == ClientId);
 
-        if (existing == null)
+        if (appBase == null)
         {
             Logger.LogCritical("Edit attempt for {ClientId} Failed", ClientId);
             Snackbar.Add("Applicatie niet gevonden", Severity.Error);
@@ -77,11 +86,26 @@
             return;
         }
 
-        _model = existing;
-
-        if (!string.IsNullOrEmpty(existing.Permissions))
+        // Zet naar je afgeleide model
+        _model = new SentinelApplication
         {
-            var permissions = existing.Permissions.Split(',', StringSplitOptions.RemoveEmptyEntries);
+            Id = appBase.Id,
+            ClientId = appBase.ClientId,
+            DisplayName = appBase.DisplayName,
+            ClientType = appBase.ClientType,
+            RedirectUris = appBase.RedirectUris,
+            Permissions = appBase.Permissions,
+            Properties = appBase.Properties,
+         //   Version = appBase.Version
+        };
+
+        _availableScopesBase = await Db.Set<OpenIddictEntityFrameworkCoreScope>()
+                                       .OrderBy(s => s.Name)
+                                       .ToListAsync();
+
+        if (!string.IsNullOrEmpty(_model.Permissions))
+        {
+            var permissions = _model.Permissions.Split(',', StringSplitOptions.RemoveEmptyEntries);
             foreach (var p in permissions)
             {
                 if (p.StartsWith("scp:"))
@@ -116,21 +140,27 @@
         if (!_form.IsValid) return;
 
         var selectedPermissions = new List<string>();
-
         if (_endpoints.Token) selectedPermissions.Add("ept:token");
         if (_endpoints.Authorize) selectedPermissions.Add("ept:authorize");
         if (_endpoints.Introspect) selectedPermissions.Add("ept:introspect");
         if (_endpoints.Revocation) selectedPermissions.Add("ept:revocation");
         if (_endpoints.Logout) selectedPermissions.Add("ept:logout");
         if (_endpoints.UserInfo) selectedPermissions.Add("ept:userinfo");
-
         if (_permissions.AuthorizationCode) selectedPermissions.Add("gt:authorization_code");
         if (_permissions.RefreshToken) selectedPermissions.Add("gt:refresh_token");
         if (_permissions.ClientCredentials) selectedPermissions.Add("gt:client_credentials");
-
         selectedPermissions.AddRange(_selectedScopeNames.Select(s => $"scp:{s}"));
 
         _model.Permissions = string.Join(",", selectedPermissions);
+
+        // Update base type om EF Core happy te houden
+        var entity = await Db.Set<OpenIddictEntityFrameworkCoreApplication>()
+                             .FirstAsync(x => x.ClientId == _model.ClientId);
+
+        entity.DisplayName = _model.DisplayName;
+        entity.ClientType = _model.ClientType;
+        entity.RedirectUris = _model.RedirectUris;
+        entity.Permissions = _model.Permissions;
 
         await Db.SaveChangesAsync();
 

@@ -63,7 +63,7 @@
     };
 
     private MudForm _form;
-    private OpenIdScope _scope = new();
+    private SentinelScope _scope = new();
     // private string _redirectUris = "";
     // private PermissionsModel _permissions = new();
     private string _errorMessage = "";
@@ -87,7 +87,7 @@
 
             Snackbar.Add("Succesfully Created", Severity.Success);
 
-            Db.OpenIddictScopes.Add(_scope);
+            Db.Scopes.Add(_scope);
             await Db.SaveChangesAsync();
             Logger.LogDebug("Create attempt Succeeded With {Id}", _scope.Id);
             Navigation.NavigateTo("/scopes");

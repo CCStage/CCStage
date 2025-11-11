@@ -7,63 +7,52 @@
 @inject ILogger<Login> Logger
 @using MudBlazor
 
-
 <MudPaper Class="p-4 mx-auto" MaxWidth="600px" Elevation="3">
-    <MudText Typo="Typo.h5">Bewerk applicatie</MudText>
+    <MudText Typo="Typo.h5">Bewerk scope</MudText>
     <MudForm @ref="_form" Class="mt-4">
         <MudTextField Label="Id" @bind-Value="_model.Id" Disabled="true" />
         <MudTextField Label="Display Name" @bind-Value="_model.DisplayName" Required="true" />
-        <MudTextField Label="Name" @bind-Value="_model.Name" />
+        <MudTextField Label="Name" @bind-Value="_model.Name" Required="true" />
         <MudTextField Label="Resources" @bind-Value="_model.Resources" />
-        @* <MudTextField Label="RedirectUris" @bind-Value="_model.RedirectUris" />
-         <MudSelect Label="ClientType" @bind-Value="_model.ClientType">
 
-            @foreach (var type in _types)
-            {
-                <MudSelectItem Value="type">@type</MudSelectItem>
-            }
-
-        </MudSelect>
-        <input type="hidden" @bind="_model.Version" /> *@
         <MudButton Color="Color.Primary" OnClick="Save" Class="mt-3">Opslaan</MudButton>
         <MudButton Color="Color.Secondary" OnClick="Cancel" Class="mt-3 ml-2">Annuleren</MudButton>
     </MudForm>
 </MudPaper>
 
 @code {
-
-   //  private readonly string[] _types =
-   // {
-   //      "confidental", "public"
-   //  };
-
     [Parameter] public string Id { get; set; } = string.Empty;
+
     private MudForm? _form;
-    private OpenIdScope _model = new();
+    private SentinelScope _model = new();
 
     protected override async Task OnInitializedAsync()
     {
-        var existing = await Db.OpenIddictScopes.FirstOrDefaultAsync(x => x.Id == Id);
+        // Base type ophalen
+        var existing = await Db.Set<OpenIddictEntityFrameworkCoreScope>()
+                               .FirstOrDefaultAsync(x => x.Id == Id);
+
         if (existing == null)
         {
-            Logger.LogCritical("Edit attempt for {Id} Failed", Id);
-            Snackbar.Add("Applicatie niet gevonden", Severity.Error);
-            Navigation.NavigateTo("/");
+            Logger.LogCritical("Edit attempt for {Id} failed: not found", Id);
+            Snackbar.Add("Scope niet gevonden", Severity.Error);
+            Navigation.NavigateTo("/scopes");
             return;
         }
-        _model = new OpenIdScope
+
+        // Map naar afgeleid type voor UI
+        _model = new SentinelScope
         {
             Id = existing.Id,
             DisplayName = existing.DisplayName,
             Name = existing.Name,
-            Resources = existing.Resources,
-           // Version = existing.Version
+            Resources = existing.Resources
         };
     }
 
     private void Cancel()
     {
-        Logger.LogDebug("Edit attempt for {Id} Canceled", Id);
+        Logger.LogDebug("Edit attempt for {Id} canceled", Id);
         Navigation.NavigateTo("/scopes");
     }
 
@@ -72,11 +61,13 @@
         await _form!.Validate();
         if (!_form.IsValid) return;
 
-        var existing = await Db.OpenIddictScopes.FirstOrDefaultAsync(x => x.Id == _model.Id);
+        var existing = await Db.Set<OpenIddictEntityFrameworkCoreScope>()
+                               .FirstOrDefaultAsync(x => x.Id == _model.Id);
+
         if (existing == null)
         {
-            Logger.LogCritical("Edit attempt for {Id} Failed", Id);
-            Snackbar.Add("Applicatie niet gevonden", Severity.Error);
+            Logger.LogCritical("Edit attempt for {Id} failed: not found", Id);
+            Snackbar.Add("Scope niet gevonden", Severity.Error);
             Navigation.NavigateTo("/scopes");
             return;
         }
@@ -85,20 +76,17 @@
         existing.Name = _model.Name;
         existing.Resources = _model.Resources;
 
-
-       // existing.Version = _model.Version;
-
         try
         {
             await Db.SaveChangesAsync();
-            Snackbar.Add("Applicatie succesvol bijgewerkt", Severity.Success);
-            Logger.LogDebug("Edit attempt for {Id} Succeeded", Id);
+            Logger.LogDebug("Edit attempt for {Id} succeeded", Id);
+            Snackbar.Add("Scope succesvol bijgewerkt", Severity.Success);
             Navigation.NavigateTo("/scopes");
         }
         catch (DbUpdateConcurrencyException)
         {
-            Logger.LogCritical("Edit attempt for {Id} Failed because someone else already edited {Id}", Id);
-            Snackbar.Add("De applicatie is aangepast door iemand anders. Herlaad en probeer opnieuw.", Severity.Error);
+            Logger.LogCritical("Edit attempt for {Id} failed: concurrency issue", Id);
+            Snackbar.Add("De scope is aangepast door iemand anders. Herlaad en probeer opnieuw.", Severity.Error);
         }
     }
 }

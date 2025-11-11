@@ -9,7 +9,6 @@
 @using MudBlazor
 @inject IJSRuntime JS
 
-
 <PageTitle>OpenId Applications</PageTitle>
 
 <MudPaper Class="p-4 mx-auto" MaxWidth="1200px" Elevation="3">
@@ -24,7 +23,6 @@
         <ToolBarContent>
             <MudText Typo="Typo.h5">OpenId Applications</MudText>
             <MudSpacer />
-            @* <MudText Typo="Typo.h6">Add Application</MudText> *@
             <MudIconButton Icon="@Icons.Material.Filled.Add"
                            Color="Color.Error"
                            Size="Size.Small"
@@ -84,15 +82,17 @@
 @code {
     private bool _hover = true;
     private string _search = string.Empty;
-    private OpenIdApplication? _selectedApp;
-    private List<OpenIdApplication> _apps = new();
+    private OpenIddictEntityFrameworkCoreApplication? _selectedApp;
+    private List<OpenIddictEntityFrameworkCoreApplication> _apps = new();
 
     protected override async Task OnInitializedAsync()
     {
-        _apps = await Db.OpenIddictApplications.OrderBy(x => x.DisplayName).ToListAsync();
+        _apps = await Db.Set<OpenIddictEntityFrameworkCoreApplication>()
+                        .OrderBy(x => x.DisplayName)
+                        .ToListAsync();
     }
 
-    private bool FilterFunc(OpenIdApplication app)
+    private bool FilterFunc(OpenIddictEntityFrameworkCoreApplication app)
     {
         if (string.IsNullOrWhiteSpace(_search)) return true;
 
@@ -102,12 +102,12 @@
             || (app.Permissions ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase);
     }
 
-    private async Task DeleteApp(OpenIdApplication app)
+    private async Task DeleteApp(OpenIddictEntityFrameworkCoreApplication app)
     {
         bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Weet je zeker dat je '{app.DisplayName}' wilt verwijderen?");
         if (!confirmed) return;
 
-        Db.OpenIddictApplications.Remove(app);
+        Db.Set<OpenIddictEntityFrameworkCoreApplication>().Remove(app);
         await Db.SaveChangesAsync();
         _apps.Remove(app);
         Logger.LogDebug("{ClientId} was deleted", app.ClientId);
@@ -115,10 +115,11 @@
         StateHasChanged();
     }
 
-    private void EditApp(OpenIdApplication app)
+    private void EditApp(OpenIddictEntityFrameworkCoreApplication app)
     {
         Navigation.NavigateTo($"/edit-application/{app.ClientId}");
     }
+
     private void CreateApp()
     {
         Navigation.NavigateTo($"/create");

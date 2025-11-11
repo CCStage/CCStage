@@ -202,3 +202,7 @@ C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI\CCSentinelUI\obj
 C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI\CCSentinelUI\obj\Debug\net8.0\CCSentinelUI.genruntimeconfig.cache
 C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI\CCSentinelUI\obj\Debug\net8.0\ref\CCSentinelUI.dll
 C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI\CCSentinelUI\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI\CCSentinelUI\bin\Debug\net8.0\OpenIddict.Abstractions.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI\CCSentinelUI\bin\Debug\net8.0\OpenIddict.Core.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI\CCSentinelUI\bin\Debug\net8.0\OpenIddict.EntityFrameworkCore.dll
+C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI\CCSentinelUI\bin\Debug\net8.0\OpenIddict.EntityFrameworkCore.Models.dll

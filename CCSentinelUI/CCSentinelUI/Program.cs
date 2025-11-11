@@ -15,7 +15,16 @@ builder.Services.AddMudServices();
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseOpenIddict();
+});
+
+builder.Services.AddOpenIddict()
+    .AddCore(option =>
+    {
+        option.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>();
+    });
 
 var adminUser = Environment.GetEnvironmentVariable("SENTINEL_ADMIN_USER", EnvironmentVariableTarget.Machine);
 var adminPass = Environment.GetEnvironmentVariable("SENTINEL_ADMIN_PASS", EnvironmentVariableTarget.Machine);

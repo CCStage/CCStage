@@ -75,15 +75,26 @@
 
 @code {
     private string _search = string.Empty;
-    private OpenIdScope? _selectedScope;
-    private List<OpenIdScope> _scopes = new();
+    private SentinelScope? _selectedScope;
+    private List<SentinelScope> _scopes = new();
 
     protected override async Task OnInitializedAsync()
     {
-        _scopes = await Db.OpenIddictScopes.OrderBy(x => x.Name).ToListAsync();
+        var scopes = await Db.Set<OpenIddictEntityFrameworkCoreScope>()
+                             .OrderBy(x => x.Name)
+                             .ToListAsync();
+
+        _scopes = scopes.Select(s => new SentinelScope
+        {
+            Id = s.Id,
+            Name = s.Name,
+            DisplayName = s.DisplayName,
+            Resources = s.Resources
+        }).ToList();
     }
 
-    private bool FilterFunc(OpenIdScope scope)
+
+    private bool FilterFunc(SentinelScope scope)
     {
         if (string.IsNullOrWhiteSpace(_search)) return true;
         return (scope.Name ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
@@ -91,19 +102,30 @@
             || (scope.Resources ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase);
     }
 
-    private async Task DeleteScope(OpenIdScope scope)
+    private async Task DeleteScope(SentinelScope scope)
     {
         bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Verwijder scope '{scope.Name}'?");
         if (!confirmed) return;
 
-        Db.OpenIddictScopes.Remove(scope);
+        var entity = await Db.Set<OpenIddictEntityFrameworkCoreScope>()
+                             .FirstOrDefaultAsync(s => s.Id == scope.Id);
+
+        if (entity == null)
+        {
+            Snackbar.Add("Scope niet gevonden in database", Severity.Error);
+            return;
+        }
+
+        Db.Set<OpenIddictEntityFrameworkCoreScope>().Remove(entity);
         await Db.SaveChangesAsync();
+
         _scopes.Remove(scope);
         Logger.LogDebug("{Name} scope deleted", scope.Name);
-        Snackbar.Add("Scope verwijderd", Severity.Error);
+        Snackbar.Add("Scope verwijderd", Severity.Success);
         StateHasChanged();
     }
-    private void EditScope(OpenIdScope scope)
+
+    private void EditScope(SentinelScope scope)
     {
         Navigation.NavigateTo($"/edit-scope/{scope.Id}");
     }

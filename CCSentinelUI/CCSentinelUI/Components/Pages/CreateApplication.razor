@@ -1,5 +1,6 @@
 ﻿@page "/create"
 @using CCSentinelUI.Data
+@using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext Db
 @inject NavigationManager Navigation
 @inject ILogger<Login> Logger
@@ -57,17 +58,15 @@
                            MultiSelection="true"
                            Dense="true"
                            Chip="true">
-                    @foreach (var scope in _availableScopes)
+                    @foreach (var scope in _availableScopesBase)
                     {
-                        <MudSelectItem Value="@scope.Name">
-                            @((scope.DisplayName != null) ? scope.DisplayName : scope.Name)
-                        </MudSelectItem>
+                        <MudSelectItem Value="@scope.Name">@((scope.DisplayName ?? scope.Name))</MudSelectItem>
                     }
                 </MudSelect>
             </MudItem>
 
             <MudItem>
-                <MudButton OnClick="HandleValidSubmit" Variant="Variant.Filled" Color="Color.Primary" Class="mt-3">Opslaan</MudButton>
+                <MudButton OnClick="Save" Variant="Variant.Filled" Color="Color.Primary" Class="mt-3">Opslaan</MudButton>
                 <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="mt-3 ml-2" OnClick="@(() => Navigation.NavigateTo("/"))">Annuleren</MudButton>
             </MudItem>
         </MudGrid>
@@ -79,21 +78,27 @@
 @code {
     private readonly string[] _types = { "confidental", "public" };
     private MudForm _form;
-    private OpenIdApplication _app = new();
+    private OpenIddictEntityFrameworkCoreApplication _app = new();
     private string _redirectUris = "";
     private PermissionsModel _permissions = new();
     private EndpointsModel _endpoints = new();
     private string _errorMessage = "";
-    private List<OpenIdScope> _availableScopes = new();
+
+    private List<OpenIddictEntityFrameworkCoreScope> _availableScopesBase = new();
     private List<string> _selectedScopeNames = new();
 
     protected override async Task OnInitializedAsync()
     {
         _app.Id = Guid.NewGuid().ToString();
-        _availableScopes = await Db.OpenIddictScopes.OrderBy(s => s.Name).ToListAsync();
+
+        // gebruik dezelfde base type als edit page
+        _availableScopesBase = await Db.Set<OpenIddictEntityFrameworkCoreScope>()
+                                       .OrderBy(s => s.Name)
+                                       .ToListAsync();
+        StateHasChanged();
     }
 
-    private async Task HandleValidSubmit()
+    private async Task Save()
     {
         _errorMessage = "";
         try
@@ -113,19 +118,18 @@
             if (_permissions.RefreshToken) selectedPermissions.Add("gt:refresh_token");
             if (_permissions.ClientCredentials) selectedPermissions.Add("gt:client_credentials");
 
-            selectedPermissions.AddRange(_selectedScopeNames.Select(name => $"scp:{name}"));
-
+            selectedPermissions.AddRange(_selectedScopeNames.Select(s => $"scp:{s}"));
             _app.Permissions = string.Join(",", selectedPermissions);
 
-            Db.OpenIddictApplications.Add(_app);
+            Db.Set<OpenIddictEntityFrameworkCoreApplication>().Add(_app);
             await Db.SaveChangesAsync();
 
-            Logger.LogDebug("Create attempt Succeeded With {ClientId}", _app.ClientId);
+            Logger.LogDebug("Create attempt succeeded with {ClientId}", _app.ClientId);
             Navigation.NavigateTo("/");
         }
         catch (Exception ex)
         {
-            Logger.LogDebug("Create attempt Failed");
+            Logger.LogDebug("Create attempt failed: {Message}", ex.Message);
             _errorMessage = ex.Message;
         }
     }
