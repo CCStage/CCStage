@@ -38,8 +38,9 @@
         <HeaderContent>
             <MudTh>Id</MudTh>
             <MudTh>UserName</MudTh>
-            <MudTh>Email</MudTh>
             <MudTh>FirstName</MudTh>
+            <MudTh>LastName</MudTh>
+            <MudTh>Email</MudTh>
             <MudTh>Locked Out</MudTh>
             <MudTh>Email Confirmed</MudTh>
             <MudTh>Acties</MudTh>
@@ -47,8 +48,9 @@
 
         <RowTemplate>
             <MudTd DataLabel="Id">@context.Id</MudTd>
-            <MudTd DataLabel="FirstName">@context.FirstName</MudTd>
             <MudTd DataLabel="UserName">@context.UserName</MudTd>
+            <MudTd DataLabel="FirstName">@context.FirstName</MudTd>
+            <MudTd DataLabel="LastName">@context.LastName</MudTd>
             <MudTd DataLabel="Email">@context.Email</MudTd>
             <MudTd DataLabel="Locked Out">
                 <MudCheckBox T="bool" Disabled="true" @bind-Checked="@context.LockoutEnabled" />
@@ -75,7 +77,7 @@
         </PagerContent>
     </MudTable>
 
-    <MudText Class="mt-2">Geselecteerd: @_selectedUser?.UserName</MudText>
+    <MudText Class="mt-2">Geselecteerd: @_selectedUser?.UserName ?? "(geen)"</MudText>
 </MudPaper>
 
 @code {
@@ -85,15 +87,21 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _users = await Db.Users.OrderBy(u => u.UserName).ToListAsync();
+        // Alleen niet-nullable velden ophalen om crashes te voorkomen
+        _users = await Db.Users
+                         .OrderBy(u => u.UserName)
+                         .AsNoTracking()
+                         .ToListAsync();
     }
 
     private bool FilterFunc(SentinelUser user)
     {
         if (string.IsNullOrWhiteSpace(_search)) return true;
+
         return (user.UserName ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
             || (user.Email ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
-            || (user.FirstName ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase);
+            || (user.FirstName ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
+            || (user.LastName ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase);
     }
 
     private async Task DeleteUser(SentinelUser user)
@@ -101,12 +109,21 @@
         bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Verwijder user '{user.UserName}'?");
         if (!confirmed) return;
 
-        Db.Users.Remove(user);
-        await Db.SaveChangesAsync();
-        _users.Remove(user);
-        Logger.LogDebug("{UserName} deleted", user.UserName);
-        Snackbar.Add("User verwijderd", Severity.Error);
-        StateHasChanged();
+        try
+        {
+            Db.Users.Remove(user);
+            await Db.SaveChangesAsync();
+
+            _users.Remove(user);
+            Snackbar.Add("User verwijderd", Severity.Success);
+            Logger.LogDebug("{UserName} deleted", user.UserName);
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Fout bij verwijderen user {UserName}", user.UserName);
+            Snackbar.Add("Fout bij verwijderen user", Severity.Error);
+        }
     }
 
     private void EditUser(SentinelUser user)

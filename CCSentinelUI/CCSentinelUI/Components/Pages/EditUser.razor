@@ -1,0 +1,114 @@
+﻿@page "/edit-user/{UserId:guid}"
+@using CCSentinelUI.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext Db
+@inject NavigationManager Navigation
+@inject ILogger<Login> Logger
+@inject ISnackbar Snackbar
+@using MudBlazor
+
+<MudPaper Class="pa-6 mx-auto mt-6" Style="max-width: 600px;">
+    <MudText Typo="Typo.h5" Class="mb-4">Gebruiker bewerken</MudText>
+
+    <MudForm @ref="_form">
+        <MudGrid Spacing="3">
+
+            <MudItem xs="12">
+                <MudTextField @bind-Value="_user.UserName" Label="Gebruikersnaam" FullWidth="true" Required="true" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudTextField @bind-Value="_user.Email" Label="E-mail" FullWidth="true" Required="true" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudTextField @bind-Value="_user.FirstName" Label="Voornaam" FullWidth="true" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudTextField @bind-Value="_user.LastName" Label="Achternaam" FullWidth="true" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudTextField @bind-Value="_password" Label="Nieuw wachtwoord" FullWidth="true" InputType="InputType.Password" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudTextField @bind-Value="_confirmPassword" Label="Bevestig wachtwoord" FullWidth="true" InputType="InputType.Password" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCheckBox T="bool" @bind-Checked="_user.LockoutEnabled" Label="Geblokkeerd" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCheckBox T="bool" @bind-Checked="_user.EmailConfirmed" Label="E-mail bevestigd" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-3" OnClick="Save">Opslaan</MudButton>
+                <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="mt-3 ml-2" OnClick="@(() => Navigation.NavigateTo("/users"))">Annuleren</MudButton>
+            </MudItem>
+
+        </MudGrid>
+    </MudForm>
+
+    <MudText Color="Color.Error" Class="mt-2">@_errorMessage</MudText>
+</MudPaper>
+
+@code {
+    [Parameter]
+    public Guid UserId { get; set; }
+
+    private MudForm _form;
+    private SentinelUser _user = new();
+    private string _password = string.Empty;
+    private string _confirmPassword = string.Empty;
+    private string _errorMessage = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        _user = await Db.Users.FirstOrDefaultAsync(u => u.Id == UserId)
+                ?? throw new Exception("Gebruiker niet gevonden");
+    }
+
+    private async Task Save()
+    {
+        await _form.Validate();
+        if (!_form.IsValid)
+        {
+            _errorMessage = "Vul alle verplichte velden correct in.";
+            return;
+        }
+
+        if (!string.IsNullOrWhiteSpace(_password))
+        {
+            if (_password != _confirmPassword)
+            {
+                _errorMessage = "Wachtwoord en bevestiging komen niet overeen.";
+                return;
+            }
+
+            // PasswordHash genereren
+            var passwordHasher = new PasswordHasher<SentinelUser>();
+            _user.PasswordHash = passwordHasher.HashPassword(_user, _password);
+        }
+
+        _errorMessage = "";
+
+        try
+        {
+            Db.Users.Update(_user);
+            await Db.SaveChangesAsync();
+
+            Snackbar.Add("Gebruiker succesvol bijgewerkt", Severity.Success);
+            Logger.LogDebug("Gebruiker bijgewerkt met ID {Id}", _user.Id);
+            Navigation.NavigateTo("/users");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Fout bij bijwerken gebruiker");
+            _errorMessage = ex.Message;
+        }
+    }
+}

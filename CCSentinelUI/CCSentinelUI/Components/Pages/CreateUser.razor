@@ -12,8 +12,24 @@
     <MudForm @ref="_form">
         <MudGrid Spacing="3">
 
+            <MudItem xs="12" sm="6">
+                <MudTextField @bind-Value="_user.FirstName" Label="Voornaam" FullWidth="true" />
+            </MudItem>
+
+            <MudItem xs="12" sm="6">
+                <MudTextField @bind-Value="_user.LastName" Label="Achternaam" FullWidth="true" />
+            </MudItem>
+
             <MudItem xs="12">
                 <MudTextField @bind-Value="_user.UserName" Label="Gebruikersnaam" FullWidth="true" Required="true" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudTextField @bind-Value="_password" Label="Wachtwoord" InputType="InputType.Password" FullWidth="true" Required="true" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudTextField @bind-Value="_confirmPassword" Label="Bevestig wachtwoord" InputType="InputType.Password" FullWidth="true" Required="true" />
             </MudItem>
 
             <MudItem xs="12">
@@ -21,15 +37,18 @@
             </MudItem>
 
             <MudItem xs="12">
-                <MudTextField @bind-Value="_user.FirstName" Label="Voornaam" FullWidth="true" />
-            </MudItem>
-
-            <MudItem xs="12">
-                <MudCheckBox T="bool" @bind-Checked="_user.LockoutEnabled" Label="Geblokkeerd" />
-            </MudItem>
-
-            <MudItem xs="12">
                 <MudCheckBox T="bool" @bind-Checked="_user.EmailConfirmed" Label="E-mail bevestigd" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudCheckBox T="bool" @bind-Checked="_user.LockoutEnabled" Label="Account geblokkeerd" />
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudTextField @bind-Value="_lockoutEndString"
+                              Label="Lockout einddatum (optioneel)"
+                              Placeholder="YYYY-MM-DD HH:mm"
+                              FullWidth="true" />
             </MudItem>
 
             <MudItem xs="12">
@@ -46,6 +65,9 @@
     private MudForm _form;
     private SentinelUser _user = new();
     private string _errorMessage = "";
+    private string _password = "";
+    private string _confirmPassword = "";
+    private string? _lockoutEndString;
 
     protected override void OnInitialized()
     {
@@ -61,9 +83,23 @@
             return;
         }
 
+        if (_password != _confirmPassword)
+        {
+            _errorMessage = "Wachtwoorden komen niet overeen.";
+            return;
+        }
+
         _errorMessage = "";
+
         try
         {
+            if (!string.IsNullOrWhiteSpace(_lockoutEndString) && DateTime.TryParse(_lockoutEndString, out var parsedDate))
+                _user.LockoutEnd = parsedDate;
+            else
+                _user.LockoutEnd = null;
+
+            _user.PasswordHash = _password;
+
             Db.Users.Add(_user);
             await Db.SaveChangesAsync();
             Snackbar.Add("Gebruiker succesvol aangemaakt", Severity.Success);
