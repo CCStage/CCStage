@@ -1,5 +1,6 @@
 ﻿@page "/edit-user/{UserId:guid}"
 @using CCSentinelUI.Data
+@using Microsoft.AspNetCore.Identity
 @using Microsoft.EntityFrameworkCore
 @inject ApplicationDbContext Db
 @inject NavigationManager Navigation
@@ -38,11 +39,7 @@
             </MudItem>
 
             <MudItem xs="12">
-                <MudCheckBox T="bool" @bind-Checked="_user.LockoutEnabled" Label="Geblokkeerd" />
-            </MudItem>
-
-            <MudItem xs="12">
-                <MudCheckBox T="bool" @bind-Checked="_user.EmailConfirmed" Label="E-mail bevestigd" />
+                <MudCheckBox T="bool" @bind-Value="_user.EmailConfirmed" Label="E-mail bevestigd" />
             </MudItem>
 
             <MudItem xs="12">
@@ -89,16 +86,12 @@
                 return;
             }
 
-            // PasswordHash genereren
             var passwordHasher = new PasswordHasher<SentinelUser>();
             _user.PasswordHash = passwordHasher.HashPassword(_user, _password);
         }
 
-        _errorMessage = "";
-
         try
         {
-            Db.Users.Update(_user);
             await Db.SaveChangesAsync();
 
             Snackbar.Add("Gebruiker succesvol bijgewerkt", Severity.Success);

@@ -83,6 +83,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xPcGVuSWRTY29wZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/stage/source/repos/BlazorFrontend/CCStage/CCSentinelUI/CCSentinelUI/Components/Pages/Role.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xSb2xlLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/stage/source/repos/BlazorFrontend/CCStage/CCSentinelUI/CCSentinelUI/Components/Pages/Users.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVc2Vycy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

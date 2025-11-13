@@ -1,0 +1,120 @@
+﻿@page "/roles"
+@using CCSentinelUI.Data
+@using CCSentinelUI.Data.Contracts
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext Db
+@inject NavigationManager Navigation
+@inject ILogger<Login> Logger
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+@using MudBlazor
+
+<PageTitle>Roles</PageTitle>
+
+<MudPaper Class="p-4 mx-auto" MaxWidth="1000px" Elevation="3">
+    <MudTable Items="@_roles"
+              Dense="true"
+              Hover="true"
+              Bordered="true"
+              Striped="true"
+              Filter="FilterFunc"
+              @bind-SelectedItem="_selectedRole">
+
+        <ToolBarContent>
+            <MudText Typo="Typo.h6">Rollen overzicht</MudText>
+            <MudSpacer />
+            <MudIconButton Icon="@Icons.Material.Filled.Add"
+                           Color="Color.Primary"
+                           Size="Size.Small"
+                           Variant="Variant.Outlined"
+                           OnClick="@CreateRole" />
+            <MudSpacer />
+            <MudTextField @bind-Value="_search"
+                          Placeholder="Zoek op naam"
+                          Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search"
+                          Class="mt-0" />
+        </ToolBarContent>
+
+        <HeaderContent>
+            <MudTh>Id</MudTh>
+            <MudTh>Naam</MudTh>
+            <MudTh>Leden</MudTh>
+            <MudTh>Acties</MudTh>
+        </HeaderContent>
+
+        <RowTemplate>
+            <MudTd DataLabel="Id">@context.Id</MudTd>
+            <MudTd DataLabel="Naam">@context.Name</MudTd>
+            <MudTd DataLabel="Leden">@_userRoles.Count(ur => ur.RoleId == context.Id)</MudTd>
+            <MudTd DataLabel="Acties">
+                <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                               Color="Color.Info"
+                               Size="Size.Small"
+                               Variant="Variant.Outlined"
+                               OnClick="@(() => EditRole(context))" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                               Color="Color.Error"
+                               Size="Size.Small"
+                               Variant="Variant.Outlined"
+                               OnClick="@(() => DeleteRole(context))" />
+            </MudTd>
+        </RowTemplate>
+
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+
+    <MudText Class="mt-2">Geselecteerd: @_selectedRole?.Name</MudText>
+</MudPaper>
+
+@code {
+    private string _search = string.Empty;
+    private SentinelRole? _selectedRole;
+    private List<SentinelRole> _roles = new();
+    private List<SentinelUserRole> _userRoles = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _roles = await Db.Roles.OrderBy(r => r.Name).ToListAsync();
+        _userRoles = await Db.UserRoles.ToListAsync();
+    }
+
+    private bool FilterFunc(SentinelRole role)
+    {
+        if (string.IsNullOrWhiteSpace(_search)) return true;
+        return (role.Name ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private async Task DeleteRole(SentinelRole role)
+    {
+        bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Verwijder rol '{role.Name}'?");
+        if (!confirmed) return;
+
+        try
+        {
+            Db.Roles.Remove(role);
+            await Db.SaveChangesAsync();
+            _roles.Remove(role);
+            Snackbar.Add("Rol verwijderd", Severity.Success);
+            Logger.LogDebug("{RoleName} verwijderd", role.Name);
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Fout bij verwijderen rol {RoleName}", role.Name);
+            Snackbar.Add("Fout bij verwijderen rol", Severity.Error);
+        }
+    }
+
+    private void EditRole(SentinelRole role)
+    {
+        Navigation.NavigateTo($"/edit-role/{role.Id}");
+    }
+
+    private void CreateRole()
+    {
+        Navigation.NavigateTo("/create-role");
+    }
+}

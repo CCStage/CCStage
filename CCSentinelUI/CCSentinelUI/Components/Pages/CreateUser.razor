@@ -37,11 +37,7 @@
             </MudItem>
 
             <MudItem xs="12">
-                <MudCheckBox T="bool" @bind-Checked="_user.EmailConfirmed" Label="E-mail bevestigd" />
-            </MudItem>
-
-            <MudItem xs="12">
-                <MudCheckBox T="bool" @bind-Checked="_user.LockoutEnabled" Label="Account geblokkeerd" />
+                <MudCheckBox T="bool" @bind-Value="_user.EmailConfirmed" Label="E-mail bevestigd" />
             </MudItem>
 
             <MudItem xs="12">

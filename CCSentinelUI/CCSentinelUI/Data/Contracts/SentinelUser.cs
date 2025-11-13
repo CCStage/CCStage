@@ -18,8 +18,6 @@ public class SentinelUser : IdentityUser<Guid>
 
     public override string UserName { get; set; } = string.Empty;
     public override string Email { get; set; } = string.Empty;
-    public override string? NormalizedUserName { get; set; } = string.Empty;
-    public override string? NormalizedEmail { get; set; } = string.Empty;
     public override string? PasswordHash { get; set; }
 
     public bool LockoutEnabled { get; set; }

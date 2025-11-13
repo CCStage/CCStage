@@ -1,0 +1,63 @@
+2025-11-13T09:12:26.105+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Login attempt from IP "127.0.0.1" for user "Admin"
+2025-11-13T09:12:28.216+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Login attempt for user "Admin" from IP "127.0.0.1" Succeeded
+2025-11-13T09:12:56.201+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker aangemaakt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T09:13:05.645+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T13:59:27.916+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID c37e751d-22eb-48fc-3948-08de204016b2
+2025-11-13T14:05:07.828+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:05:15.142+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID c37e751d-22eb-48fc-3948-08de204016b2
+2025-11-13T14:06:18.980+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:08:34.793+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:21:33.316+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:23:26.127+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:24:25.170+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:26:02.940+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:27:40.938+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:28:08.214+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:33:25.838+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:33:41.778+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:35:44.589+01:00 WARN [Microsoft.AspNetCore.Components.Server.Circuits.RemoteRenderer]  - Unhandled exception rendering component: "InvalidCharacterError: String contains an invalid character"
+System.InvalidOperationException: InvalidCharacterError: String contains an invalid character
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.InvokeRenderCompletedCallsAfterUpdateDisplayTask(Task updateDisplayTask, Int32[] updatedComponents)
+2025-11-13T14:35:44.641+01:00 EROR [Microsoft.AspNetCore.Components.Server.Circuits.CircuitHost]  - Unhandled exception in circuit '"uc4ybGQIvKD-i3ZJ52vzRFs9pBbEepYAZs4-8Yu-FLY"'.
+System.AggregateException: One or more errors occurred. (InvalidCharacterError: String contains an invalid character)
+ ---> System.InvalidOperationException: InvalidCharacterError: String contains an invalid character
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.InvokeRenderCompletedCallsAfterUpdateDisplayTask(Task updateDisplayTask, Int32[] updatedComponents)
+   --- End of inner exception stack trace ---
+2025-11-13T14:36:24.199+01:00 WARN [Microsoft.AspNetCore.Components.Server.Circuits.RemoteRenderer]  - Unhandled exception rendering component: "InvalidCharacterError: String contains an invalid character"
+System.InvalidOperationException: InvalidCharacterError: String contains an invalid character
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.InvokeRenderCompletedCallsAfterUpdateDisplayTask(Task updateDisplayTask, Int32[] updatedComponents)
+2025-11-13T14:36:24.250+01:00 EROR [Microsoft.AspNetCore.Components.Server.Circuits.CircuitHost]  - Unhandled exception in circuit '"RNeyZYU8pAPJJXgyAyX484JqQeQvNGSegwCdVh2K828"'.
+System.AggregateException: One or more errors occurred. (InvalidCharacterError: String contains an invalid character)
+ ---> System.InvalidOperationException: InvalidCharacterError: String contains an invalid character
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.InvokeRenderCompletedCallsAfterUpdateDisplayTask(Task updateDisplayTask, Int32[] updatedComponents)
+   --- End of inner exception stack trace ---
+2025-11-13T14:36:49.770+01:00 WARN [Microsoft.AspNetCore.Components.Server.Circuits.RemoteRenderer]  - Unhandled exception rendering component: "InvalidCharacterError: String contains an invalid character"
+System.InvalidOperationException: InvalidCharacterError: String contains an invalid character
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.InvokeRenderCompletedCallsAfterUpdateDisplayTask(Task updateDisplayTask, Int32[] updatedComponents)
+2025-11-13T14:36:49.833+01:00 EROR [Microsoft.AspNetCore.Components.Server.Circuits.CircuitHost]  - Unhandled exception in circuit '"dVIiv_OZWBO09vscEntGqwaATW1oNuH9G5sRv_AmVvY"'.
+System.AggregateException: One or more errors occurred. (InvalidCharacterError: String contains an invalid character)
+ ---> System.InvalidOperationException: InvalidCharacterError: String contains an invalid character
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.InvokeRenderCompletedCallsAfterUpdateDisplayTask(Task updateDisplayTask, Int32[] updatedComponents)
+   --- End of inner exception stack trace ---
+2025-11-13T14:37:42.162+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:39:33.552+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:39:37.502+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:39:41.129+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker bijgewerkt met ID 57ea2f5e-b611-4e53-9946-0c93713bd80c
+2025-11-13T14:40:35.863+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker aangemaakt met ID 9b5d2c25-eeb1-4ddf-9879-68063567967a
+2025-11-13T14:40:40.668+01:00 EROR [CCSentinelUI.Components.Pages.Login]  - Fout bij verwijderen user "testtt"
+System.InvalidOperationException: The instance of entity type 'SentinelUser' cannot be tracked because another instance with the same key value for {'Id'} is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached. Consider using 'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.IdentityMap`1.ThrowIdentityConflict(InternalEntityEntry entry)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.IdentityMap`1.Add(TKey key, InternalEntityEntry entry, Boolean updateDuplicate)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.IdentityMap`1.Add(TKey key, InternalEntityEntry entry)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.IdentityMap`1.Add(InternalEntityEntry entry)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.StartTracking(InternalEntityEntry entry)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.InternalEntityEntry.SetEntityState(EntityState oldState, EntityState newState, Boolean acceptChanges, Boolean modifyProperties)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.InternalEntityEntry.SetEntityState(EntityState entityState, Boolean acceptChanges, Boolean modifyProperties, Nullable`1 forceStateWhenUnknownKey, Nullable`1 fallbackState)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.EntityGraphAttacher.PaintAction(EntityEntryGraphNode`1 node)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.EntityEntryGraphIterator.TraverseGraph[TState](EntityEntryGraphNode`1 node, Func`2 handleNode)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.EntityGraphAttacher.AttachGraph(InternalEntityEntry rootEntry, EntityState targetState, EntityState storeGeneratedWithKeySetTargetState, Boolean forceStateWhenUnknownKey)
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.SetEntityState(InternalEntityEntry entry, EntityState entityState)
+   at Microsoft.EntityFrameworkCore.Internal.InternalDbSet`1.Remove(TEntity entity)
+   at CCSentinelUI.Components.Pages.Users.DeleteUser(SentinelUser user) in C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI\CCSentinelUI\Components\Pages\Users.razor:line 114
+2025-11-13T14:40:50.059+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - "testtt" deleted
+2025-11-13T14:40:53.265+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - "testt" deleted
