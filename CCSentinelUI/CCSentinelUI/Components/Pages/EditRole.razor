@@ -1,0 +1,67 @@
+﻿@page "/edit-role/{RoleId:guid}"
+@using CCSentinelUI.Data
+@using CCSentinelUI.Data.Contracts
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext Db
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+@inject ILogger<Login> Logger
+@using MudBlazor
+
+<MudPaper Class="p-4 mx-auto mt-6" MaxWidth="600px" Elevation="3">
+    <MudText Typo="Typo.h5">Edit rol</MudText>
+
+    <MudForm @ref="_form" Class="mt-4">
+
+        <MudText Typo="Typo.subtitle2" Class="mb-1">Id: @_role.Id</MudText>
+        <MudText Typo="Typo.subtitle2" Class="mb-4">Aantal gebruikers met deze rol: @_memberCount</MudText>
+
+        <MudTextField Label="Rolnaam" @bind-Value="_role.Name" Required="true" />
+
+        <MudButton Color="Color.Primary" OnClick="Save" Class="mt-3">Opslaan</MudButton>
+        <MudButton Color="Color.Secondary" OnClick="Cancel" Class="mt-3 ml-2">Annuleren</MudButton>
+
+    </MudForm>
+</MudPaper>
+
+@code {
+    [Parameter] public Guid RoleId { get; set; }
+
+    private MudForm? _form;
+    private SentinelRole _role = new();
+    private int _memberCount = 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _role = await Db.Roles.FirstOrDefaultAsync(r => r.Id == RoleId)
+                ?? throw new Exception("Rol niet gevonden");
+
+        _memberCount = await Db.UserRoles.CountAsync(ur => ur.RoleId == RoleId);
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/roles");
+    }
+
+    private async Task Save()
+    {
+        await _form!.Validate();
+        if (!_form.IsValid) return;
+
+        try
+        {
+            Db.Roles.Update(_role);
+            await Db.SaveChangesAsync();
+
+            Snackbar.Add("Rol succesvol bijgewerkt", Severity.Success);
+            Logger.LogDebug("Rol bijgewerkt: {RoleName}", _role.Name);
+            Navigation.NavigateTo("/roles");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Fout bij bijwerken rol {RoleName}", _role.Name);
+            Snackbar.Add("Fout bij bijwerken rol", Severity.Error);
+        }
+    }
+}

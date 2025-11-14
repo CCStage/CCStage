@@ -103,6 +103,14 @@
         _errorMessage = "";
         try
         {
+            var exists = await Db.Set<OpenIddictEntityFrameworkCoreApplication>()
+                                 .AnyAsync(a => a.ClientId == _app.ClientId);
+            if (exists)
+            {
+                _errorMessage = $"ClientId '{_app.ClientId}' bestaat al.";
+                return;
+            }
+
             _app.RedirectUris = _redirectUris;
 
             var selectedPermissions = new List<string>();
@@ -133,6 +141,7 @@
             _errorMessage = ex.Message;
         }
     }
+
 
     private class PermissionsModel
     {

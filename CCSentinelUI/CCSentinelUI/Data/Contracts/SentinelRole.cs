@@ -8,4 +8,5 @@ namespace CCSentinelUI.Data.Contracts
         [Timestamp]
         public byte[] Version { get; set; } = [];
     }
+
 }

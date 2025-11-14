@@ -22,11 +22,19 @@
         <ToolBarContent>
             <MudText Typo="Typo.h6">Users Overview</MudText>
             <MudSpacer />
-            <MudIconButton Icon="@Icons.Material.Filled.Add"
-                           Color="Color.Primary"
-                           Size="Size.Small"
-                           Variant="Variant.Outlined"
-                           OnClick="@CreateUser" />
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="@CreateUser">
+                Create
+            </MudButton>
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" Disabled="@(_selectedUser == null)" OnClick="@(() => EditUser(_selectedUser))">
+                Edit
+            </MudButton>
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" Disabled="@(_selectedUser == null)" OnClick="@(() => DeleteUser(_selectedUser))">
+                Delete
+            </MudButton>
+
             <MudSpacer />
             <MudTextField @bind-Value="_search"
                           Placeholder="Zoek op UserName, Email of Name"
@@ -43,7 +51,6 @@
             <MudTh>Email</MudTh>
             <MudTh>Locked Out</MudTh>
             <MudTh>Email Confirmed</MudTh>
-            <MudTh>Acties</MudTh>
         </HeaderContent>
 
         <RowTemplate>
@@ -57,19 +64,6 @@
             </MudTd>
             <MudTd DataLabel="Email Confirmed">
                 <MudCheckBox T="bool" Value="@context.EmailConfirmed" ReadOnly="true" />
-            </MudTd>
-
-            <MudTd DataLabel="Acties">
-                <MudIconButton Icon="@Icons.Material.Filled.Edit"
-                               Color="Color.Info"
-                               Size="Size.Small"
-                               Variant="Variant.Outlined"
-                               OnClick="@(() => EditUser(context))" />
-                <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                               Color="Color.Error"
-                               Size="Size.Small"
-                               Variant="Variant.Outlined"
-                               OnClick="@(() => DeleteUser(context))" />
             </MudTd>
         </RowTemplate>
 

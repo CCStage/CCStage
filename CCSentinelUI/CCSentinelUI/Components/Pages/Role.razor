@@ -23,12 +23,21 @@
         <ToolBarContent>
             <MudText Typo="Typo.h6">Rollen overzicht</MudText>
             <MudSpacer />
-            <MudIconButton Icon="@Icons.Material.Filled.Add"
-                           Color="Color.Primary"
-                           Size="Size.Small"
-                           Variant="Variant.Outlined"
-                           OnClick="@CreateRole" />
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="@CreateRole">
+                Create
+            </MudButton>
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" Disabled="@(_selectedRole == null)" OnClick="@(() => EditRole(_selectedRole))">
+                Edit
+            </MudButton>
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" Disabled="@(_selectedRole == null)" OnClick="@(() => DeleteRole(_selectedRole))">
+                Delete
+            </MudButton>
+
             <MudSpacer />
+
             <MudTextField @bind-Value="_search"
                           Placeholder="Zoek op naam"
                           Adornment="Adornment.Start"
@@ -40,25 +49,12 @@
             <MudTh>Id</MudTh>
             <MudTh>Naam</MudTh>
             <MudTh>Leden</MudTh>
-            <MudTh>Acties</MudTh>
         </HeaderContent>
 
         <RowTemplate>
             <MudTd DataLabel="Id">@context.Id</MudTd>
             <MudTd DataLabel="Naam">@context.Name</MudTd>
             <MudTd DataLabel="Leden">@_userRoles.Count(ur => ur.RoleId == context.Id)</MudTd>
-            <MudTd DataLabel="Acties">
-                <MudIconButton Icon="@Icons.Material.Filled.Edit"
-                               Color="Color.Info"
-                               Size="Size.Small"
-                               Variant="Variant.Outlined"
-                               OnClick="@(() => EditRole(context))" />
-                <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                               Color="Color.Error"
-                               Size="Size.Small"
-                               Variant="Variant.Outlined"
-                               OnClick="@(() => DeleteRole(context))" />
-            </MudTd>
         </RowTemplate>
 
         <PagerContent>

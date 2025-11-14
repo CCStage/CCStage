@@ -23,12 +23,21 @@
         <ToolBarContent>
             <MudText Typo="Typo.h5">OpenId Applications</MudText>
             <MudSpacer />
-            <MudIconButton Icon="@Icons.Material.Filled.Add"
-                           Color="Color.Error"
-                           Size="Size.Small"
-                           Variant="Variant.Outlined"
-                           OnClick="@(() => CreateApp())" />
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="@CreateApp">
+                Create
+            </MudButton>
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" Disabled="@(_selectedApp == null)" OnClick="@(() => EditApp(_selectedApp))">
+                Edit
+            </MudButton>
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" Disabled="@(_selectedApp == null)" OnClick="@(() => DeleteApp(_selectedApp))">
+                Delete
+            </MudButton>
+
             <MudSpacer />
+
             <MudTextField @bind-Value="_search"
                           Placeholder="Zoek op ClientId of DisplayName"
                           Adornment="Adornment.Start"
@@ -38,7 +47,6 @@
         </ToolBarContent>
 
         <HeaderContent>
-            <MudTh></MudTh>
             <MudTh>Id</MudTh>
             <MudTh>Type</MudTh>
             <MudTh>Display Name</MudTh>
@@ -46,18 +54,6 @@
         </HeaderContent>
 
         <RowTemplate>
-            <MudTd DataLabel="Acties">
-                <MudIconButton Icon="@Icons.Material.Filled.Edit"
-                               Color="Color.Info"
-                               Size="Size.Small"
-                               Variant="Variant.Outlined"
-                               OnClick="@(() => EditApp(context))" />
-                <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                               Color="Color.Error"
-                               Size="Size.Small"
-                               Variant="Variant.Outlined"
-                               OnClick="@(() => DeleteApp(context))" />
-            </MudTd>
 
             <MudTd DataLabel="Id">@context.ClientId</MudTd>
             <MudTd DataLabel="Type">@context.ClientType</MudTd>
@@ -95,7 +91,6 @@
     private bool FilterFunc(OpenIddictEntityFrameworkCoreApplication app)
     {
         if (string.IsNullOrWhiteSpace(_search)) return true;
-
         return (app.DisplayName ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
             || (app.ClientId ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)
             || (app.ClientType ?? "").Contains(_search, StringComparison.OrdinalIgnoreCase)

@@ -1,0 +1,175 @@
+﻿@page "/create-role"
+@using CCSentinelUI.Data
+@using CCSentinelUI.Data.Contracts
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext Db
+@inject NavigationManager Navigation
+@inject ILogger<Login> Logger
+@inject ISnackbar Snackbar
+@using MudBlazor
+
+<MudPaper Class="pa-6 mx-auto mt-6" Style="max-width: 900px;">
+    <MudText Typo="Typo.h5" Class="mb-4">Nieuwe rol aanmaken</MudText>
+
+    <MudGrid>
+        <MudItem xs="3">
+            <MudNavMenu Dense="true">
+                <MudNavLink Match="NavLinkMatch.All" OnClick="@(() => _activeTab = "role")">
+                    Role
+                </MudNavLink>
+                <MudNavLink OnClick="@(() => _activeTab = "claims")">
+                    Claims
+                </MudNavLink>
+            </MudNavMenu>
+        </MudItem>
+
+        <MudItem xs="9">
+
+            @if (_activeTab == "role")
+            {
+                <MudForm @ref="_form">
+                    <MudGrid Spacing="3">
+
+                        <MudItem xs="12">
+                            <MudTextField @bind-Value="_role.Name"
+                                          Label="Rolnaam"
+                                          FullWidth="true"
+                                          Required="true"
+                                          Immediate="true" />
+                        </MudItem>
+
+                        <MudItem>
+                            <MudButton OnClick="Save"
+                                       Variant="Variant.Filled"
+                                       Color="Color.Primary"
+                                       Class="mt-3">
+                                Opslaan
+                            </MudButton>
+
+                            <MudButton Variant="Variant.Outlined"
+                                       Color="Color.Secondary"
+                                       Class="mt-3 ml-2"
+                                       OnClick="@(() => Navigation.NavigateTo("/roles"))">
+                                Annuleren
+                            </MudButton>
+                        </MudItem>
+
+                    </MudGrid>
+                </MudForm>
+            }
+
+            @if (_activeTab == "claims")
+            {
+                <MudGrid Spacing="3">
+
+                    <MudItem xs="12">
+                        <MudTextField @bind-Value="_claimKey"
+                                      Label="Key"
+                                      FullWidth="true"
+                                      Required="true" />
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudTextField @bind-Value="_claimValue"
+                                      Label="Value"
+                                      FullWidth="true"
+                                      Required="true" />
+                    </MudItem>
+
+                    <MudItem>
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   Class="mt-3"
+                                   OnClick="SaveClaim">
+                            Claim opslaan
+                        </MudButton>
+                    </MudItem>
+
+                </MudGrid>
+            }
+
+        </MudItem>
+    </MudGrid>
+
+    <MudText Color="Color.Error" Class="mt-2">@_errorMessage</MudText>
+</MudPaper>
+
+@code {
+    private MudForm _form;
+    private SentinelRole _role = new();
+    private string _errorMessage = "";
+
+    private string _claimKey = "";
+    private string _claimValue = "";
+    private string _activeTab = "role";
+
+    protected override void OnInitialized()
+    {
+        _role.Id = Guid.NewGuid();
+    }
+
+    private async Task Save()
+    {
+        _errorMessage = "";
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(_role.Name))
+            {
+                _errorMessage = "Rolnaam is verplicht";
+                return;
+            }
+
+            bool exists = await Db.Roles.AnyAsync(r => r.Name == _role.Name);
+            if (exists)
+            {
+                _errorMessage = "Rolnaam bestaat al";
+                return;
+            }
+
+            Db.Roles.Add(_role);
+            await Db.SaveChangesAsync();
+
+            Logger.LogDebug("Rol '{RoleName}' aangemaakt", _role.Name);
+            Snackbar.Add("Rol succesvol aangemaakt", Severity.Success);
+            Navigation.NavigateTo("/roles");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Fout bij rol aanmaken");
+            _errorMessage = ex.Message;
+        }
+    }
+
+    private async Task SaveClaim()
+    {
+        _errorMessage = "";
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(_claimKey) || string.IsNullOrWhiteSpace(_claimValue))
+            {
+                _errorMessage = "Key en Value zijn verplicht";
+                return;
+            }
+
+            var claim = new SentinelRoleClaim
+            {
+                RoleId = _role.Id,
+                ClaimType = _claimKey,
+                ClaimValue = _claimValue
+            };
+
+            Db.Set<SentinelRoleClaim>().Add(claim);
+            await Db.SaveChangesAsync();
+
+            Snackbar.Add("Claim opgeslagen", Severity.Success);
+            _claimKey = "";
+            _claimValue = "";
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = ex.Message;
+        }
+    }
+}
