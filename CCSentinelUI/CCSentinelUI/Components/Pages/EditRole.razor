@@ -8,28 +8,111 @@
 @inject ILogger<Login> Logger
 @using MudBlazor
 
-<MudPaper Class="p-4 mx-auto mt-6" MaxWidth="600px" Elevation="3">
-    <MudText Typo="Typo.h5">Edit rol</MudText>
+<MudPaper Class="pa-6 mx-auto mt-6" Style="max-width: 900px;">
+    <MudText Typo="Typo.h5" Class="mb-4">Edit rol</MudText>
 
-    <MudForm @ref="_form" Class="mt-4">
+    <MudGrid>
+        <MudItem xs="3">
+            <MudNavMenu Dense="true">
+                <MudNavLink Match="NavLinkMatch.All" OnClick="@(() => _activeTab = "role")">
+                    Role
+                </MudNavLink>
+                <MudNavLink OnClick="@(() => _activeTab = "claims")">
+                    Claims
+                </MudNavLink>
+            </MudNavMenu>
+        </MudItem>
 
-        <MudText Typo="Typo.subtitle2" Class="mb-1">Id: @_role.Id</MudText>
-        <MudText Typo="Typo.subtitle2" Class="mb-4">Aantal gebruikers met deze rol: @_memberCount</MudText>
+        <MudItem xs="9">
+            @if (_activeTab == "role")
+            {
+                <MudForm @ref="_form">
+                    <MudGrid Spacing="3">
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.subtitle2">Id: @_role.Id</MudText>
+                            <MudText Typo="Typo.subtitle2" Class="mb-2">Aantal gebruikers met deze rol: @_memberCount</MudText>
+                        </MudItem>
 
-        <MudTextField Label="Rolnaam" @bind-Value="_role.Name" Required="true" />
+                        <MudItem xs="12">
+                            <MudTextField Label="Rolnaam" @bind-Value="_role.Name" FullWidth="true" Required="true" />
+                        </MudItem>
 
-        <MudButton Color="Color.Primary" OnClick="Save" Class="mt-3">Opslaan</MudButton>
-        <MudButton Color="Color.Secondary" OnClick="Cancel" Class="mt-3 ml-2">Annuleren</MudButton>
+                        <MudItem>
+                            <MudButton Color="Color.Primary" OnClick="Save" Class="mt-3">Opslaan</MudButton>
+                            <MudButton Color="Color.Secondary" OnClick="Cancel" Class="mt-3 ml-2">Annuleren</MudButton>
+                        </MudItem>
+                    </MudGrid>
+                </MudForm>
+            }
 
-    </MudForm>
+            @if (_activeTab == "claims")
+            {
+                <MudGrid Spacing="3">
+
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.h6" Class="mb-2">Claims toevoegen</MudText>
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudTextField @bind-Value="_claimKey" Label="Key" FullWidth="true" Required="true" />
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudTextField @bind-Value="_claimValue" Label="Value" FullWidth="true" Required="true" />
+                    </MudItem>
+
+                    <MudItem>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-2" OnClick="SaveClaim">
+                            Claim opslaan
+                        </MudButton>
+                    </MudItem>
+
+                    <MudItem xs="12" Class="mt-6">
+                        <MudText Typo="Typo.h6">Bestaande claims</MudText>
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudTable Items="@_claims" Dense="true" Hover="true" Elevation="0">
+                            <HeaderContent>
+                                <MudTh>Key</MudTh>
+                                <MudTh>Value</MudTh>
+                                <MudTh></MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd>@context.ClaimType</MudTd>
+                                <MudTd>@context.ClaimValue</MudTd>
+                                <MudTd>
+                                    <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                                   Color="Color.Error"
+                                                   OnClick="@(() => DeleteClaim(context.Id))" />
+                                </MudTd>
+                            </RowTemplate>
+                            <NoRecordsContent>
+                                <MudText>Geen claims toegevoegd aan deze rol.</MudText>
+                            </NoRecordsContent>
+                        </MudTable>
+                    </MudItem>
+                </MudGrid>
+            }
+        </MudItem>
+    </MudGrid>
+
+    <MudText Color="Color.Error" Class="mt-2">@_errorMessage</MudText>
 </MudPaper>
 
 @code {
     [Parameter] public Guid RoleId { get; set; }
 
-    private MudForm? _form;
+    private MudForm _form;
     private SentinelRole _role = new();
     private int _memberCount = 0;
+    private string _errorMessage = "";
+
+    private string _claimKey = "";
+    private string _claimValue = "";
+    private string _activeTab = "role";
+
+    private List<SentinelRoleClaim> _claims = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -37,6 +120,11 @@
                 ?? throw new Exception("Rol niet gevonden");
 
         _memberCount = await Db.UserRoles.CountAsync(ur => ur.RoleId == RoleId);
+
+
+        _claims = await Db.Set<SentinelRoleClaim>()
+                          .Where(c => c.RoleId == RoleId)
+                          .ToListAsync();
     }
 
     private void Cancel()
@@ -60,8 +148,52 @@
         }
         catch (Exception ex)
         {
-            Logger.LogError(ex, "Fout bij bijwerken rol {RoleName}", _role.Name);
-            Snackbar.Add("Fout bij bijwerken rol", Severity.Error);
+            _errorMessage = ex.Message;
         }
+    }
+
+    private async Task SaveClaim()
+    {
+        _errorMessage = "";
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(_claimKey) || string.IsNullOrWhiteSpace(_claimValue))
+            {
+                _errorMessage = "Key en Value zijn verplicht";
+                return;
+            }
+
+            var claim = new SentinelRoleClaim
+            {
+                RoleId = _role.Id,
+                ClaimType = _claimKey,
+                ClaimValue = _claimValue
+            };
+
+            Db.Set<SentinelRoleClaim>().Add(claim);
+            await Db.SaveChangesAsync();
+
+            _claims.Add(claim);
+            Snackbar.Add("Claim opgeslagen", Severity.Success);
+            _claimKey = "";
+            _claimValue = "";
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = ex.Message;
+        }
+    }
+
+    private async Task DeleteClaim(int claimId)
+    {
+        var claim = await Db.Set<SentinelRoleClaim>().FindAsync(claimId);
+        if (claim == null) return;
+
+        Db.Set<SentinelRoleClaim>().Remove(claim);
+        await Db.SaveChangesAsync();
+
+        _claims.Remove(claim);
+        Snackbar.Add("Claim verwijderd", Severity.Success);
     }
 }

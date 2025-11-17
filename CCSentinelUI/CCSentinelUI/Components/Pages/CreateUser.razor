@@ -1,58 +1,128 @@
 ﻿@page "/create_users"
 @using CCSentinelUI.Data
+@using CCSentinelUI.Data.Contracts
 @inject ApplicationDbContext Db
 @inject NavigationManager Navigation
 @inject ILogger<Login> Logger
 @inject ISnackbar Snackbar
 @using MudBlazor
 
-<MudPaper Class="pa-6 mx-auto mt-6" Style="max-width: 600px;">
+<MudPaper Class="pa-6 mx-auto mt-6" Style="max-width: 900px;">
     <MudText Typo="Typo.h5" Class="mb-4">Nieuwe user aanmaken</MudText>
 
-    <MudForm @ref="_form">
-        <MudGrid Spacing="3">
+    <MudGrid>
+        <MudItem xs="3">
+            <MudNavMenu Dense="true">
+                <MudNavLink Match="NavLinkMatch.All" OnClick="@(() => _activeTab = "user")">
+                    User
+                </MudNavLink>
+                <MudNavLink OnClick="@(() => _activeTab = "claims")">
+                    Claims
+                </MudNavLink>
+            </MudNavMenu>
+        </MudItem>
 
-            <MudItem xs="12" sm="6">
-                <MudTextField @bind-Value="_user.FirstName" Label="Voornaam" FullWidth="true" />
-            </MudItem>
+        <MudItem xs="9">
+            @if (_activeTab == "user")
+            {
+                <MudForm @ref="_form">
+                    <MudGrid Spacing="3">
 
-            <MudItem xs="12" sm="6">
-                <MudTextField @bind-Value="_user.LastName" Label="Achternaam" FullWidth="true" />
-            </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_user.FirstName" Label="Voornaam" FullWidth="true" />
+                        </MudItem>
 
-            <MudItem xs="12">
-                <MudTextField @bind-Value="_user.UserName" Label="Gebruikersnaam" FullWidth="true" Required="true" />
-            </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudTextField @bind-Value="_user.LastName" Label="Achternaam" FullWidth="true" />
+                        </MudItem>
 
-            <MudItem xs="12">
-                <MudTextField @bind-Value="_password" Label="Wachtwoord" InputType="InputType.Password" FullWidth="true" Required="true" />
-            </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField @bind-Value="_user.UserName" Label="Gebruikersnaam" FullWidth="true" Required="true" />
+                        </MudItem>
 
-            <MudItem xs="12">
-                <MudTextField @bind-Value="_confirmPassword" Label="Bevestig wachtwoord" InputType="InputType.Password" FullWidth="true" Required="true" />
-            </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField @bind-Value="_password" Label="Wachtwoord" InputType="InputType.Password" FullWidth="true" Required="true" />
+                        </MudItem>
 
-            <MudItem xs="12">
-                <MudTextField @bind-Value="_user.Email" Label="E-mail" FullWidth="true" Required="true" />
-            </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField @bind-Value="_confirmPassword" Label="Bevestig wachtwoord" InputType="InputType.Password" FullWidth="true" Required="true" />
+                        </MudItem>
 
-            <MudItem xs="12">
-                <MudCheckBox T="bool" @bind-Value="_user.EmailConfirmed" Label="E-mail bevestigd" />
-            </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField @bind-Value="_user.Email" Label="E-mail" FullWidth="true" Required="true" />
+                        </MudItem>
 
-            <MudItem xs="12">
-                <MudTextField @bind-Value="_lockoutEndString"
-                              Label="Lockout einddatum (optioneel)"
-                              Placeholder="YYYY-MM-DD HH:mm"
-                              FullWidth="true" />
-            </MudItem>
+                        <MudItem xs="12">
+                            <MudCheckBox T="bool" @bind-Value="_user.EmailConfirmed" Label="E-mail bevestigd" />
+                        </MudItem>
 
-            <MudItem xs="12">
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-3" OnClick="Save">Opslaan</MudButton>
-                <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="mt-3 ml-2" OnClick="@(() => Navigation.NavigateTo("/users"))">Annuleren</MudButton>
-            </MudItem>
-        </MudGrid>
-    </MudForm>
+                        <MudItem xs="12">
+                            <MudTextField @bind-Value="_lockoutEndString"
+                                          Label="Lockout einddatum (optioneel)"
+                                          Placeholder="YYYY-MM-DD HH:mm"
+                                          FullWidth="true" />
+                        </MudItem>
+
+                        <MudItem>
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-3" OnClick="Save">Opslaan</MudButton>
+                            <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="mt-3 ml-2" OnClick="@(() => Navigation.NavigateTo("/users"))">Annuleren</MudButton>
+                        </MudItem>
+                    </MudGrid>
+                </MudForm>
+            }
+
+            @if (_activeTab == "claims")
+            {
+                <MudGrid Spacing="3">
+
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.h6" Class="mb-2">Claims toevoegen</MudText>
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudTextField @bind-Value="_claimKey" Label="Key" FullWidth="true" Required="true" />
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudTextField @bind-Value="_claimValue" Label="Value" FullWidth="true" Required="true" />
+                    </MudItem>
+
+                    <MudItem>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-2" OnClick="SaveClaim">
+                            Claim opslaan
+                        </MudButton>
+                    </MudItem>
+
+                    <MudItem xs="12" Class="mt-6">
+                        <MudText Typo="Typo.h6">Bestaande claims</MudText>
+                    </MudItem>
+
+                    <MudItem xs="12">
+                        <MudTable Items="@_claims" Dense="true" Hover="true" Elevation="0">
+                            <HeaderContent>
+                                <MudTh>Key</MudTh>
+                                <MudTh>Value</MudTh>
+                                <MudTh></MudTh>
+                            </HeaderContent>
+                            <RowTemplate>
+                                <MudTd>@context.ClaimType</MudTd>
+                                <MudTd>@context.ClaimValue</MudTd>
+                                <MudTd>
+                                    <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                                   Color="Color.Error"
+                                                   OnClick="@(() => DeleteClaim(context.Id))" />
+                                </MudTd>
+                            </RowTemplate>
+                            <NoRecordsContent>
+                                <MudText>Geen claims toegevoegd aan deze user.</MudText>
+                            </NoRecordsContent>
+                        </MudTable>
+                    </MudItem>
+
+                </MudGrid>
+            }
+        </MudItem>
+    </MudGrid>
 
     <MudText Color="Color.Error" Class="mt-2">@_errorMessage</MudText>
 </MudPaper>
@@ -64,6 +134,11 @@
     private string _password = "";
     private string _confirmPassword = "";
     private string? _lockoutEndString;
+
+    private string _activeTab = "user";
+    private string _claimKey = "";
+    private string _claimValue = "";
+    private List<SentinelUserClaim> _claims = new();
 
     protected override void OnInitialized()
     {
@@ -98,6 +173,7 @@
 
             Db.Users.Add(_user);
             await Db.SaveChangesAsync();
+
             Snackbar.Add("Gebruiker succesvol aangemaakt", Severity.Success);
             Logger.LogDebug("Gebruiker aangemaakt met ID {Id}", _user.Id);
             Navigation.NavigateTo("/users");
@@ -107,5 +183,51 @@
             Logger.LogError(ex, "Fout bij aanmaken gebruiker");
             _errorMessage = ex.Message;
         }
+    }
+
+    private async Task SaveClaim()
+    {
+        _errorMessage = "";
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(_claimKey) || string.IsNullOrWhiteSpace(_claimValue))
+            {
+                _errorMessage = "Key en Value zijn verplicht";
+                return;
+            }
+
+            var claim = new SentinelUserClaim
+            {
+                UserId = _user.Id,
+                ClaimType = _claimKey,
+                ClaimValue = _claimValue
+            };
+
+            Db.Set<SentinelUserClaim>().Add(claim);
+            await Db.SaveChangesAsync();
+
+            _claims.Add(claim);
+            Snackbar.Add("Claim opgeslagen", Severity.Success);
+
+            _claimKey = "";
+            _claimValue = "";
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = ex.Message;
+        }
+    }
+
+    private async Task DeleteClaim(int claimId)
+    {
+        var claim = await Db.Set<SentinelUserClaim>().FindAsync(claimId);
+        if (claim == null) return;
+
+        Db.Set<SentinelUserClaim>().Remove(claim);
+        await Db.SaveChangesAsync();
+
+        _claims.Remove(claim);
+        Snackbar.Add("Claim verwijderd", Severity.Success);
     }
 }

@@ -1,6 +1,7 @@
 ﻿@page "/users"
 @using CCSentinelUI.Data
 @using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Identity
 @inject ApplicationDbContext Db
 @inject NavigationManager Navigation
 @inject ILogger<Login> Logger
@@ -30,6 +31,16 @@
             <MudButton Variant="Variant.Outlined" Color="Color.Info" StartIcon="@Icons.Material.Filled.Edit" Disabled="@(_selectedUser == null)" OnClick="@(() => EditUser(_selectedUser))">
                 Edit
             </MudButton>
+
+            <MudMenu Disabled="@(_selectedUser == null)" Color="Color.Warning" StartIcon="@Icons.Material.Filled.LockReset" Variant="Variant.Outlined" Label="Reset Password">
+                <MudText Typo="Typo.subtitle2" Class="px-4 pt-2">Nieuw wachtwoord instellen:</MudText>
+                <MudTextField @bind-Value="_newPassword" Label="Nieuw wachtwoord" InputType="InputType.Password" Dense="true" Class="px-4 mt-1" />
+                <MudTextField @bind-Value="_confirmNewPassword" Label="Bevestig wachtwoord" InputType="InputType.Password" Dense="true" Class="px-4 mt-1 mb-2" />
+                <MudDivider />
+                <MudMenuItem OnClick="ResetPassword">
+                    Opslaan
+                </MudMenuItem>
+            </MudMenu>
 
             <MudButton Variant="Variant.Outlined" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" Disabled="@(_selectedUser == null)" OnClick="@(() => DeleteUser(_selectedUser))">
                 Delete
@@ -80,6 +91,10 @@
     private SentinelUser? _selectedUser;
     private List<SentinelUser> _users = new();
 
+    // Voor wachtwoord reset popup
+    private string _newPassword = "";
+    private string _confirmNewPassword = "";
+
     protected override async Task OnInitializedAsync()
     {
         _users = await Db.Users
@@ -128,5 +143,39 @@
     private void CreateUser()
     {
         Navigation.NavigateTo("/create_users");
+    }
+
+    private async Task ResetPassword()
+    {
+        if (_selectedUser == null)
+        {
+            Snackbar.Add("Selecteer eerst een user.", Severity.Warning);
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(_newPassword) || _newPassword != _confirmNewPassword)
+        {
+            Snackbar.Add("Wachtwoorden komen niet overeen of zijn leeg.", Severity.Error);
+            return;
+        }
+
+        try
+        {
+            var passwordHasher = new PasswordHasher<SentinelUser>();
+            _selectedUser.PasswordHash = passwordHasher.HashPassword(_selectedUser, _newPassword);
+
+            Db.Users.Update(_selectedUser);
+            await Db.SaveChangesAsync();
+
+            Snackbar.Add($"Wachtwoord van {_selectedUser.UserName} succesvol gewijzigd.", Severity.Success);
+
+            _newPassword = "";
+            _confirmNewPassword = "";
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Fout bij reset wachtwoord voor user {UserName}", _selectedUser.UserName);
+            Snackbar.Add("Fout bij resetten wachtwoord.", Severity.Error);
+        }
     }
 }

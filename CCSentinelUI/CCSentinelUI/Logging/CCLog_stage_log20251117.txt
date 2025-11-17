@@ -1,0 +1,28 @@
+2025-11-17T09:11:39.392+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Login attempt from IP "127.0.0.1" for user "Admin"
+2025-11-17T09:11:41.486+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Login attempt for user "Admin" from IP "127.0.0.1" Succeeded
+2025-11-17T13:50:24.246+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Rol bijgewerkt: "test"
+2025-11-17T17:07:05.554+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Gebruiker aangemaakt met ID e2f443d1-579b-4e2c-812d-c6196bb90bea
+2025-11-17T17:16:32.517+01:00 WARN [Microsoft.AspNetCore.Components.Server.Circuits.RemoteRenderer]  - Unhandled exception rendering component: "InvalidCharacterError: String contains an invalid character"
+System.InvalidOperationException: InvalidCharacterError: String contains an invalid character
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.InvokeRenderCompletedCallsAfterUpdateDisplayTask(Task updateDisplayTask, Int32[] updatedComponents)
+2025-11-17T17:16:32.577+01:00 EROR [Microsoft.AspNetCore.Components.Server.Circuits.CircuitHost]  - Unhandled exception in circuit '"j1Z43v8hq2N4Rb66oSAPEnhurE0U8zdC44MB5BoPUHU"'.
+System.AggregateException: One or more errors occurred. (InvalidCharacterError: String contains an invalid character)
+ ---> System.InvalidOperationException: InvalidCharacterError: String contains an invalid character
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.InvokeRenderCompletedCallsAfterUpdateDisplayTask(Task updateDisplayTask, Int32[] updatedComponents)
+   --- End of inner exception stack trace ---
+2025-11-17T17:16:58.571+01:00 WARN [Microsoft.AspNetCore.Components.Server.Circuits.RemoteRenderer]  - Unhandled exception rendering component: "InvalidCharacterError: String contains an invalid character"
+System.InvalidOperationException: InvalidCharacterError: String contains an invalid character
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.InvokeRenderCompletedCallsAfterUpdateDisplayTask(Task updateDisplayTask, Int32[] updatedComponents)
+2025-11-17T17:16:58.644+01:00 EROR [Microsoft.AspNetCore.Components.Server.Circuits.CircuitHost]  - Unhandled exception in circuit '"_llMLXGXEOvqT2KW2oxmVvZuJS3VWTE-HKgOH3nOAVo"'.
+System.AggregateException: One or more errors occurred. (InvalidCharacterError: String contains an invalid character)
+ ---> System.InvalidOperationException: InvalidCharacterError: String contains an invalid character
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.InvokeRenderCompletedCallsAfterUpdateDisplayTask(Task updateDisplayTask, Int32[] updatedComponents)
+   --- End of inner exception stack trace ---
+2025-11-17T17:17:24.600+01:00 WARN [Microsoft.AspNetCore.Components.Server.Circuits.RemoteRenderer]  - Unhandled exception rendering component: "InvalidCharacterError: String contains an invalid character"
+System.InvalidOperationException: InvalidCharacterError: String contains an invalid character
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.InvokeRenderCompletedCallsAfterUpdateDisplayTask(Task updateDisplayTask, Int32[] updatedComponents)
+2025-11-17T17:17:24.683+01:00 EROR [Microsoft.AspNetCore.Components.Server.Circuits.CircuitHost]  - Unhandled exception in circuit '"l5mZAAg6ekdKmol2G7ADGQNDxocjjvwyZGeweGI3U-Q"'.
+System.AggregateException: One or more errors occurred. (InvalidCharacterError: String contains an invalid character)
+ ---> System.InvalidOperationException: InvalidCharacterError: String contains an invalid character
+   at Microsoft.AspNetCore.Components.RenderTree.Renderer.InvokeRenderCompletedCallsAfterUpdateDisplayTask(Task updateDisplayTask, Int32[] updatedComponents)
+   --- End of inner exception stack trace ---

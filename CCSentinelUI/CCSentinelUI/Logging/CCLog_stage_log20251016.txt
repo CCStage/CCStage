@@ -1,4 +1,0 @@
-2025-10-16T14:06:59.686+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Login attempt for user "Admin"
-2025-10-16T16:10:24.699+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - "test" was deleted
-2025-10-16T16:10:29.005+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - Create attempt Succeeded With "test"
-2025-10-16T16:27:39.719+02:00 DBUG [CCSentinelUI_.Components.Pages.Login]  - "test" was deleted
