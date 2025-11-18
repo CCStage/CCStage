@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CCSentinelUI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a91874aa7458d28b4ea46e59e6ced034507046a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+da7fe7206e13b7c47c8f1e949ccb479d8ba6df28")]
 [assembly: System.Reflection.AssemblyProductAttribute("CCSentinelUI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CCSentinelUI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

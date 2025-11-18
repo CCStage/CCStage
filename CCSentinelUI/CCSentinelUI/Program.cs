@@ -26,15 +26,23 @@ builder.Services.AddOpenIddict()
         option.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>();
     });
 
-var adminUser = Environment.GetEnvironmentVariable("SENTINEL_ADMIN_USER", EnvironmentVariableTarget.Machine);
-var adminPass = Environment.GetEnvironmentVariable("SENTINEL_ADMIN_PASS", EnvironmentVariableTarget.Machine);
-
-if (string.IsNullOrWhiteSpace(adminUser) || string.IsNullOrWhiteSpace(adminPass))
+builder.Services.AddScoped<AdminCredentials>(sp =>
 {
-    throw new Exception("SENTINEL_ADMIN_USER en SENTINEL_ADMIN_PASS moeten gezet zijn.");
-}
+    using var scope = sp.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var adminUser = db.Users
+        .Join(db.UserRoles, u => u.Id, ur => ur.UserId, (u, ur) => new { u, ur })
+        .Join(db.Roles, temp => temp.ur.RoleId, r => r.Id, (temp, r) => new { temp.u, r })
+        .Where(result => result.r.Name == "Admin")
+        .Select(result => result.u)
+        .FirstOrDefault();
 
-builder.Services.AddSingleton(new AdminCredentials(adminUser, adminPass));
+    if (adminUser == null)
+        throw new Exception("Geen gebruiker met rol Admin gevonden.");
+
+    return new AdminCredentials(adminUser.UserName!, adminUser.PasswordHash!);
+});
+
 builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
@@ -44,11 +52,10 @@ builder.Services.AddClipLogging(new DefaultLogSettings()
 {
     LogLevel = new Dictionary<string, LogEventLevel>()
     {
-    { "Default", LogEventLevel.Warning },
-    { "CCSentinelUI", LogEventLevel.Debug }
+        { "Default", LogEventLevel.Warning },
+        { "CCSentinelUI", LogEventLevel.Debug }
     }
 });
-
 
 builder.Services.AddHttpClient("ServerAPI", client =>
 {

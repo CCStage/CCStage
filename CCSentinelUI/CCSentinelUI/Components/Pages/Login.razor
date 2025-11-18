@@ -1,12 +1,17 @@
 ﻿@page "/login"
-@using CCSentinelUI.Components.Models
+@using CCSentinelUI.Data
+@using CCSentinelUI.Data.Contracts
 @using CCSentinelUI.Components.Authentication
-@inject NavigationManager nav
-@inject AdminCredentials adminCredentials
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext Db
 @inject CustomAuthStateProvider authProvider
-@inject IJSRuntime JS
+@inject NavigationManager nav
 @inject ILogger<Login> Logger
 @inject IHttpContextAccessor HttpContextAccessor
+@inject ISnackbar Snackbar
+@inject IJSRuntime JS
+
 
 <MudPaper Class="pa-4 mx-auto mt-12" MaxWidth="400px">
     <MudText Typo="Typo.h5" Color="Color.Primary">Login</MudText>
@@ -21,6 +26,10 @@
                 <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
                 <MudText Class="ms-2">Logging In</MudText>
             }
+            else
+            {
+                <MudText>Login</MudText>
+            }
         </MudButton>
     </EditForm>
 
@@ -33,34 +42,71 @@
 @code {
     private LoginModel loginModel = new();
     private string _message = "";
-    private bool _isError = false;
     private bool _processing = false;
 
     private async Task LoginFunction()
     {
-        var ip = HttpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "Unknown";
+        _message = "";
+        _processing = true;
+        StateHasChanged();
 
+        var ip = HttpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "Unknown";
         Logger.LogDebug("Login attempt from IP {Ip} for user {Username}", ip, loginModel.Username);
 
-        Snackbar.Add("Loging in completed", Severity.Success);
-        _processing = true;
-        await Task.Delay(2000);
-        _processing = false;
-
-        if (adminCredentials.Username.Equals(loginModel.Username) &&
-            adminCredentials.Password.Equals(loginModel.Password, StringComparison.Ordinal))
+        try
         {
+            var user = await Db.Users.FirstOrDefaultAsync(u => u.UserName == loginModel.Username);
+
+            if (user == null)
+            {
+                Fail("Unknown username");
+                return;
+            }
+
+            var hasher = new PasswordHasher<SentinelUser>();
+            var result = hasher.VerifyHashedPassword(user, user.PasswordHash, loginModel.Password);
+
+            if (result == PasswordVerificationResult.Failed)
+            {
+                Fail("Invalid credentials");
+                return;
+            }
+
+            var hasAdminRole = await (from ur in Db.UserRoles
+                                      join r in Db.Roles on ur.RoleId equals r.Id
+                                      where ur.UserId == user.Id && r.Name == "Admin"
+                                      select ur).AnyAsync();
+
+            if (!hasAdminRole)
+            {
+                Fail("User has no Admin permissions");
+                return;
+            }
+
             await JS.InvokeVoidAsync("loginUser");
             await authProvider.MarkUserAsAuthenticated();
             Logger.LogDebug("Login attempt for user {Username} from IP {Ip} Succeeded", loginModel.Username, ip);
             nav.NavigateTo("/", true);
         }
-        else
+        catch (Exception ex)
         {
-            Logger.LogWarning("Login attempt for user {Username} from IP {Ip} Failed", loginModel.Username, ip);
-            _isError = true;
-            _message = "Invalid credentials";
+            Logger.LogError(ex, "Unexpected login error for {Username}", loginModel.Username);
+            Fail("Unexpected login error");
         }
+        finally
+        {
+            _processing = false;
+            StateHasChanged();
+        }
+    }
+
+    private void Fail(string message)
+    {
+        Logger.LogWarning("Login failed for {Username}: {Message}", loginModel.Username, message);
+        _message = message;
+        Snackbar.Add(message, Severity.Error);
+        _processing = false;
+        StateHasChanged();
     }
 
     private class LoginModel
