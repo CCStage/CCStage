@@ -5,6 +5,7 @@
 @inject NavigationManager Navigation
 @inject ILogger<Login> Logger
 @inject ISnackbar Snackbar
+@using Microsoft.AspNetCore.Identity
 @using MudBlazor
 
 <MudPaper Class="pa-6 mx-auto mt-6" Style="max-width: 900px;">
@@ -169,7 +170,8 @@
             else
                 _user.LockoutEnd = null;
 
-            _user.PasswordHash = _password;
+            var hasher = new PasswordHasher<SentinelUser>();
+            _user.PasswordHash = hasher.HashPassword(_user, _password);
 
             Db.Users.Add(_user);
             await Db.SaveChangesAsync();
@@ -184,6 +186,7 @@
             _errorMessage = ex.Message;
         }
     }
+
 
     private async Task SaveClaim()
     {
