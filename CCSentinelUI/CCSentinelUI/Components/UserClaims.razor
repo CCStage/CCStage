@@ -1,0 +1,13 @@
+﻿<h3>UserClaims</h3>
+
+@code {
+    [Parameter] public Guid? UserId { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if(!UserId.HasValue)
+
+            return;
+
+    }
+}

@@ -36,6 +36,14 @@
                 Delete
             </MudButton>
 
+            <MudButton Variant="Variant.Outlined"
+                       Color="Color.Success"
+                       StartIcon="@Icons.Material.Filled.Group"
+                       Disabled="@(_selectedRole == null)"
+                       OnClick="OpenMembers">
+                Users
+            </MudButton>
+
             <MudSpacer />
 
             <MudTextField @bind-Value="_search"
@@ -65,11 +73,49 @@
     <MudText Class="mt-2">Geselecteerd: @_selectedRole?.Name</MudText>
 </MudPaper>
 
+@if (_membersPopupOpen)
+{
+    <div style="position:fixed; top:0; left:0; right:0; bottom:0; background-color:rgba(0,0,0,0.55); display:flex; align-items:center; justify-content:center; z-index:2000;">
+        <MudPaper Class="p-4" Style="width:650px; max-height:80vh; overflow-y:auto;">
+            <MudText Typo="Typo.h6" Class="mb-3">Leden van rol: @_selectedRole?.Name</MudText>
+
+            <MudTextField @bind-Value="_memberSearch"
+                          Placeholder="Zoek gebruiker"
+                          Adornment="Adornment.Start"
+                          AdornmentIcon="@Icons.Material.Filled.Search"
+                          Immediate="true"
+                          Class="mb-2"
+                          FullWidth="true"
+                          OnInput="SearchMembers" />
+
+            <MudTable Items="@_filteredMembers" Dense="true" Hover="true">
+                <HeaderContent>
+                    <MudTh>Gebruikersnaam</MudTh>
+                    <MudTh>Email</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                    <MudTd>@context.UserName</MudTd>
+                    <MudTd>@context.Email</MudTd>
+                </RowTemplate>
+                <NoRecordsContent>
+                    Geen resultaten
+                </NoRecordsContent>
+            </MudTable>
+
+            <MudButton Class="mt-3" Color="Color.Primary" Variant="Variant.Outlined" OnClick="CloseMembers">Sluiten</MudButton>
+        </MudPaper>
+    </div>
+}
+
 @code {
     private string _search = string.Empty;
     private SentinelRole? _selectedRole;
     private List<SentinelRole> _roles = new();
     private List<SentinelUserRole> _userRoles = new();
+    private List<SentinelUser> _members = new();
+    private List<SentinelUser> _filteredMembers = new();
+    private bool _membersPopupOpen = false;
+    private string _memberSearch = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -88,20 +134,12 @@
         bool confirmed = await JS.InvokeAsync<bool>("confirm", $"Verwijder rol '{role.Name}'?");
         if (!confirmed) return;
 
-        try
-        {
-            Db.Roles.Remove(role);
-            await Db.SaveChangesAsync();
-            _roles.Remove(role);
-            Snackbar.Add("Rol verwijderd", Severity.Success);
-            Logger.LogDebug("{RoleName} verwijderd", role.Name);
-            StateHasChanged();
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, "Fout bij verwijderen rol {RoleName}", role.Name);
-            Snackbar.Add("Fout bij verwijderen rol", Severity.Error);
-        }
+        Db.Roles.Remove(role);
+        await Db.SaveChangesAsync();
+        _roles.Remove(role);
+        Snackbar.Add("Rol verwijderd", Severity.Success);
+        Logger.LogDebug("{RoleName} verwijderd", role.Name);
+        StateHasChanged();
     }
 
     private void EditRole(SentinelRole role)
@@ -112,5 +150,30 @@
     private void CreateRole()
     {
         Navigation.NavigateTo("/create-role");
+    }
+
+    private async Task OpenMembers()
+    {
+        var userIds = _userRoles.Where(ur => ur.RoleId == _selectedRole.Id).Select(ur => ur.UserId).ToList();
+        _members = await Db.Users.Where(u => userIds.Contains(u.Id)).OrderBy(u => u.UserName).ToListAsync();
+        _filteredMembers = _members;
+        _memberSearch = "";
+        _membersPopupOpen = true;
+        StateHasChanged();
+    }
+
+    private void CloseMembers()
+    {
+        _membersPopupOpen = false;
+    }
+
+    private void SearchMembers(ChangeEventArgs args)
+    {
+        _memberSearch = args.Value?.ToString() ?? "";
+        _filteredMembers = _members
+            .Where(u =>
+                (u.UserName ?? "").Contains(_memberSearch, StringComparison.OrdinalIgnoreCase)
+                || (u.Email ?? "").Contains(_memberSearch, StringComparison.OrdinalIgnoreCase))
+            .ToList();
     }
 }
