@@ -1,13 +1,88 @@
-﻿<h3>UserClaims</h3>
+﻿@using CCSentinelUI.Data.Contracts
+@inject ApplicationDbContext Db
+@inject ISnackbar Snackbar
+
+<MudGrid Spacing="3">
+    <MudItem xs="12">
+        <MudText Typo="Typo.h6" Class="mb-2">Claims toevoegen</MudText>
+    </MudItem>
+
+    <MudItem xs="12">
+        <MudTextField @bind-Value="_claimKey" Label="Key" FullWidth="true" Required="true" />
+    </MudItem>
+    <MudItem xs="12">
+        <MudTextField @bind-Value="_claimValue" Label="Value" FullWidth="true" Required="true" />
+    </MudItem>
+    <MudItem>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-2" OnClick="SaveClaim"> Claim opslaan </MudButton>
+    </MudItem>
+
+    <MudItem xs="12" Class="mt-6">
+        <MudText Typo="Typo.h6">Bestaande claims</MudText>
+    </MudItem>
+    <MudItem xs="12">
+        <MudTable Items="@_claims" Dense="true" Hover="true" Elevation="0">
+            <HeaderContent>
+                <MudTh>Key</MudTh>
+                <MudTh>Value</MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>@context.ClaimType</MudTd>
+                <MudTd>@context.ClaimValue</MudTd>
+                <MudTd>
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => DeleteClaim(context.Id))" />
+                </MudTd>
+            </RowTemplate>
+            <NoRecordsContent>
+                <MudText>Geen claims toegevoegd aan deze user.</MudText>
+            </NoRecordsContent>
+        </MudTable>
+    </MudItem>
+</MudGrid>
 
 @code {
-    [Parameter] public Guid? UserId { get; set; }
+    [Parameter] public Guid UserId { get; set; }
+
+    private string _claimKey = "";
+    private string _claimValue = "";
+    private List<SentinelUserClaim> _claims = new();
 
     protected override async Task OnParametersSetAsync()
     {
-        if(!UserId.HasValue)
+        if (UserId != Guid.Empty)
+        {
+            _claims = await Db.Set<SentinelUserClaim>().Where(c => c.UserId == UserId).ToListAsync();
+        }
+    }
 
-            return;
+    private async Task SaveClaim()
+    {
+        if (string.IsNullOrWhiteSpace(_claimKey) || string.IsNullOrWhiteSpace(_claimValue)) return;
 
+        var claim = new SentinelUserClaim
+        {
+            UserId = UserId,
+            ClaimType = _claimKey,
+            ClaimValue = _claimValue
+        };
+        Db.Set<SentinelUserClaim>().Add(claim);
+        await Db.SaveChangesAsync();
+
+        _claims.Add(claim);
+        _claimKey = "";
+        _claimValue = "";
+        Snackbar.Add("Claim opgeslagen", Severity.Success);
+    }
+
+    private async Task DeleteClaim(int claimId)
+    {
+        var claim = _claims.FirstOrDefault(c => c.Id == claimId);
+        if (claim == null) return;
+
+        Db.Set<SentinelUserClaim>().Remove(claim);
+        await Db.SaveChangesAsync();
+        _claims.Remove(claim);
+        Snackbar.Add("Claim verwijderd", Severity.Success);
     }
 }

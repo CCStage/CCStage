@@ -54,13 +54,11 @@
         </ToolBarContent>
 
         <HeaderContent>
-            <MudTh>Id</MudTh>
             <MudTh>Naam</MudTh>
             <MudTh>Leden</MudTh>
         </HeaderContent>
 
         <RowTemplate>
-            <MudTd DataLabel="Id">@context.Id</MudTd>
             <MudTd DataLabel="Naam">@context.Name</MudTd>
             <MudTd DataLabel="Leden">@_userRoles.Count(ur => ur.RoleId == context.Id)</MudTd>
         </RowTemplate>

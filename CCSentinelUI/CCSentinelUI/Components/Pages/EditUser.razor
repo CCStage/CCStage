@@ -17,6 +17,7 @@
             <MudNavMenu Dense="true">
                 <MudNavLink Match="NavLinkMatch.All" OnClick="@(() => _activeTab = "user")">User</MudNavLink>
                 <MudNavLink OnClick="@(() => _activeTab = "claims")">Claims</MudNavLink>
+                <MudNavLink OnClick="@(() => _activeTab = "roles")">Rollen</MudNavLink>
             </MudNavMenu>
         </MudItem>
 
@@ -46,8 +47,14 @@
                                           Placeholder="YYYY-MM-DD HH:mm"
                                           FullWidth="true" />
                         </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField @bind-Value="_password" Label="Nieuw wachtwoord" InputType="InputType.Password" FullWidth="true" />
+                        </MudItem>
+                        <MudItem xs="12">
+                            <MudTextField @bind-Value="_confirmPassword" Label="Bevestig nieuw wachtwoord" InputType="InputType.Password" FullWidth="true" />
+                        </MudItem>
                         <MudItem>
-                            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-3" OnClick="Save">Opslaan</MudButton>
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-3" OnClick="SaveUser">Opslaan</MudButton>
                             <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Class="mt-3 ml-2" OnClick="@(() => Navigation.NavigateTo("/users"))">Annuleren</MudButton>
                         </MudItem>
                     </MudGrid>
@@ -56,49 +63,12 @@
 
             @if (_activeTab == "claims")
             {
-                <UserClaims UserId="@UserId"></UserClaims>
+                <UserClaims UserId="@UserId" />
+            }
 
-                <MudGrid Spacing="3">
-                    <MudItem xs="12">
-                        <MudText Typo="Typo.h6" Class="mb-2">Claims toevoegen</MudText>
-                    </MudItem>
-                    <MudItem xs="12">
-                        <MudTextField @bind-Value="_claimKey" Label="Key" FullWidth="true" Required="true" />
-                    </MudItem>
-                    <MudItem xs="12">
-                        <MudTextField @bind-Value="_claimValue" Label="Value" FullWidth="true" Required="true" />
-                    </MudItem>
-                    <MudItem>
-                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-2" OnClick="SaveClaim">
-                            Claim opslaan
-                        </MudButton>
-                    </MudItem>
-
-                    <MudItem xs="12" Class="mt-6">
-                        <MudText Typo="Typo.h6">Bestaande claims</MudText>
-                    </MudItem>
-                    <MudItem xs="12">
-                        <MudTable Items="@_claims" Dense="true" Hover="true" Elevation="0">
-                            <HeaderContent>
-                                <MudTh>Key</MudTh>
-                                <MudTh>Value</MudTh>
-                                <MudTh></MudTh>
-                            </HeaderContent>
-                            <RowTemplate>
-                                <MudTd>@context.ClaimType</MudTd>
-                                <MudTd>@context.ClaimValue</MudTd>
-                                <MudTd>
-                                    <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                                                   Color="Color.Error"
-                                                   OnClick="@(() => DeleteClaim(context.Id))" />
-                                </MudTd>
-                            </RowTemplate>
-                            <NoRecordsContent>
-                                <MudText>Geen claims toegevoegd aan deze user.</MudText>
-                            </NoRecordsContent>
-                        </MudTable>
-                    </MudItem>
-                </MudGrid>
+            @if (_activeTab == "roles")
+            {
+                <UserRoles UserId="@UserId" />
             }
         </MudItem>
     </MudGrid>
@@ -115,11 +85,7 @@
     private string _confirmPassword = "";
     private string _lockoutEndString;
     private string _errorMessage = "";
-
     private string _activeTab = "user";
-    private string _claimKey = "";
-    private string _claimValue = "";
-    private List<SentinelUserClaim> _claims = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -127,14 +93,9 @@
                 ?? throw new Exception("Gebruiker niet gevonden");
 
         _lockoutEndString = _user.LockoutEnd?.ToString("yyyy-MM-dd HH:mm");
-
-        // Bestaande claims laden
-        _claims = await Db.Set<SentinelUserClaim>()
-                          .Where(c => c.UserId == UserId)
-                          .ToListAsync();
     }
 
-    private async Task Save()
+    private async Task SaveUser()
     {
         await _form.Validate();
         if (!_form.IsValid)
@@ -164,6 +125,7 @@
         {
             Db.Users.Update(_user);
             await Db.SaveChangesAsync();
+
             Snackbar.Add("Gebruiker succesvol bijgewerkt", Severity.Success);
             Logger.LogDebug("Gebruiker bijgewerkt met ID {Id}", _user.Id);
             Navigation.NavigateTo("/users");
@@ -172,51 +134,5 @@
         {
             _errorMessage = ex.Message;
         }
-    }
-
-    private async Task SaveClaim()
-    {
-        _errorMessage = "";
-
-        try
-        {
-            if (string.IsNullOrWhiteSpace(_claimKey) || string.IsNullOrWhiteSpace(_claimValue))
-            {
-                _errorMessage = "Key en Value zijn verplicht";
-                return;
-            }
-
-            var claim = new SentinelUserClaim
-            {
-                UserId = _user.Id,
-                ClaimType = _claimKey,
-                ClaimValue = _claimValue
-            };
-
-            Db.Set<SentinelUserClaim>().Add(claim);
-            await Db.SaveChangesAsync();
-
-            _claims.Add(claim);
-            Snackbar.Add("Claim opgeslagen", Severity.Success);
-
-            _claimKey = "";
-            _claimValue = "";
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = ex.Message;
-        }
-    }
-
-    private async Task DeleteClaim(int claimId)
-    {
-        var claim = await Db.Set<SentinelUserClaim>().FindAsync(claimId);
-        if (claim == null) return;
-
-        Db.Set<SentinelUserClaim>().Remove(claim);
-        await Db.SaveChangesAsync();
-
-        _claims.Remove(claim);
-        Snackbar.Add("Claim verwijderd", Severity.Success);
     }
 }

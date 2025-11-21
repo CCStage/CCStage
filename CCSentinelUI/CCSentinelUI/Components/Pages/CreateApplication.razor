@@ -60,7 +60,7 @@
                            Chip="true">
                     @foreach (var scope in _availableScopesBase)
                     {
-                        <MudSelectItem Value="@scope.Name">@((scope.DisplayName ?? scope.Name))</MudSelectItem>
+                        <MudSelectItem Value="@scope.Name">@((scope.Name))</MudSelectItem>
                     }
                 </MudSelect>
             </MudItem>
@@ -76,7 +76,7 @@
 </MudPaper>
 
 @code {
-    private readonly string[] _types = { "confidental", "public" };
+    private readonly string[] _types = { "confidential", "public" };
     private MudForm _form;
     private OpenIddictEntityFrameworkCoreApplication _app = new();
     private string _redirectUris = "";
@@ -91,7 +91,6 @@
     {
         _app.Id = Guid.NewGuid().ToString();
 
-        // gebruik dezelfde base type als edit page
         _availableScopesBase = await Db.Set<OpenIddictEntityFrameworkCoreScope>()
                                        .OrderBy(s => s.Name)
                                        .ToListAsync();

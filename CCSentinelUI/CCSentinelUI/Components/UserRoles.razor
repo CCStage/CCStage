@@ -1,0 +1,91 @@
+﻿@using CCSentinelUI.Data.Contracts
+@inject ApplicationDbContext Db
+@inject ISnackbar Snackbar
+
+<MudGrid Spacing="3">
+    <MudItem xs="12">
+        <MudText Typo="Typo.h6">Rol toevoegen</MudText>
+    </MudItem>
+    <MudItem xs="12">
+        <MudSelect T="Guid" @bind-Value="_selectedRoleId" Label="Selecteer rol" FullWidth="true">
+            @foreach (var role in _roles)
+            {
+                <MudSelectItem Value="@role.Id">@role.Name</MudSelectItem>
+            }
+        </MudSelect>
+    </MudItem>
+    <MudItem>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-2" OnClick="AddRole">Rol toevoegen</MudButton>
+    </MudItem>
+
+    <MudItem xs="12" Class="mt-6">
+        <MudText Typo="Typo.h6">Gekoppelde rollen</MudText>
+    </MudItem>
+    <MudItem xs="12">
+        <MudTable Items="@_userRoles" Dense="true" Hover="true" Elevation="0">
+            <HeaderContent>
+                <MudTh>Rol</MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd>@GetRoleName(context.RoleId)</MudTd>
+                <MudTd>
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => RemoveRole(context.RoleId))" />
+                </MudTd>
+            </RowTemplate>
+            <NoRecordsContent>
+                <MudText>Geen rollen gekoppeld aan deze user.</MudText>
+            </NoRecordsContent>
+        </MudTable>
+    </MudItem>
+</MudGrid>
+
+@code {
+    [Parameter] public Guid UserId { get; set; }
+
+    private List<SentinelRole> _roles = new();
+    private List<SentinelUserRole> _userRoles = new();
+    private Guid _selectedRoleId;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (UserId != Guid.Empty)
+        {
+            _roles = await Db.Roles.ToListAsync();
+            _userRoles = await Db.Set<SentinelUserRole>().Where(r => r.UserId == UserId).ToListAsync();
+        }
+    }
+
+    private async Task AddRole()
+    {
+        if (_selectedRoleId == Guid.Empty || _userRoles.Any(r => r.RoleId == _selectedRoleId)) return;
+
+        var userRole = new SentinelUserRole
+        {
+            UserId = UserId,
+            RoleId = _selectedRoleId
+        };
+        Db.Set<SentinelUserRole>().Add(userRole);
+        await Db.SaveChangesAsync();
+
+        _userRoles.Add(userRole);
+        Snackbar.Add("Rol toegevoegd", Severity.Success);
+    }
+
+    private async Task RemoveRole(Guid roleId)
+    {
+        var existing = _userRoles.FirstOrDefault(r => r.RoleId == roleId);
+        if (existing == null) return;
+
+        Db.Set<SentinelUserRole>().Remove(existing);
+        await Db.SaveChangesAsync();
+
+        _userRoles.Remove(existing);
+        Snackbar.Add("Rol verwijderd", Severity.Success);
+    }
+
+    private string GetRoleName(Guid roleId)
+    {
+        return _roles.FirstOrDefault(r => r.Id == roleId)?.Name ?? "[Onbekend]";
+    }
+}

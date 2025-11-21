@@ -36,7 +36,7 @@
                    Chip="true">
             @foreach (var scope in _availableScopes)
             {
-                <MudSelectItem Value="@scope.Name">@((scope.DisplayName ?? scope.Name))</MudSelectItem>
+                <MudSelectItem Value="@scope.Name">@((scope.Name))</MudSelectItem>
             }
         </MudSelect>
 
