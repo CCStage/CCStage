@@ -1,0 +1,18 @@
+2025-11-24T09:15:59.707+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Login attempt from IP "127.0.0.1" for user "test"
+2025-11-24T09:16:01.075+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Login attempt from IP "127.0.0.1" for user "test"
+2025-11-24T09:16:01.147+01:00 EROR [Microsoft.EntityFrameworkCore.Query]  - An exception occurred while iterating over the results of a query for context type '"CCSentinelUI.Data.ApplicationDbContext"'."
+""System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()"
+System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2025-11-24T09:16:01.233+01:00 EROR [CCSentinelUI.Components.Pages.Login]  - Unexpected login error for "test"
+System.InvalidOperationException: A second operation was started on this context instance before a previous operation completed. This is usually caused by different threads concurrently using the same instance of DbContext. For more information on how to avoid threading issues with DbContext, see https://go.microsoft.com/fwlink/?linkid=2097913.
+   at Microsoft.EntityFrameworkCore.Infrastructure.Internal.ConcurrencyDetector.EnterCriticalSection()
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.ShapedQueryCompilingExpressionVisitor.SingleOrDefaultAsync[TSource](IAsyncEnumerable`1 asyncEnumerable, CancellationToken cancellationToken)
+   at CCSentinelUI.Components.Pages.Login.LoginFunction() in C:\Users\stage\source\repos\BlazorFrontend\CCStage\CCSentinelUI\CCSentinelUI\Components\Pages\Login.razor:line 58
+2025-11-24T09:16:01.236+01:00 WARN [CCSentinelUI.Components.Pages.Login]  - Login failed for "test": "Unexpected login error"
+2025-11-24T09:16:06.928+01:00 DBUG [CCSentinelUI.Components.Pages.Login]  - Login attempt for user "test" from IP "127.0.0.1" Succeeded

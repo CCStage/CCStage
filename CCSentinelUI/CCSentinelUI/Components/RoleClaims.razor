@@ -15,8 +15,8 @@
                       Immediate="true"
                       Error="@_claimKeyError"
                       ErrorText="Key moet een '_' of '-' bevatten."
-                      OnBlur="ValidateClaimKey"
-                      OnInput="ValidateClaimKey" />
+                      OnInput="ValidateClaimKey"
+                      OnBlur="ValidateClaimKey" />
     </MudItem>
 
     <MudItem xs="12">
@@ -24,7 +24,11 @@
     </MudItem>
 
     <MudItem>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="mt-2" OnClick="SaveClaim" Disabled="@_claimKeyError">
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   Class="mt-2"
+                   OnClick="SaveClaim"
+                   Disabled="@(_claimKeyError || string.IsNullOrWhiteSpace(_claimValue))">
             Claim opslaan
         </MudButton>
     </MudItem>
@@ -43,29 +47,33 @@
                 <MudTd>@context.ClaimType</MudTd>
                 <MudTd>@context.ClaimValue</MudTd>
                 <MudTd>
-                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(() => DeleteClaim(context.Id))" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                   Color="Color.Error"
+                                   OnClick="@(() => DeleteClaim(context.Id))" />
                 </MudTd>
             </RowTemplate>
             <NoRecordsContent>
-                <MudText>Geen claims toegevoegd aan deze user.</MudText>
+                <MudText>Geen claims toegevoegd aan deze rol.</MudText>
             </NoRecordsContent>
         </MudTable>
     </MudItem>
 </MudGrid>
 
 @code {
-    [Parameter] public Guid UserId { get; set; }
+    [Parameter] public Guid RoleId { get; set; }
 
     private string _claimKey = "";
     private string _claimValue = "";
-    private List<SentinelUserClaim> _claims = new();
+    private List<SentinelRoleClaim> _claims = new();
     private bool _claimKeyError = false;
 
     protected override async Task OnParametersSetAsync()
     {
-        if (UserId != Guid.Empty)
+        if (RoleId != Guid.Empty)
         {
-            _claims = await Db.Set<SentinelUserClaim>().Where(c => c.UserId == UserId).ToListAsync();
+            _claims = await Db.Set<SentinelRoleClaim>()
+                              .Where(c => c.RoleId == RoleId)
+                              .ToListAsync();
         }
     }
 
@@ -79,13 +87,14 @@
         ValidateClaimKey();
         if (_claimKeyError || string.IsNullOrWhiteSpace(_claimValue)) return;
 
-        var claim = new SentinelUserClaim
+        var claim = new SentinelRoleClaim
         {
-            UserId = UserId,
+            RoleId = RoleId,
             ClaimType = _claimKey,
             ClaimValue = _claimValue
         };
-        Db.Set<SentinelUserClaim>().Add(claim);
+
+        Db.Set<SentinelRoleClaim>().Add(claim);
         await Db.SaveChangesAsync();
 
         _claims.Add(claim);
@@ -100,8 +109,9 @@
         var claim = _claims.FirstOrDefault(c => c.Id == claimId);
         if (claim == null) return;
 
-        Db.Set<SentinelUserClaim>().Remove(claim);
+        Db.Set<SentinelRoleClaim>().Remove(claim);
         await Db.SaveChangesAsync();
+
         _claims.Remove(claim);
         Snackbar.Add("Claim verwijderd", Severity.Success);
     }
